@@ -59,14 +59,6 @@ app.use('/app/static', express.static('app/build/static'))
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/checkpoints', { useNewUrlParser: true })
 const db = mongoose.connection
 
-// Uncomment and run this file once to generate an admin user
-// const newUsername = 'user'
-// const newPass = 'pass'
-// const newUser = new User({ username: newUsername })
-// User.register(newUser, newPass, function () {
-//   console.log(`Registered user ${newUsername}`)
-// })
-
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(User.createStrategy())

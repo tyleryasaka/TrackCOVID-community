@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "deploy": "cd .. ; ./commands/push-heroku.sh",
+    "create-user": "NODE_OPTIONS=--no-warnings node create-admin-user.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
