@@ -7,9 +7,9 @@ const path = require('path')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 
-const storefrontApiRouter = express.Router()
+const publicCheckpointApiRouter = express.Router()
 
-storefrontApiRouter.get('/', (req, res) => {
+publicCheckpointApiRouter.get('/', (req, res) => {
   const key = sha256(String(Math.random())).substring(0, checkpointKeyLength)
   const checkpoint = new Checkpoint({
     key,
@@ -21,12 +21,11 @@ storefrontApiRouter.get('/', (req, res) => {
       console.error(err)
       res.sendStatus(500)
     } else {
-      const htmlTemplate = fs.readFileSync('./storefront-pdf/pdf.html', 'utf8')
-      // const qrCodeJS = fs.readFileSync('./storefront-pdf/qrcode.min.js', 'utf8')
+      const htmlTemplate = fs.readFileSync('./public-checkpoint/pdf.html', 'utf8')
       const htmlComplete = htmlTemplate.replace('{{checkpointKey}}', key)
       const config = {
         format: 'Letter',
-        base: `file://${path.resolve('.')}/storefront-pdf/`,
+        base: `file://${path.resolve('.')}/public-checkpoint/`,
         'renderDelay': 1000
       }
       pdf.create(htmlComplete, config).toStream(function (err, stream) {
@@ -44,4 +43,4 @@ storefrontApiRouter.get('/', (req, res) => {
   })
 })
 
-module.exports = storefrontApiRouter
+module.exports = publicCheckpointApiRouter
