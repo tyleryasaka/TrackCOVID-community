@@ -15,7 +15,7 @@
         fr.onload = function(e) {
           var result = JSON.parse(e.target.result);
           var xhr = new XMLHttpRequest();
-          var url = '/admin/checkpoints';
+          var url = '/admin/api/checkpoints';
           xhr.open('POST', url, true);
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.onreadystatechange = function () {
@@ -61,7 +61,7 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Upload Checkpoints</h2>
           </div>
-          <form action="/admin/checkpoints" method="post" target="_blank" id="checkpoint-upload-form">
+          <form target="_blank" id="checkpoint-upload-form">
             <p>Click the button to upload a checkpoint history file.</p>
             <p>A patient with a positive test can download this from the web app and email it to you to be uploaded here.</p>
             <div class="alert alert-success" style="display: none;" id="upload-success" role="alert">
