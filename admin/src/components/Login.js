@@ -27,6 +27,11 @@ export function Login ({ onLoginRequest }) {
       <label for='password' class='sr-only'>Password:</label><br />
       <input value={password} onChange={onchangePassword} type='password' id='password' name='password' placeholder='Password' class='form-control' /><br /><br />
       <button class='btn btn-lg btn-warning btn-block' type='submit'>Sign in</button>
+      {process.env.REACT_APP_REGISTRATION_URL && (
+        <p class='mt-5 mb-3 text-muted'>
+          Don't have an account? You can request access <a href={process.env.REACT_APP_REGISTRATION_URL} target='_blank' class='text-warning'>here</a>.
+        </p>
+      )}
       <p class='mt-5 mb-3 text-muted'>{process.env.REACT_APP_NAME} Admin</p>
     </form>
   )
