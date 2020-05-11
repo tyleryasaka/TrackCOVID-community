@@ -40,7 +40,7 @@
     <script>
       function renderCodes() {
         new QRCode(document.getElementById('web-url'), {
-          text: 'https://trackcovid.net/app?checkpoint={{checkpointKey}}',
+          text: '{{appUrl}}/app?checkpoint={{checkpointKey}}',
           width: 128,
           height: 128
         })
@@ -55,7 +55,7 @@
         <div id="web-url" class="qr-code"></div>
       </div>
       <div class="about">
-        <p>TrackCOVID is a community project which traces possible routes of COVID-19 transmission and alerts users if they are at elevated risk of exposure. TrackCOVID does not collect any personal data and your participation is anonymous. Learn more at <a href="https://trackcovid.net" style="color: #CB1212">TrackCOVID.net</a>.</p>
+        <p>{{appName}} is a community project which traces possible routes of COVID-19 transmission and alerts users if they are at elevated risk of exposure. {{appName}} does not collect any personal data and your participation is anonymous. Learn more at <a href="{{appUrl}}" style="color: #CB1212">{{appUrl}}</a>.</p>
       </div>
     </div>
     <script src="qrcode.min.js"></script>

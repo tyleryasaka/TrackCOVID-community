@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const sha256 = require('js-sha256').sha256
 const pdf = require('html-pdf')
@@ -11,7 +12,10 @@ const publicCheckpointApiRouter = express.Router()
 publicCheckpointApiRouter.get('/', (req, res) => {
   const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
   const htmlTemplate = fs.readFileSync('./public-checkpoint/pdf.html', 'utf8')
-  const htmlComplete = htmlTemplate.replace('{{checkpointKey}}', checkpointKey)
+  const htmlComplete = htmlTemplate
+    .split('{{checkpointKey}}').join(checkpointKey)
+    .split('{{appName}}').join(process.env.APP_NAME)
+    .split('{{appUrl}}').join(process.env.APP_URL)
   const config = {
     format: 'Letter',
     base: `file://${path.resolve('.')}/public-checkpoint/`,
