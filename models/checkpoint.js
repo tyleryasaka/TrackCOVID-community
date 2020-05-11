@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const checkpointSchema = new mongoose.Schema({
   key: String,
-  timestamp: String
+  timestamp: Number
 })
 
 const Checkpoint = mongoose.model('Checkpoint', checkpointSchema)
