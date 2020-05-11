@@ -5,3 +5,5 @@
 commands
 
 node_modules
+
+.env
