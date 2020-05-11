@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import AddIcon from '@material-ui/icons/Add'
+import CropFreeIcon from '@material-ui/icons/CropFree'
 import HomeIcon from '@material-ui/icons/Home'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import StopIcon from '@material-ui/icons/Stop'
@@ -124,13 +124,13 @@ class Checkpoints extends React.Component {
           <Typography style={{ marginTop: 25, marginBottom: 25 }}>
             <Translation>{t => t('welcomeMessage')}</Translation>
           </Typography>
+          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 50 }}>
+            <CropFreeIcon />
+            <Translation>{t => t('joinCheckpointButton')}</Translation>
+          </Button>
           <Button onClick={this.becomeHost.bind(this)} variant='contained' color='secondary' aria-label='add' style={{ marginTop: 50 }}>
             <HomeIcon />
             <Translation>{t => t('hostCheckpointButton')}</Translation>
-          </Button>
-          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 50 }}>
-            <AddIcon />
-            <Translation>{t => t('joinCheckpointButton')}</Translation>
           </Button>
         </Grid>
       )
