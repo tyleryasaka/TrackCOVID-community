@@ -147,10 +147,6 @@ class Checkpoints extends React.Component {
             <Translation>{t => t('hostingCheckpointMessage')}</Translation>
           </Typography>
           <QRCode value={qrValue} size={200} style={{ backgroundColor: '#fff', padding: 20 }} />
-          <Button onClick={() => window.print()} variant='contained' color='secondary' aria-label='add' style={{ marginTop: 25 }}>
-            <PrintIcon />
-            <Translation>{t => t('printCheckpointButton')}</Translation>
-          </Button>
           <Button onClick={this.endHost.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 25 }}>
             <StopIcon />
             <Translation>{t => t('endCheckpointButton')}</Translation>
