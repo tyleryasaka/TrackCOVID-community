@@ -29,7 +29,8 @@ adminApiRouter.get('/', function (req, res) {
 })
 
 adminApiRouter.get('/api/status', function (req, res) {
-  res.send({ isLoggedIn: req.isAuthenticated() })
+  const privilege = req.user && req.user.privilege
+  res.send({ isLoggedIn: req.isAuthenticated(), privilege })
 })
 
 adminApiRouter.get('/logout', function (req, res) {

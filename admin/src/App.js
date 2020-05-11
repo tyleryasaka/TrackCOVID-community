@@ -3,14 +3,28 @@ import './App.css'
 import { sendRequest } from './helpers/request'
 import { Login } from './components/Login'
 import { Checkpoints } from './components/Checkpoints'
+import { Users } from './components/Users'
+
+const ViewEnum = {
+  checkpoints: 1,
+  users: 2
+}
+
+const superPrivilegeLevel = 1
 
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
+  const [privilege, setPrivilege] = useState(undefined)
+  const [view, setView] = useState(ViewEnum.checkpoints)
+  const hasSuperPrivilege = (privilege === superPrivilegeLevel)
 
   useEffect(() => {
     if (typeof isLoggedIn === 'undefined') {
       sendRequest('/admin/api/status').then(res => {
-        setIsLoggedIn(res && res.isLoggedIn)
+        if (res) {
+          setIsLoggedIn(res.isLoggedIn)
+          setPrivilege(res.privilege)
+        }
       })
     }
   })
@@ -37,17 +51,28 @@ function App () {
               <div class='sidebar-sticky'>
                 <ul class='nav flex-column'>
                   <li class='nav-item'>
-                    <a class='nav-link'>
-                      <span data-feather='home' />
+                    <a class='nav-link' onClick={() => setView(ViewEnum.checkpoints)}>
                       Checkpoints
                     </a>
                   </li>
+                  {hasSuperPrivilege && (
+                    <li class='nav-item'>
+                      <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
+                        Users
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
             </nav>
 
             <main role='main' class='col-md-9 ml-sm-auto col-lg-10 px-4'>
-              <Checkpoints />
+              {view === ViewEnum.checkpoints && (
+                <Checkpoints />
+              )}
+              {hasSuperPrivilege && view === ViewEnum.users && (
+                <Users />
+              )}
             </main>
           </div>
         </div>
