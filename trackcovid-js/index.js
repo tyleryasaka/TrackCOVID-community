@@ -13,8 +13,10 @@ function TrackCovid (config) {
   } = config
 
   const oneHour = 1000 * 60 * 60
+  const oneDay = oneHour * 24
   const contactWindowBeforeHours = contactWindowBefore * oneHour
   const contactWindowAfterHours = contactWindowAfter * oneHour
+  const estimatedDiagnosisDelayDays = estimatedDiagnosisDelay * oneDay
 
   async function serverRequest (method, url = '', body) {
     const response = await fetch(`${serverBaseUrl}/${url}`, {
@@ -43,6 +45,16 @@ function TrackCovid (config) {
     return checkpointObj
   }
 
+  // Delete expired checkpoints and return the rest
+  async function getRecentCheckpoints () {
+    const checkpoints = await getCheckpoints()
+    const recentCheckpoints = checkpoints.filter(checkpoint => {
+      return Date.now() - checkpoint.timestamp <= estimatedDiagnosisDelayDays
+    })
+    await setCheckpoints(recentCheckpoints)
+    return recentCheckpoints
+  }
+
   async function hostCheckpoint () {
     const newCheckpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
     return addCheckpoint(newCheckpointKey)
@@ -53,18 +65,12 @@ function TrackCovid (config) {
   }
 
   async function exportCheckpoints () {
-    const visitedCheckpoints = await getCheckpoints()
-    const recentCheckpoints = visitedCheckpoints.filter(checkpoint => {
-      return (Date.now() - checkpoint.timestamp) <= estimatedDiagnosisDelay
-    })
+    const recentCheckpoints = await getRecentCheckpoints()
     return recentCheckpoints
   }
 
   async function getExposureStatus () {
-    const visitedCheckpoints = await getCheckpoints()
-    const recentCheckpoints = visitedCheckpoints.filter(checkpoint => {
-      return Date.now() - checkpoint.timestamp <= estimatedDiagnosisDelay
-    })
+    const recentCheckpoints = await getRecentCheckpoints()
     const response = await serverRequest('GET')
     const exposedCheckpoints = response.error ? [] : response.checkpoints
     const matches = recentCheckpoints.filter(visited => {
