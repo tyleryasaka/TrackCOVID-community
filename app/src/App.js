@@ -118,24 +118,26 @@ class App extends React.Component {
               <img src={logo} alt='Logo' width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8, filter: 'grayscale(100%)', opacity: 0.75 }} />
               <span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>Track</span><span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>COVID</span>
             </Container>
-            <Container style={{ textAlign: 'center' }}>
-              <div>
-                <FormControl style={{ marginTop: '20px' }}>
-                  <Select
-                    labelId='language-select-label'
-                    id='language-select'
-                    value={currentLanguage}
-                    onChange={this.onSelectLanguage.bind(this)}
-                  >
-                    { supportedLanguages.map(language => {
-                      return (
-                        <MenuItem value={language.id}>{language.name}</MenuItem>
-                      )
-                    }) }
-                  </Select>
-                </FormControl>
-              </div>
-            </Container>
+            {supportedLanguages.length > 1 && (
+              <Container style={{ textAlign: 'center' }}>
+                <div>
+                  <FormControl style={{ marginTop: '20px' }}>
+                    <Select
+                      labelId='language-select-label'
+                      id='language-select'
+                      value={currentLanguage}
+                      onChange={this.onSelectLanguage.bind(this)}
+                    >
+                      { supportedLanguages.map(language => {
+                        return (
+                          <MenuItem value={language.id}>{language.name}</MenuItem>
+                        )
+                      }) }
+                    </Select>
+                  </FormControl>
+                </div>
+              </Container>
+            )}
           </Suspense>
         </Container>
         <BottomNavigation
