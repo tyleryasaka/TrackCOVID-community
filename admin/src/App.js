@@ -1,3 +1,4 @@
+/* globals alert */
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { sendRequest } from './helpers/request'
@@ -18,19 +19,26 @@ function App () {
   const [view, setView] = useState(ViewEnum.checkpoints)
   const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
+  const fetchCurrentUser = async () => {
+    const res = await sendRequest('/admin/api/status')
+    if (res) {
+      setIsLoggedIn(res.isLoggedIn)
+      setCurrentUser(res.user)
+    }
+  }
+
   useEffect(() => {
     if (typeof isLoggedIn === 'undefined') {
-      sendRequest('/admin/api/status').then(res => {
-        if (res) {
-          setIsLoggedIn(res.isLoggedIn)
-          setCurrentUser(res.user)
-        }
-      })
+      fetchCurrentUser()
     }
   })
 
   const onSubmitLogin = async (loginSuccessful) => {
-    setIsLoggedIn(loginSuccessful)
+    if (loginSuccessful) {
+      fetchCurrentUser()
+    } else {
+      alert('Login failed')
+    }
   }
 
   if (isLoggedIn) {
