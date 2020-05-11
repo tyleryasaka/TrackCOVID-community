@@ -115,9 +115,6 @@ class App extends React.Component {
           <Suspense fallback='loading'>
             <StatusAlert status={status} onExposuresTab={currentTab === 'status'} />
             <CurrentPage status={status} statusLoaded={statusLoaded} />
-            <Container style={{ padding: 10, backgroundColor: '#343434', width: '100%', marginTop: 50, textAlign: 'center', verticalAlign: 'middle', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', lineHeight: '24px' }}>
-              <span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>{process.env.REACT_APP_NAME}</span>
-            </Container>
             {supportedLanguages.length > 1 && (
               <Container style={{ textAlign: 'center' }}>
                 <div>

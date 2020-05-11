@@ -3,8 +3,8 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import GetAppIcon from '@material-ui/icons/GetApp'
+import { withTheme } from '@material-ui/core/styles'
 import { Translation } from 'react-i18next'
-import theme from './theme'
 import API from './api'
 import {
   confirmcodeLength
@@ -69,7 +69,7 @@ class Exposures extends React.Component {
   }
 
   render () {
-    const { status, statusLoaded } = this.props
+    const { status, statusLoaded, theme } = this.props
     const { mode } = this.state
     const statusMessageLoading = (<Translation>{t => t('statusLoadingMessage')}</Translation>)
     const statusMessageNegative = (<Translation>{t => t('statusNegativeMessage')}</Translation>)
@@ -124,4 +124,4 @@ class Exposures extends React.Component {
   }
 }
 
-export default Exposures
+export default withTheme(Exposures)

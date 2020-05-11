@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
 import App from './App'
-import theme from './theme'
+import lightTheme from './themes/light'
+import darkTheme from './themes/dark'
 import './i18n'
+
+const theme = process.env.REACT_APP_THEME === 'dark'
+  ? darkTheme
+  : lightTheme
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

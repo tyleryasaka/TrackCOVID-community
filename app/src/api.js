@@ -8,9 +8,7 @@ import {
 } from 'trackcovid-js/config'
 
 const checkpointsDBKey = 'CHECKPOINTS'
-const serverBaseUrl = (process.env['REACT_APP_ENV'] === 'development')
-  ? 'http://localhost:8000/api/checkpoints'
-  : defaultServerBaseUrl
+const serverBaseUrl = defaultServerBaseUrl
 
 function getCheckpoints () {
   const localStorage = window.localStorage
