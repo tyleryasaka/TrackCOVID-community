@@ -106,7 +106,7 @@ class App extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant='h6' component='h1' style={{ flexGrow: 1 }}>
-                TrackCOVID (beta)
+                {process.env.REACT_APP_NAME}
               </Typography>
             </Toolbar>
           </Container>
@@ -116,7 +116,7 @@ class App extends React.Component {
             <StatusAlert status={status} onExposuresTab={currentTab === 'status'} />
             <CurrentPage status={status} statusLoaded={statusLoaded} />
             <Container style={{ padding: 10, backgroundColor: '#343434', width: '100%', marginTop: 50, textAlign: 'center', verticalAlign: 'middle', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', lineHeight: '24px' }}>
-              <span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>Track</span><span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>COVID</span>
+              <span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>{process.env.REACT_APP_NAME}</span>
             </Container>
             {supportedLanguages.length > 1 && (
               <Container style={{ textAlign: 'center' }}>

@@ -1,3 +1,5 @@
+const appName = process.env.REACT_APP_NAME
+
 module.exports = {
   'translation': {
     'menuAboutButton': 'About',
@@ -6,7 +8,7 @@ module.exports = {
     'checkpointsTab': 'Checkpoints',
     'statusTab': 'Status',
     'settingsTab': 'Settings',
-    'welcomeMessage': 'Welcome to TrackCOVID. To participate in the effort to track the spread of the SARS-COV-2 virus, please host or join a checkpoint whenever you interact with others in a way that could transmit the virus.',
+    'welcomeMessage': `Welcome to ${appName}. To participate in the effort to track the spread of the SARS-COV-2 virus, please host or join a checkpoint whenever you interact with others in a way that could transmit the virus.`,
     'hostCheckpointButton': 'Host a Checkpoint',
     'joinCheckpointButton': 'Join a Checkpoint',
     'hostingCheckpointMessage': 'You are now hosting a checkpoint. Others may join using the QR code below.',
