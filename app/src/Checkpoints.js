@@ -56,11 +56,11 @@ class Checkpoints extends React.Component {
 
   async becomeHost () {
     try {
-      const { key, time } = await API.hostCheckpoint()
+      const { key, timestamp } = await API.hostCheckpoint()
       this.setState({
         mode: 'host',
         checkpointKey: key,
-        checkpointTime: time
+        checkpointTime: timestamp
       })
     } catch (e) {
       console.error(e)
