@@ -69,6 +69,20 @@ adminApiRouter.get('/logout', function (req, res) {
   res.redirect('/admin')
 })
 
+adminApiRouter.put('/api/account', function (req, res) {
+  const { currentPassword, newPassword } = req.body
+  const id = req.user._id
+  User.findOne({ _id: id }, function (err, user) {
+    if (err || !user) {
+      res.send({ error: true })
+    } else {
+      user.changePassword(currentPassword, newPassword, (err) => {
+        res.send({ error: Boolean(err) })
+      })
+    }
+  })
+})
+
 adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
   if (req.user.privilege === 1) {
     const newUser = {

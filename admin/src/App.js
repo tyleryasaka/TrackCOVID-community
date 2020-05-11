@@ -5,10 +5,12 @@ import { sendRequest } from './helpers/request'
 import { Login } from './components/Login'
 import { Checkpoints } from './components/Checkpoints'
 import { Users } from './components/Users'
+import { Account } from './components/Account'
 
 const ViewEnum = {
   checkpoints: 1,
-  users: 2
+  users: 2,
+  account: 3
 }
 
 const superPrivilegeLevel = 1
@@ -70,16 +72,25 @@ function App () {
                       </a>
                     </li>
                   )}
+                  <li class='nav-item'>
+                    <a class='nav-link' onClick={() => setView(ViewEnum.account)}>
+                      Account
+                    </a>
+                  </li>
                 </ul>
               </div>
             </nav>
 
             <main role='main' class='col-md-9 ml-sm-auto col-lg-10 px-4'>
+              <p class='mt-3'>Welcome, {currentUser.username}.</p>
               {view === ViewEnum.checkpoints && (
                 <Checkpoints />
               )}
               {hasSuperPrivilege && view === ViewEnum.users && (
                 <Users currentUser={currentUser} />
+              )}
+              {view === ViewEnum.account && (
+                <Account />
               )}
             </main>
           </div>
