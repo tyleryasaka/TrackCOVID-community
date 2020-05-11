@@ -9,6 +9,8 @@ import CropFree from '@material-ui/icons/CropFree'
 import Face from '@material-ui/icons/Face'
 import MenuIcon from '@material-ui/icons/Menu'
 import InfoIcon from '@material-ui/icons/Info'
+import RoomIcon from '@material-ui/icons/Room'
+import PersonIcon from '@material-ui/icons/Person'
 import AppBar from '@material-ui/core/AppBar'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
@@ -156,11 +158,23 @@ class App extends React.Component {
           onClose={this.closeDrawer.bind(this)}
         >
           <List component='nav' aria-label='settings'>
-            <ListItemLink style={{ width: 250 }} href='/' target='_blank'>
+            <ListItemLink style={{ width: 250 }} href='https://trackcovid.net' target='_blank'>
               <ListItemIcon>
                 <InfoIcon />
               </ListItemIcon>
-              <ListItemText primary=<Translation>{t => t('aboutButton')}</Translation> />
+              <ListItemText primary=<Translation>{t => t('menuAboutButton')}</Translation> />
+            </ListItemLink>
+            <ListItemLink style={{ width: 250 }} href='/checkpoint' target='_blank'>
+              <ListItemIcon>
+                <RoomIcon />
+              </ListItemIcon>
+              <ListItemText primary=<Translation>{t => t('menuCheckpointButton')}</Translation> />
+            </ListItemLink>
+            <ListItemLink style={{ width: 250 }} href='/admin' target='_blank'>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary=<Translation>{t => t('menuAdminButton')}</Translation> />
             </ListItemLink>
           </List>
         </SwipeableDrawer>

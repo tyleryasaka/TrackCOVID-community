@@ -1,6 +1,8 @@
 module.exports = {
   'translation': {
-    'aboutButton': 'About',
+    'menuAboutButton': 'About',
+    'menuCheckpointButton': 'Checkpoint',
+    'menuAdminButton': 'Admin',
     'checkpointsTab': 'Checkpoints',
     'statusTab': 'Status',
     'settingsTab': 'Settings',
