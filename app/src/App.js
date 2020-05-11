@@ -18,7 +18,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import CheckpointsPage from './Checkpoints'
 import ExposuresPage from './Exposures'
 import StatusAlert from './StatusAlert'
-import logo from './logo.svg'
 import API from './api'
 import { Translation } from 'react-i18next'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -115,7 +114,6 @@ class App extends React.Component {
             <StatusAlert status={status} onExposuresTab={currentTab === 'status'} />
             <CurrentPage status={status} statusLoaded={statusLoaded} />
             <Container style={{ padding: 10, backgroundColor: '#343434', width: '100%', marginTop: 50, textAlign: 'center', verticalAlign: 'middle', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', lineHeight: '24px' }}>
-              <img src={logo} alt='Logo' width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8, filter: 'grayscale(100%)', opacity: 0.75 }} />
               <span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>Track</span><span style={{ verticalAlign: 'middle', lineHeight: '24px' }}>COVID</span>
             </Container>
             {supportedLanguages.length > 1 && (
