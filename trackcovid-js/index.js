@@ -4,15 +4,17 @@ const sha256 = require('js-sha256').sha256
 function TrackCovid (config) {
   const {
     serverBaseUrl,
-    safetyPeriod,
     estimatedDiagnosisDelay,
     getCheckpoints,
     setCheckpoints,
-    exposureWindow,
+    contactWindowBefore,
+    contactWindowAfter,
     checkpointKeyLength
   } = config
 
   const oneHour = 1000 * 60 * 60
+  const contactWindowBeforeHours = contactWindowBefore * oneHour
+  const contactWindowAfterHours = contactWindowAfter * oneHour
 
   async function serverRequest (method, url = '', body) {
     const response = await fetch(`${serverBaseUrl}/${url}`, {
@@ -61,7 +63,7 @@ function TrackCovid (config) {
   async function getExposureStatus () {
     const visitedCheckpoints = await getCheckpoints()
     const recentCheckpoints = visitedCheckpoints.filter(checkpoint => {
-      return Date.now() - checkpoint.timestamp <= safetyPeriod
+      return Date.now() - checkpoint.timestamp <= estimatedDiagnosisDelay
     })
     const response = await serverRequest('GET')
     const exposedCheckpoints = response.error ? [] : response.checkpoints
@@ -69,8 +71,8 @@ function TrackCovid (config) {
       return exposedCheckpoints.filter(exposed => {
         return (
           (visited.key === exposed.key) &&
-          (visited.timestamp >= (exposed.timestamp - oneHour)) &&
-          (visited.timestamp - exposed.timestamp <= exposureWindow)
+          (visited.timestamp >= (exposed.timestamp - contactWindowBeforeHours)) &&
+          (visited.timestamp - exposed.timestamp <= contactWindowAfterHours)
         )
       }).length > 0
     })
