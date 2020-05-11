@@ -10,7 +10,7 @@ const ViewEnum = {
   new: 2
 }
 
-export function Users ({ onUpload }) {
+export function Users ({ currentUser }) {
   const [users, setUsers] = useState(undefined)
   const [view, setView] = useState(ViewEnum.list)
   const [newUsername, setNewUsername] = useState('')
@@ -65,6 +65,17 @@ export function Users ({ onUpload }) {
     setNewCanManage(!newCanManage)
   }
 
+  const handleDelete = async (userId, username) => {
+    if (window.confirm(`Delete user: ${username}?`)) {
+      const res = await sendRequest(`/admin/api/users/${userId}`, 'DELETE')
+      if (res && !res.error) {
+        loadUsers()
+      } else {
+        alert('Oops, something went wrong.')
+      }
+    }
+  }
+
   return (
     <div>
       <div class='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
@@ -78,10 +89,18 @@ export function Users ({ onUpload }) {
           <ul class='list-group'>
             {usersList.map(user => {
               const canManage = user.privilege === superPrivilegeLevel
+              const canDelete = user.id !== currentUser.id
               return (
-                <li class='list-group-item'>
+                <li class='list-group-item user-list'>
                   <strong>{user.username}</strong>
-                  {canManage && ' (can manage users)'}
+                  {canManage && (
+                    <span> (can manage users)</span>
+                  )}
+                  {canDelete && (
+                    <a onClick={() => handleDelete(user.id, user.username)} class='btn btn-danger text-light user-delete'>
+                      Delete
+                    </a>
+                  )}
                 </li>
               )
             })}

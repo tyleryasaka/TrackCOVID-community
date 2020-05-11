@@ -30,7 +30,16 @@ adminApiRouter.get('/', function (req, res) {
 
 adminApiRouter.get('/api/status', function (req, res) {
   const privilege = req.user && req.user.privilege
-  res.send({ isLoggedIn: req.isAuthenticated(), privilege })
+  const id = req.user && req.user._id
+  const username = req.user && req.user.username
+  res.send({
+    isLoggedIn: req.isAuthenticated(),
+    user: {
+      privilege,
+      id,
+      username
+    }
+  })
 })
 
 adminApiRouter.get('/logout', function (req, res) {

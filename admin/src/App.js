@@ -14,16 +14,16 @@ const superPrivilegeLevel = 1
 
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
-  const [privilege, setPrivilege] = useState(undefined)
+  const [currentUser, setCurrentUser] = useState({})
   const [view, setView] = useState(ViewEnum.checkpoints)
-  const hasSuperPrivilege = (privilege === superPrivilegeLevel)
+  const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
   useEffect(() => {
     if (typeof isLoggedIn === 'undefined') {
       sendRequest('/admin/api/status').then(res => {
         if (res) {
           setIsLoggedIn(res.isLoggedIn)
-          setPrivilege(res.privilege)
+          setCurrentUser(res.user)
         }
       })
     }
@@ -71,7 +71,7 @@ function App () {
                 <Checkpoints />
               )}
               {hasSuperPrivilege && view === ViewEnum.users && (
-                <Users />
+                <Users currentUser={currentUser} />
               )}
             </main>
           </div>

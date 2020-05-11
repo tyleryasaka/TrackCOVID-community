@@ -149,3 +149,11 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.user-list {
+  display: flex;
+}
+
+.user-list .user-delete:last-child {
+  margin-left: auto;
+}
