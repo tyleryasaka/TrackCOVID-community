@@ -23,13 +23,13 @@ function generatePassword () {
   return pw
 }
 
-adminApiRouter.use('/public/', express.static('admin/static'))
+adminApiRouter.use('/static/', express.static('admin/build/static'))
 adminApiRouter.get('/', function (req, res) {
-  if (req.isAuthenticated()) {
-    res.sendfile('admin/dashboard.html')
-  } else {
-    res.sendfile('admin/login.html')
-  }
+  res.sendfile('admin/build/index.html')
+})
+
+adminApiRouter.get('/api/status', function (req, res) {
+  res.send({ isLoggedIn: req.isAuthenticated() })
 })
 
 adminApiRouter.get('/logout', function (req, res) {
@@ -37,8 +37,21 @@ adminApiRouter.get('/logout', function (req, res) {
   res.redirect('/admin')
 })
 
-adminApiRouter.post('/login', passport.authenticate('local', { failureRedirect: '/admin' }), function (req, res) {
-  res.redirect('/admin')
+adminApiRouter.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+    if (err) {
+      return res.send({ isLoggedIn: false })
+    }
+    if (!user) {
+      return res.send({ isLoggedIn: false })
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return res.send({ isLoggedIn: false })
+      }
+      res.send({ isLoggedIn: true })
+    })
+  })(req, res, next)
 })
 
 adminApiRouter.get('/logout', function (req, res) {
