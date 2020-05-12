@@ -24,7 +24,7 @@ This is a "web app", rather than a native app. That means it's just a website yo
 
 ### 2. Where is the data stored?
 
-When a user scans a checkpoint on their phone, the data is stored *only on that phone*. When a COVID-positive patient downloads their checkpoint history file and shares this with their doctor, the data will be uploaded to an online database and stored there.
+When a user scans a checkpoint on their phone, the data is stored *only on that phone* (for curious techies, it is stored in the browser's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)). When a COVID-positive patient downloads their checkpoint history file and shares this with their doctor, the data will be uploaded to an online database and stored there.
 
 ### 3. How long is the data stored?
 
