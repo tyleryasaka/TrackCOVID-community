@@ -4,6 +4,8 @@ import { sendRequest } from '../helpers/request'
 import { isValidJSON } from '../helpers/json'
 
 export function Checkpoints ({ onUpload }) {
+  const webAppUrl = process.env.REACT_APP_WEB_APP_URL
+
   const handleUpload = () => {
     const files = document.getElementById('checkpoint-upload').files
     if (files.length <= 0) {
@@ -37,8 +39,8 @@ export function Checkpoints ({ onUpload }) {
         <h1 class='h2'>Upload Checkpoints</h1>
       </div>
       <form id='checkpoint-upload-form'>
-        <p>Click the button to upload a checkpoint history file.</p>
-        <p>A patient with a positive test can download this from the web app and email it to you to be uploaded here.</p>
+        <p>A COVID-19 positive patient can open the web app at {webAppUrl}. The patient should open the "Status" tab, and press "Download Checkpoints". This will download a file to the patient's phone, which the patient can email to you.</p>
+        <p>Once you have the file, you may upload it using the button below.</p>
         <div class='alert alert-success' style={{ display: 'none' }} id='upload-success' role='alert'>
           The checkpoints were uploaded successfully.
         </div>

@@ -86,6 +86,7 @@ The built source code will automatically be rendered by the server and does not 
 ### Admin environment variables
 
 - `REACT_APP_NAME`: The name for your app
+- `REACT_APP_WEB_APP_URL`: The url for the *main web app*.
 - `REACT_APP_REGISTRATION_URL`: An optional environment variable. It is intended to provide a link to a Google form where you can collect requests for admin access. You may create a form similar to the following: https://forms.gle/J38BLRpFtRFT846Z8. When this environment variable is set, the link will be provided on the admin login page.
 
 
