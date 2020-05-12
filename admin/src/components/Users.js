@@ -1,5 +1,6 @@
 /* globals alert */
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { sendRequest } from '../helpers/request'
 
 const superPrivilegeLevel = 1
@@ -17,6 +18,7 @@ export function Users ({ currentUser }) {
   const [newCanManage, setNewCanManage] = useState(false)
   const [createdUsername, setCreatedUsername] = useState('')
   const [createdPassword, setCreatedPassword] = useState('')
+  const { t } = useTranslation()
   const usersList = users || []
 
   const loadUsers = async () => {
@@ -43,7 +45,7 @@ export function Users ({ currentUser }) {
         { username: newUsername, privilege }
       )
       if (res.error) {
-        alert('Oops, there was an error creating this user.')
+        alert(t('user_create_fail'))
       } else {
         setCreatedUsername(res.user.username)
         setCreatedPassword(res.user.password)
@@ -53,7 +55,7 @@ export function Users ({ currentUser }) {
       setNewUsername('')
       setNewCanManage(false)
     } else {
-      alert('Only letters and numbers are allowed in a username.')
+      alert(t('user_create_invalid_username'))
     }
   }
 
@@ -66,12 +68,12 @@ export function Users ({ currentUser }) {
   }
 
   const handleDelete = async (userId, username) => {
-    if (window.confirm(`Delete user: ${username}?`)) {
+    if (window.confirm(`${t('user_delete_confirm')}: ${username}?`)) {
       const res = await sendRequest(`/admin/api/users/${userId}`, 'DELETE')
       if (res && !res.error) {
         loadUsers()
       } else {
-        alert('Oops, something went wrong.')
+        alert(t('user_delete_fail'))
       }
     }
   }
@@ -109,26 +111,26 @@ export function Users ({ currentUser }) {
       )}
       {view === ViewEnum.new && (
         <form class='form-signin' onSubmit={onSubmitNewUser}>
-          <h2 class='h3 mb-3 font-weight-normal'>Create a new user</h2>
-          <label for='username' class='sr-only'>Username:</label>
-          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder='Username' class='form-control' />
+          <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_title')}</h2>
+          <label for='username' class='sr-only'>{t('user_create_username')}:</label>
+          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('user_create_username')} class='form-control' />
           <div class='form-check'>
             <input checked={newCanManage} onChange={onchangeNewCanManage} class='form-check-input' type='checkbox' id='can-manage' />
             <label class='form-check-label' for='can-manage'>
-              Can manage other users
+              {t('user_create_can_manage_users')}
             </label>
           </div>
-          <button class='btn btn-lg btn-warning btn-block mt-3' type='submit'>Create</button>
+          <button class='btn btn-lg btn-warning btn-block mt-3' type='submit'>{t('user_create_submit')}</button>
         </form>
       )}
       {view === ViewEnum.created && (
         <div>
-          <h2 class='h3 mb-3 font-weight-normal'>A new user was created with the following credentials:</h2>
-          <p>Username: <strong>{createdUsername}</strong></p>
-          <p>Temporary password: <strong>{createdPassword}</strong></p>
-          <p>Please provide these credentials to the user and instruct them to change their password once they log in.</p>
+          <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_success')}:</h2>
+          <p>{t('user_create_username')}: <strong>{createdUsername}</strong></p>
+          <p>{t('user_create_password')}: <strong>{createdPassword}</strong></p>
+          <p>{t('user_create_credential_delivery')}</p>
           <a class='btn btn-dark text-light mt-2' onClick={() => setView(ViewEnum.list)}>
-            Return to all users
+            {t('user_create_exit')}
           </a>
         </div>
       )}

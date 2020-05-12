@@ -1,9 +1,11 @@
 /* globals alert, FileReader */
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { sendRequest } from '../helpers/request'
 import { isValidJSON } from '../helpers/json'
 
 export function Checkpoints ({ onUpload }) {
+  const { t } = useTranslation()
   const webAppUrl = process.env.REACT_APP_WEB_APP_URL
 
   const handleUpload = () => {
@@ -21,13 +23,13 @@ export function Checkpoints ({ onUpload }) {
           { checkpoints: result }
         )
         if (res && !res.error) {
-          alert('The checkpoints were uploaded successfully.')
+          alert(t('upload_success'))
         } else {
-          alert('Oops, that upload failed.')
+          alert(t('upload_fail'))
         }
         document.getElementById('checkpoint-upload-form').reset()
       } else {
-        alert('Oops, that upload failed.')
+        alert(t('upload_fail'))
       }
     }
     fr.readAsText(files.item(0))
@@ -36,13 +38,13 @@ export function Checkpoints ({ onUpload }) {
   return (
     <div>
       <div class='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
-        <h1 class='h2'>Upload Checkpoints</h1>
+        <h1 class='h2'>{t('upload_title')}</h1>
       </div>
       <form id='checkpoint-upload-form'>
-        <p>A COVID-19 positive patient can open the web app at {webAppUrl}. The patient should open the "Status" tab, and press "Download Checkpoints". This will download a file to the patient's phone, which the patient can email to you.</p>
-        <p>Once you have the file, you may upload it using the button below.</p>
+        <p>{t('upload_instructions_1')} {webAppUrl}. {t('upload_instructions_2')}</p>
+        <p>{t('upload_instructions_3')}</p>
         <div class='alert alert-success' style={{ display: 'none' }} id='upload-success' role='alert'>
-          The checkpoints were uploaded successfully.
+          {t('upload_success')}
         </div>
         <input class='btn btn-large btn-warning' type='file' id='checkpoint-upload' onChange={handleUpload} />
       </form>

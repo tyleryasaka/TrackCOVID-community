@@ -1,5 +1,6 @@
 /* globals alert */
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './App.css'
 import { sendRequest } from './helpers/request'
 import { Login } from './components/Login'
@@ -19,6 +20,7 @@ function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
   const [currentUser, setCurrentUser] = useState({})
   const [view, setView] = useState(ViewEnum.checkpoints)
+  const { t } = useTranslation()
   const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
   const fetchCurrentUser = async () => {
@@ -47,10 +49,10 @@ function App () {
     return (
       <div className='App'>
         <nav class='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
-          <a class='navbar-brand col-sm-3 col-md-2 mr-0' href='/admin'>{process.env.REACT_APP_NAME} Admin</a>
+          <a class='navbar-brand col-sm-3 col-md-2 mr-0' href='/admin'>{process.env.REACT_APP_NAME} {t('admin')}</a>
           <ul class='navbar-nav px-3'>
             <li class='nav-item text-nowrap'>
-              <a class='nav-link' href='/admin/logout'>Sign out</a>
+              <a class='nav-link' href='/admin/logout'>{t('logout_button')}</a>
             </li>
           </ul>
         </nav>
@@ -62,19 +64,19 @@ function App () {
                 <ul class='nav flex-column'>
                   <li class='nav-item'>
                     <a class='nav-link' onClick={() => setView(ViewEnum.checkpoints)}>
-                      Checkpoints
+                      {t('menu_checkpoints')}
                     </a>
                   </li>
                   {hasSuperPrivilege && (
                     <li class='nav-item'>
                       <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
-                        Users
+                        {t('menu_users')}
                       </a>
                     </li>
                   )}
                   <li class='nav-item'>
                     <a class='nav-link' onClick={() => setView(ViewEnum.account)}>
-                      Account
+                      {t('menu_account')}
                     </a>
                   </li>
                 </ul>
@@ -82,7 +84,7 @@ function App () {
             </nav>
 
             <main role='main' class='col-md-9 ml-sm-auto col-lg-10 px-4'>
-              <p class='mt-3'>Welcome, {currentUser.username}.</p>
+              <p class='mt-3'>{t('welcome')}, {currentUser.username}.</p>
               {view === ViewEnum.checkpoints && (
                 <Checkpoints />
               )}

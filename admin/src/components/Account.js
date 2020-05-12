@@ -1,10 +1,12 @@
 /* globals alert */
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { sendRequest } from '../helpers/request'
 
 export function Account () {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const { t } = useTranslation()
 
   const onSubmitNewPassword = async (event) => {
     event.preventDefault()
@@ -16,14 +18,14 @@ export function Account () {
         { currentPassword, newPassword }
       )
       if (res.error) {
-        alert('Current password is incorrect.')
+        alert(t('account_current_password_incorrect'))
       } else {
-        alert('Your password was updated successfully.')
+        alert(t('account_update_password_success'))
         setCurrentPassword('')
         setNewPassword('')
       }
     } else {
-      alert('New password is not valid.')
+      alert(t('account_new_password_invalid'))
     }
   }
 
@@ -38,16 +40,16 @@ export function Account () {
   return (
     <div>
       <div class='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-left pt-3 pb-2 mb-3 border-bottom'>
-        <h1 class='h2'>Account</h1>
+        <h1 class='h2'>{t('account_title')}</h1>
       </div>
       <form class='form-signin' onSubmit={onSubmitNewPassword}>
-        <h2 class='h3 mb-3 font-weight-normal'>Update password</h2>
-        <p>Passwords must be at least 8 characters long.</p>
-        <label for='current-password' class='sr-only'>Current password:</label>
-        <input value={currentPassword} onChange={onchangeCurrentPassword} type='password' id='username' name='current-password' placeholder='Current password' class='form-control' />
-        <label for='new-password' class='sr-only'>New password:</label>
-        <input value={newPassword} onChange={onchangeNewPassword} type='password' id='username' name='new-password' placeholder='New password' class='form-control' />
-        <button class='btn btn-lg btn-warning btn-block mt-3' type='submit'>Update</button>
+        <h2 class='h3 mb-3 font-weight-normal'>{t('account_update_password_title')}</h2>
+        <p>{t('account_password_instructions')}</p>
+        <label for='current-password' class='sr-only'>{t('account_current_password')}:</label>
+        <input value={currentPassword} onChange={onchangeCurrentPassword} type='password' id='username' name='current-password' placeholder={t('account_current_password')} class='form-control' />
+        <label for='new-password' class='sr-only'>{t('account_new_password')}:</label>
+        <input value={newPassword} onChange={onchangeNewPassword} type='password' id='username' name='new-password' placeholder={t('account_new_password')} class='form-control' />
+        <button class='btn btn-lg btn-warning btn-block mt-3' type='submit'>{t('account_update_password_submit')}</button>
       </form>
     </div>
   )
