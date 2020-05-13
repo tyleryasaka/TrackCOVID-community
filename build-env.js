@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs')
 
 console.log('Building .env files...')
@@ -16,30 +17,19 @@ const adminVars = [
   { originalName: 'ADMIN_REGISTRATION_URL', newName: 'REACT_APP_REGISTRATION_URL' }
 ]
 
-const envFile = fs.readFileSync('.env', 'utf8')
-const envVars = envFile.split('\n').filter(str => str.length > 0).map(envVarStr => {
-  const components = envVarStr.split('=')
-  const name = components.length === 2 && components[0]
-  const value = components.length === 2 && components[1]
-  return {
-    name,
-    value
-  }
-})
-
-const buildNewEnvFile = (originalVars, newVars) => {
+const buildNewEnvFile = (newVars) => {
   return newVars.map(newVar => {
-    const originalVar = originalVars.find(v => v.name === newVar.originalName)
-    if (originalVar) {
-      return `${newVar.newName}=${originalVar.value}`
+    const value = process.env[newVar.originalName]
+    if (typeof value !== 'undefined') {
+      return `${newVar.newName}=${value}`
     } else {
-      throw new Error(`Var missing: ${newVar.originalName}`)
+      throw new Error(`Environment variable not set: ${newVar.originalName}`)
     }
   }).join('\n')
 }
 
-const appEnvFile = buildNewEnvFile(envVars, appVars)
-const adminEnvFile = buildNewEnvFile(envVars, adminVars)
+const appEnvFile = buildNewEnvFile(appVars)
+const adminEnvFile = buildNewEnvFile(adminVars)
 
 fs.writeFileSync('./app/.env', appEnvFile)
 fs.writeFileSync('./admin/.env', adminEnvFile)
