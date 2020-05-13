@@ -5,16 +5,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "homepage": "/app/",
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.47",
     "clsx": "latest",
-    "trackcovid-js": "file:../trackcovid-js",
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",
     "qrcode.react": "^1.0.0",
@@ -22,7 +22,8 @@
     "react-dom": "latest",
     "react-i18next": "^11.3.5",
     "react-qr-reader": "^2.2.1",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "trackcovid-js": "file:../trackcovid-js"
   },
   "browserslist": {
     "production": [
@@ -37,6 +38,22 @@
     ]
   },
   "devDependencies": {
-    "json-loader": "^0.5.7"
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "babel-jest": "^26.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1",
+    "json-loader": "^0.5.7",
+    "react-test-renderer": "^16.13.1"
+  },
+  "jest": {
+    "automock": true,
+    "setupFiles": [
+      "./jest.config.js",
+      "./enzyme.config.js"
+    ]
   }
 }
