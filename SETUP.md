@@ -34,7 +34,6 @@ This can be easily deployed to Heroku as follows:
 - `APP_URL`: The web address where your app will be hosted.
 - `MONGODB_URI`: The mongodb database URL. (This will be automatically set in Heroku if you use the [mLab](https://elements.heroku.com/addons/mongolab) addon.)
 - `SESSION_KEY`: A secret key which encrypts user sessions for the admin panel. This can be anything but it should be random and secret.
-- `WEB_CLIENT_DOMAIN`: The domain where your app will be hosted (should be same as APP_URL).
 - `REDIRECT_HTTPS`: Whether to automatically redirect http to https; should be `true` in production.
 - `CHECKPOINT_KEY_LENGTH`: How many characters should be in the checkpoint key; set this to `16` unless you have some reason to change it.
 - `ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.
