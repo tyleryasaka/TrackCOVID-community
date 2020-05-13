@@ -5,7 +5,8 @@ There are 3 modules in this codebase:
 - App (located in `/app`): the web-based interface for the app.
 - Admin (located in `/admin`): a web-based interface for the admin panel.
 
-Below are setup instructions for each. Before you begin, you should fork this repository to your own Github account so that you have your own copy of the code.
+Before you begin, you should fork this repository to your own Github account so that you have your own copy of the code.
+
 
 ## Server
 
@@ -13,80 +14,52 @@ The server is a node.js web application. This provides the backend API and also 
 
 The server is configured such that it can be easily deployed to [Heroku](https://www.heroku.com/). However, you may host using whatever service you like.
 
-### Server local development
+### Local development
 You will need to have [mongodb](https://www.mongodb.com/) installed locally. Run the following commands from the root directory of this repository.
 
 - Configure environment variables: `cp .env.sample .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
 - Setup: `npm install`
 - Run: `npm start`. This will host the server on `localhost:8000`.
 
-### Server production deployment
+### Production deployment
 
 This can be easily deployed to Heroku as follows:
 
 1. Create a new Heroku app
-2. Connect the Heroku app to your forked Github repository. This will allow you to deploy from Github. You can even enable automatic deploys whenever new code is pushed.
-3. Configure the environment variables (config vars) in the Heroku app. See description of environment variables below.
+2. Configure the environment variables (config vars) in the Heroku app. See description of environment variables below.
+3. Connect the Heroku app to your forked Github repository. This will allow you to deploy from Github. You can even enable automatic deploys whenever new code is pushed. Heroku will automatically build the `app` and `admin` modules each time the server is deployed.
 
-### Server environment variables
+### Environment variables
 
 - `APP_NAME`: Whatever your app will be called.
 - `APP_URL`: The web address where your app will be hosted.
+- `APP_THEME`: Specify either `dark` or `light` depending on how you want your app to look.
+- `ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.
+- `CONTACT_WINDOW_HOURS_BEFORE`: How many hours before an exposed checkpoint occurred for others that scanned the same checkpoint to be considered a contact
+- `CONTACT_WINDOW_HOURS_AFTER`: How many hours after an exposed checkpoint occurred for others that scanned the same checkpoint to be considered a contact
 - `MONGODB_URI`: The mongodb database URL. (This will be automatically set in Heroku if you use the [mLab](https://elements.heroku.com/addons/mongolab) addon.)
 - `SESSION_KEY`: A secret key which encrypts user sessions for the admin panel. This can be anything but it should be random and secret.
 - `REDIRECT_HTTPS`: Whether to automatically redirect http to https; should be `true` in production.
 - `CHECKPOINT_KEY_LENGTH`: How many characters should be in the checkpoint key; set this to `16` unless you have some reason to change it.
-- `ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.
+- `ADMIN_REGISTRATION_URL`: An optional environment variable. It is intended to provide a link to a Google form where you can collect requests for admin access. You may create a form similar to the following: https://forms.gle/J38BLRpFtRFT846Z8. When this environment variable is set, the link will be provided on the admin login page.
+
 
 ## App
 
 The app module is a React web application. This provides the source code for the main app interface.
 
-The server will render the *built* app code at the root url. If you make changes to the source code, they will not be visible until you run `npm build` from the `/app` directory.
+The server will render the *built* app code at the root url. If you make changes to the source code, they will not be visible until you run `npm run build` from the `/app` directory.
 
-### App local development
+The app module will also be built when you run `npm install` from the server (root directory).
 
-Run the following commands from the `/app` directory of this repository.
-
-- Configure environment variables: `cp .env.sample .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
-- Setup: `npm install`
-- Build: `npm run build`
-
-### App production deployment
-
-The built source code will automatically be rendered by the server and does not rely on any additional steps other than the production instructions for the server, above. If you are using Heroku with automatic deploys from Github (as described above), you will need to commit all of the build file changes for the app to update in production.
-
-### App environment variables
-
-- `REACT_APP_NAME`: The name for your app
-- `REACT_APP_THEME`: Specify either `dark` or `light` depending on how you want your app to look.
-- `REACT_APP_ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.
-- `REACT_APP_CONTACT_WINDOW_HOURS_BEFORE`: How many hours before an exposed checkpoint occurred for others that scanned the same checkpoint to be considered a contact
-- `REACT_APP_CONTACT_WINDOW_HOURS_AFTER`: How many hours after an exposed checkpoint occurred for others that scanned the same checkpoint to be considered a contact
 
 ## Admin
 
-The admin module is also a React web application. This provides the source code for the admin panel interface. This is the system which doctors will use to upload QR code history files on behalf of patients.
+The admin module is also a React web application. This provides the source code for the admin panel interface. This is the system which doctors (or other authorized personnel) will use to upload QR code history files on behalf of COVID-positive patients.
 
-The server will render the *built* admin code at the root url. If you make changes to the source code, they will not be visible until you run `npm build` from the `/admin` directory.
+The server will render the *built* admin code at the root url. If you make changes to the source code, they will not be visible until you run `npm run build` from the `/admin` directory.
 
-### Admin local development
-
-Run the following commands from the `/admin` directory of this repository.
-
-- Configure environment variables: `cp .env.sample .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
-- Setup: `npm install`
-- Build: `npm run build`
-
-### Admin production deployment
-
-The built source code will automatically be rendered by the server and does not rely on any additional steps other than the production instructions for the server, above. If you are using Heroku with automatic deploys from Github (as described above), you will need to commit all of the build file changes for the app to update in production.
-
-### Admin environment variables
-
-- `REACT_APP_NAME`: The name for your app
-- `REACT_APP_WEB_APP_URL`: The url for the *main web app*.
-- `REACT_APP_REGISTRATION_URL`: An optional environment variable. It is intended to provide a link to a Google form where you can collect requests for admin access. You may create a form similar to the following: https://forms.gle/J38BLRpFtRFT846Z8. When this environment variable is set, the link will be provided on the admin login page.
+The admin module will also be built when you run `npm install` from the server (root directory).
 
 
 ## Additional setup
