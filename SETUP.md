@@ -67,7 +67,7 @@ The admin module will also be built when you run `npm install` from the server (
 
 ### Creating your first admin user
 
-You can create your first admin user by running the following from the root directory of this project: `npm run create-user`. This will prompt you for your mongodb url, desired username, and password. Be sure to use the appropriate mongodb url depending on whether you are trying to create a user in your production database or your local database.
+You can create your first admin user by running the following from the root directory of this project: `npm run create-user`. This will prompt you for your mongodb url, desired username, and password. Be sure to use the appropriate mongodb url depending on whether you are trying to create a user in your production database or your local database. Also, if you're using Heroku and mLab, make sure to include `&retryWrites=false` at the end of the mongodb url.
 
 Once this user is created, you can log in to the admin panel using these credentials, and create other user accounts from within that interface.
 
