@@ -33,6 +33,7 @@ This can be easily deployed to Heroku as follows:
 
 - `APP_NAME`: Whatever your app will be called.
 - `APP_URL`: The web address where your app will be hosted.
+- `ABOUT_URL`: A web address where people can learn more about your project
 - `APP_THEME`: Specify either `dark` or `light` depending on how you want your app to look.
 - `ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.
 - `CONTACT_WINDOW_HOURS_BEFORE`: How many hours before an exposed checkpoint occurred for others that scanned the same checkpoint to be considered a contact

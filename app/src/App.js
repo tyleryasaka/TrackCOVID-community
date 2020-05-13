@@ -92,6 +92,8 @@ class App extends React.Component {
     const CurrentPage = (currentTab === 'checkpoints')
       ? CheckpointsPage
       : ExposuresPage
+    const aboutUrl = process.env.REACT_APP_ABOUT_URL
+
     return (
       <div>
         <AppBar position='static' color='secondary'>
@@ -155,7 +157,7 @@ class App extends React.Component {
           onClose={this.closeDrawer.bind(this)}
         >
           <List component='nav' aria-label='settings'>
-            <ListItemLink style={{ width: 250 }} href='https://trackcovid.net' target='_blank'>
+            <ListItemLink style={{ width: 250 }} href={aboutUrl} target='_blank'>
               <ListItemIcon>
                 <InfoIcon />
               </ListItemIcon>

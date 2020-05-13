@@ -15,7 +15,7 @@ publicCheckpointApiRouter.get('/', (req, res) => {
   const htmlComplete = htmlTemplate
     .split('{{checkpointKey}}').join(checkpointKey)
     .split('{{appName}}').join(process.env.APP_NAME)
-    .split('{{appUrl}}').join(process.env.APP_URL)
+    .split('{{appUrl}}').join(process.env.ABOUT_URL)
   const config = {
     format: 'Letter',
     base: `file://${path.resolve('.')}/public-checkpoint/`,
