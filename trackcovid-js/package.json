@@ -4,7 +4,7 @@
   "description": "Javascript wrapper library for implementing a TrackCOVID frontend user interface.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,10 +18,18 @@
   "homepage": "https://github.com/tyleryasaka/TrackCOVID#readme",
   "devDependencies": {
     "@babel/core": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.9.0"
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "jest": "^26.0.1",
+    "jest-fetch-mock": "^3.0.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "js-sha256": "^0.9.0"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setup-jest.js"
+    ]
   }
 }
