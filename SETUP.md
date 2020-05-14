@@ -35,7 +35,7 @@ This can be easily deployed to Heroku as follows:
 
 ### Environment variables
 
-- `ENVIRONMENT`: Indicates whether a `development` or `production` environment
+- `NODE_ENV`: Indicates whether a `development` or `production` environment
 - `APP_NAME`: Whatever your app will be called.
 - `APP_DOMAIN`: The domain where your app will be hosted.
 - `ADMIN_DOMAIN`: The domain where the admin panel will be hosted (should be the same as `APP_DOMAIN` in production)

@@ -29,7 +29,7 @@ if (logToken) {
 }
 
 app.use(function (req, res, next) {
-  const allowOrigin = (process.env['ENVIRONMENT'] === 'development')
+  const allowOrigin = (process.env['NODE_ENV'] === 'development')
     ? req.headers.origin
     : process.env['APP_DOMAIN']
   res.header('Access-Control-Allow-Origin', allowOrigin)
