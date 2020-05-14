@@ -154,6 +154,7 @@ class App extends React.Component {
         </BottomNavigation>
         <SwipeableDrawer
           open={isDrawerOpen}
+          onOpen={() => {}}
           onClose={this.closeDrawer.bind(this)}
         >
           <List component='nav' aria-label='settings'>

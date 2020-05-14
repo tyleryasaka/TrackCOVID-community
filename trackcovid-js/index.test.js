@@ -1,5 +1,5 @@
 /* globals jest, describe, beforeEach, test, expect, fetchMock */
-const TrackCovid = require('../index')
+const TrackCovid = require('./index')
 
 const getConfig = (checkpointsDb) => {
   return {
@@ -63,7 +63,7 @@ describe('trackcovid-js', () => {
 
   // user scanned same checkpoint *before* covid-positive patient, outside of time window
   test('getExposureStatus: no contact before', async () => {
-    const justOverOneHour = (1000 * 60 * 60) + 1
+    const justOverOneHour = (1000 * 60 * 60) + 1000
     fetchMock.mockOnce(JSON.stringify({
       checkpoints: [
         { key: 'a1a2535a3ccbd45c', timestamp: Date.now() + justOverOneHour }
@@ -91,7 +91,7 @@ describe('trackcovid-js', () => {
 
   // user scanned same checkpoint *after* covid-positive patient, outside of time window
   test('getExposureStatus: no contact after', async () => {
-    const justOverTwoHours = ((1000 * 60 * 60) * 2) + 1
+    const justOverTwoHours = ((1000 * 60 * 60) * 2) + 1000
     fetchMock.mockOnce(JSON.stringify({
       checkpoints: [
         { key: 'a1a2535a3ccbd45c', timestamp: Date.now() - justOverTwoHours }

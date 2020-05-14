@@ -52,7 +52,7 @@ app.use(cookieParser())
 app.use(session({ keys: [process.env.SESSION_KEY] }))
 app.use(flash())
 app.use('/api/', apiRouter)
-app.use('/checkpoint/', publicCheckpointApiRouter)
+app.use('/checkpoint.pdf', publicCheckpointApiRouter)
 app.use('/public/', express.static('landing-public'))
 app.use('/app/static', express.static('app/build/static'))
 
@@ -68,6 +68,10 @@ app.use('/admin/', adminApiRouter)
 
 app.get('/', function (req, res) {
   res.sendfile('app/build/index.html')
+})
+
+app.get('/checkpoint', function (req, res) {
+  res.redirect('/checkpoint.pdf')
 })
 
 db.on('error', console.error.bind(console, 'connection error:'))

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { sendRequest } from '../helpers/request'
+import { login } from '../helpers/api'
 
 export function Login ({ onLoginRequest }) {
   const [username, setUsername] = useState('')
@@ -9,8 +9,8 @@ export function Login ({ onLoginRequest }) {
 
   const onSubmitLogin = async (event) => {
     event.preventDefault()
-    const res = await sendRequest('/admin/login', 'POST', { username, password })
-    onLoginRequest(res && res.isLoggedIn)
+    const loginSuccessful = await login(username, password)
+    onLoginRequest(loginSuccessful)
   }
 
   const onchangeUsername = (event) => {

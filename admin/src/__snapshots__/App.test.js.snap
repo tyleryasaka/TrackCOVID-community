@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component 1`] = `
+<div
+  class="login-container bg-dark text-center text-light"
+>
+  <form
+    class="form-signin"
+    onSubmit={[Function]}
+  >
+    <h1
+      class="h3 mb-3 font-weight-normal"
+    >
+      Please sign in
+    </h1>
+    <label
+      class="sr-only"
+      for="username"
+    >
+      Username
+      :
+    </label>
+    <br />
+    <input
+      class="form-control"
+      id="username"
+      name="username"
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value=""
+    />
+    <br />
+    <label
+      class="sr-only"
+      for="password"
+    >
+      Password
+      :
+    </label>
+    <br />
+    <input
+      class="form-control"
+      id="password"
+      name="password"
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+    <br />
+    <br />
+    <button
+      class="btn btn-lg btn-warning btn-block"
+      type="submit"
+    >
+      Sign in
+    </button>
+    <p
+      class="mt-5 mb-3 text-muted"
+    >
+      Don't have an account? You can request access
+       
+      <a
+        class="text-warning"
+        href="http://my-form.my-org"
+        target="_blank"
+      >
+        here
+      </a>
+      .
+    </p>
+    <p
+      class="mt-5 mb-3 text-muted"
+    >
+      TrackCOVID
+       
+      Admin
+    </p>
+  </form>
+</div>
+`;

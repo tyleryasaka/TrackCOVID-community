@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkpoints component 1`] = `
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1
+      class="h2"
+    >
+      Upload Checkpoints
+    </h1>
+  </div>
+  <form
+    id="checkpoint-upload-form"
+  >
+    <p>
+      A COVID-19 positive patient can open the web app at
+       
+      https://demo.trackcovid.net
+      . 
+      The patient should open the "Status" tab, and press "Download Checkpoints". This will download a file to the patient's phone, which the patient can email to you.
+    </p>
+    <p>
+      Once you have the file, you may upload it using the button below.
+    </p>
+    <div
+      class="alert alert-success"
+      id="upload-success"
+      role="alert"
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      The checkpoints were uploaded successfully.
+    </div>
+    <input
+      class="btn btn-large btn-warning"
+      id="checkpoint-upload"
+      onChange={[Function]}
+      type="file"
+    />
+  </form>
+</div>
+`;

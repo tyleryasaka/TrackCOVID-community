@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exposures component: exposed 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+    >
+      Your risk level
+      : 
+      <span
+        style={
+          Object {
+            "color": "#f44336",
+          }
+        }
+      >
+        elevated
+      </span>
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 15,
+        }
+      }
+    >
+      A possible transmission path from an infected individual to you has been discovered. You should take precautionary measures to protect yourself and others, according to the directives of the CDC  as well as local, state, and federal governments.
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+    >
+      If you have received a positive test, you may download your recent checkpoints below and share this file with your doctor. This will warn those who may have been exposed of their increased risk. You will remain anonymous.
+    </p>
+    <button
+      aria-label="add"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+          />
+        </svg>
+        Download checkpoints
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+    <a
+      href="/"
+      id="downloadAnchorElem"
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      Download checkpoints
+    </a>
+  </div>
+</div>
+`;
+
+exports[`Exposures component: not exposed 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+    >
+      Your risk level
+      : 
+      <span
+        style={
+          Object {
+            "color": "#3f51b5",
+          }
+        }
+      >
+        standard
+      </span>
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 15,
+        }
+      }
+    >
+      No transmission paths from infected individuals to you have been discovered at this time. However, everyone is at risk and individuals should follow the directives of the CDC as well as local, state, and federal governments.
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+    >
+      If you have received a positive test, you may download your recent checkpoints below and share this file with your doctor. This will warn those who may have been exposed of their increased risk. You will remain anonymous.
+    </p>
+    <button
+      aria-label="add"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "marginTop": 25,
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+          />
+        </svg>
+        Download checkpoints
+      </span>
+    </button>
+    <a
+      href="/"
+      id="downloadAnchorElem"
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      Download checkpoints
+    </a>
+  </div>
+</div>
+`;

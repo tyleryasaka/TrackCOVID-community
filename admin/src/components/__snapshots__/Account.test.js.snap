@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Account component 1`] = `
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-left pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1
+      class="h2"
+    >
+      Account
+    </h1>
+  </div>
+  <form
+    class="form-signin"
+    onSubmit={[Function]}
+  >
+    <h2
+      class="h3 mb-3 font-weight-normal"
+    >
+      Update password
+    </h2>
+    <p>
+      Passwords must be at least 8 characters long.
+    </p>
+    <label
+      class="sr-only"
+      for="current-password"
+    >
+      Current password
+      :
+    </label>
+    <input
+      class="form-control"
+      id="username"
+      name="current-password"
+      onChange={[Function]}
+      placeholder="Current password"
+      type="password"
+      value=""
+    />
+    <label
+      class="sr-only"
+      for="new-password"
+    >
+      New password
+      :
+    </label>
+    <input
+      class="form-control"
+      id="username"
+      name="new-password"
+      onChange={[Function]}
+      placeholder="New password"
+      type="password"
+      value=""
+    />
+    <button
+      class="btn btn-lg btn-warning btn-block mt-3"
+      type="submit"
+    >
+      Update
+    </button>
+  </form>
+</div>
+`;
