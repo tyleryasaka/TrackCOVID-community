@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import './App.css'
-import { sendRequest } from './helpers/request'
+import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
 import { Checkpoints } from './components/Checkpoints'
 import { Users } from './components/Users'
@@ -23,23 +23,23 @@ function App () {
   const { t } = useTranslation()
   const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
-  const fetchCurrentUser = async () => {
-    const res = await sendRequest('/admin/api/status')
-    if (res) {
-      setIsLoggedIn(res.isLoggedIn)
-      setCurrentUser(res.user)
+  const loadCurrentUser = async () => {
+    const user = await fetchCurrentUser()
+    if (typeof user !== 'undefined') {
+      setIsLoggedIn(true)
+      setCurrentUser(user)
     }
   }
 
   useEffect(() => {
     if (typeof isLoggedIn === 'undefined') {
-      fetchCurrentUser()
+      loadCurrentUser()
     }
   })
 
   const onSubmitLogin = async (loginSuccessful) => {
     if (loginSuccessful) {
-      fetchCurrentUser()
+      loadCurrentUser()
     } else {
       alert('Login failed')
     }

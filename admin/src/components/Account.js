@@ -1,7 +1,7 @@
 /* globals alert */
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { sendRequest } from '../helpers/request'
+import { updatePassword } from '../helpers/api'
 
 export function Account () {
   const [currentPassword, setCurrentPassword] = useState('')
@@ -12,12 +12,8 @@ export function Account () {
     event.preventDefault()
     const passwordRegex = /^[\w!@#$%^&*]{8,}$/
     if (passwordRegex.test(newPassword)) {
-      const res = await sendRequest(
-        '/admin/api/account',
-        'PUT',
-        { currentPassword, newPassword }
-      )
-      if (res.error) {
+      const updatePasswordSuccess = await updatePassword(currentPassword, newPassword)
+      if (!updatePasswordSuccess) {
         alert(t('account_current_password_incorrect'))
       } else {
         alert(t('account_update_password_success'))

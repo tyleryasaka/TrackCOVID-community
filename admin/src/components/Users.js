@@ -1,7 +1,7 @@
 /* globals alert */
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { sendRequest } from '../helpers/request'
+import { fetchUsers, createUser, deleteUser } from '../helpers/api'
 
 const superPrivilegeLevel = 1
 const defaultPrivilegeLevel = 2
@@ -22,9 +22,9 @@ export function Users ({ currentUser }) {
   const usersList = users || []
 
   const loadUsers = async () => {
-    const res = await sendRequest('/admin/api/users')
-    if (res && res.users) {
-      setUsers(res.users)
+    const users = await fetchUsers()
+    if (typeof users !== 'undefined') {
+      setUsers(users)
     }
   }
 
@@ -39,16 +39,12 @@ export function Users ({ currentUser }) {
     const usernameRegex = /((^[a-z]+)|(^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i
     if (usernameRegex.test(newUsername)) {
       const privilege = newCanManage ? superPrivilegeLevel : defaultPrivilegeLevel
-      const res = await sendRequest(
-        '/admin/api/users',
-        'POST',
-        { username: newUsername, privilege }
-      )
-      if (res.error) {
+      const createdUser = await createUser(newUsername, privilege)
+      if (typeof createdUser === 'undefined') {
         alert(t('user_create_fail'))
       } else {
-        setCreatedUsername(res.user.username)
-        setCreatedPassword(res.user.password)
+        setCreatedUsername(createdUser.username)
+        setCreatedPassword(createdUser.password)
         setView(ViewEnum.created)
         loadUsers()
       }
@@ -69,8 +65,8 @@ export function Users ({ currentUser }) {
 
   const handleDelete = async (userId, username) => {
     if (window.confirm(`${t('user_delete_confirm')}: ${username}?`)) {
-      const res = await sendRequest(`/admin/api/users/${userId}`, 'DELETE')
-      if (res && !res.error) {
+      const deletedUserSuccessfully = await deleteUser(userId)
+      if (deletedUserSuccessfully) {
         loadUsers()
       } else {
         alert(t('user_delete_fail'))

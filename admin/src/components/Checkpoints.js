@@ -1,7 +1,7 @@
 /* globals alert, FileReader */
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { sendRequest } from '../helpers/request'
+import { postCheckpoints } from '../helpers/api'
 import { isValidJSON } from '../helpers/json'
 
 export function Checkpoints ({ onUpload }) {
@@ -16,13 +16,9 @@ export function Checkpoints ({ onUpload }) {
     const fr = new FileReader()
     fr.onload = async (e) => {
       if (e && e.target.result && isValidJSON(e.target.result)) {
-        const result = JSON.parse(e.target.result)
-        const res = await sendRequest(
-          '/admin/api/checkpoints',
-          'POST',
-          { checkpoints: result }
-        )
-        if (res && !res.error) {
+        const checkpointsJSON = JSON.parse(e.target.result)
+        const uploadSuccess = await postCheckpoints(checkpointsJSON)
+        if (uploadSuccess) {
           alert(t('upload_success'))
         } else {
           alert(t('upload_fail'))
