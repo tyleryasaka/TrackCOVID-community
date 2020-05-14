@@ -1,5 +1,5 @@
 /* globals jest, describe, beforeEach, test, expect, fetchMock */
-const TrackCovid = require('../index')
+const TrackCovid = require('./index')
 
 const getConfig = (checkpointsDb) => {
   return {
