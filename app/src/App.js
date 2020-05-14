@@ -51,17 +51,8 @@ class App extends React.Component {
 
   componentDidMount () {
     this.checkUrl().then(() => {
-      const updateStatus = async () => {
-        try {
-          const exposureStatus = await API.getExposureStatus()
-          this.setState({ status: exposureStatus, statusLoaded: true })
-        } catch (e) {
-          console.error(e)
-          this.setState({ status: false, statusLoaded: false })
-        }
-      }
-      updateStatus()
-      setInterval(updateStatus, pollingTime)
+      this.updateStatus()
+      setInterval(this.updateStatus.bind(this), pollingTime)
     })
   }
 
@@ -83,6 +74,16 @@ class App extends React.Component {
         this.setState({ urlScanState: 'scan-error' })
         window.history.replaceState(null, null, window.location.pathname)
       }
+    }
+  }
+
+  async updateStatus () {
+    try {
+      const exposureStatus = await API.getExposureStatus()
+      this.setState({ status: exposureStatus, statusLoaded: true })
+    } catch (e) {
+      console.error(e)
+      this.setState({ status: false, statusLoaded: false })
     }
   }
 
