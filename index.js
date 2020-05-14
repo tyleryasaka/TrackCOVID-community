@@ -59,7 +59,7 @@ app.use(flash())
 app.use('/api/', apiRouter)
 app.use('/checkpoint.pdf', publicCheckpointApiRouter)
 app.use('/public/', express.static('landing-public'))
-app.use('/app/static', express.static('app/build/static'))
+app.use('/static', express.static('app/build/static'))
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/checkpoints', { useNewUrlParser: true })
 const db = mongoose.connection
