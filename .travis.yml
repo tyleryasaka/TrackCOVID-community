@@ -1,3 +1,7 @@
 language: node_js
 node_js:
   - lts/*
+script:
+  - cd trackcovid-js && npm install && npm test
+  - cd app && npm install && npm test
+  - cd admin && npm install && npm test
