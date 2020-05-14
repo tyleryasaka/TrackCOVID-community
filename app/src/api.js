@@ -5,6 +5,7 @@ const estimatedDiagnosisDelay = Number(process.env.REACT_APP_ESTIMATED_DX_DELAY_
 const contactWindowBefore = Number(process.env.REACT_APP_CONTACT_WINDOW_HOURS_BEFORE)
 const contactWindowAfter = Number(process.env.REACT_APP_CONTACT_WINDOW_HOURS_AFTER)
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+const serverBaseUrl = `${process.env.REACT_APP_SERVER_DOMAIN}/api/checkpoints`
 
 function getCheckpoints () {
   const localStorage = window.localStorage
@@ -23,7 +24,8 @@ const trackCovid = TrackCovid({
   setCheckpoints,
   contactWindowBefore,
   contactWindowAfter,
-  checkpointKeyLength
+  checkpointKeyLength,
+  serverBaseUrl
 })
 
 const {

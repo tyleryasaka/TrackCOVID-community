@@ -1,10 +1,13 @@
 /* globals fetch */
 
+const serverBaseUrl = `${process.env.REACT_APP_SERVER_DOMAIN}`
+
 const sendRequest = async (url, method = 'GET', body) => {
-  const res = await fetch(url, {
+  const res = await fetch(`${serverBaseUrl}${url}`, {
     method,
     body: body ? JSON.stringify(body) : undefined,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include'
   })
   return res.json()
 }

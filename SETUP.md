@@ -17,9 +17,12 @@ The server is configured such that it can be easily deployed to [Heroku](https:/
 ### Local development
 You will need to have [mongodb](https://www.mongodb.com/) installed locally. Run the following commands from the root directory of this repository.
 
-- Configure environment variables: `cp .env.sample .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
+- Configure environment variables: `cp .env.example.dev .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
+- Copy environment variables from above automatically to the react apps: `npm run build-env`
 - Setup: `npm install`
-- Run: `npm start`. This will host the server on `localhost:8000`.
+- Start the server: `npm start`. This will host the server on `localhost:8000`.
+- Start the app (separate terminal window): `cd app && npm start`. This will host the app on `localhost:3000`.
+- Start the admin (separate terminal window): `cd admin && npm start`. This will host the admin on `localhost:3001`.
 - Test: `npm test`
 
 ### Production deployment
@@ -27,13 +30,16 @@ You will need to have [mongodb](https://www.mongodb.com/) installed locally. Run
 This can be easily deployed to Heroku as follows:
 
 1. Create a new Heroku app
-2. Configure the environment variables (config vars) in the Heroku app. See description of environment variables below.
+2. Configure the environment variables (config vars) in the Heroku app. See description of environment variables below, as well as the example production configuration in `.env.example.prod`.
 3. Connect the Heroku app to your forked Github repository. This will allow you to deploy from Github. You can even enable automatic deploys whenever new code is pushed. Heroku will automatically build the `app` and `admin` modules each time the server is deployed.
 
 ### Environment variables
 
+- `ENVIRONMENT`: Indicates whether a `development` or `production` environment
 - `APP_NAME`: Whatever your app will be called.
-- `APP_URL`: The web address where your app will be hosted.
+- `APP_DOMAIN`: The domain where your app will be hosted.
+- `ADMIN_DOMAIN`: The domain where the admin panel will be hosted (should be the same as `APP_DOMAIN` in production)
+- `SERVER_DOMAIN`: The domain where the server will be hosted (should be the same as `APP_DOMAIN` in production)
 - `ABOUT_URL`: A web address where people can learn more about your project
 - `APP_THEME`: Specify either `dark` or `light` depending on how you want your app to look.
 - `ESTIMATED_DX_DELAY_DAYS`: How many days prior to check for possible contacts (e.g. 7 for one week). Should be guided by advice of public health experts.

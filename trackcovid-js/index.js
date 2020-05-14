@@ -8,7 +8,8 @@ function TrackCovid (config) {
     setCheckpoints,
     contactWindowBefore,
     contactWindowAfter,
-    checkpointKeyLength
+    checkpointKeyLength,
+    serverBaseUrl
   } = config
 
   const oneHour = 1000 * 60 * 60
@@ -16,7 +17,6 @@ function TrackCovid (config) {
   const contactWindowBeforeHours = contactWindowBefore * oneHour
   const contactWindowAfterHours = contactWindowAfter * oneHour
   const estimatedDiagnosisDelayDays = estimatedDiagnosisDelay * oneDay
-  const serverBaseUrl = '/api/checkpoints'
 
   async function serverRequest (method, url = '', body) {
     const response = await fetch(`${serverBaseUrl}/${url}`, {

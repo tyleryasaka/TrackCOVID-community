@@ -31,6 +31,9 @@ import supportedLanguages from './languages'
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+const adminDomain = process.env.REACT_APP_ADMIN_DOMAIN
+const serverDomain = process.env.REACT_APP_SERVER_DOMAIN
+const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
 function ListItemLink (props) {
   return <ListItem button component='a' {...props} />
@@ -113,7 +116,6 @@ class App extends React.Component {
     const CurrentPage = (currentTab === 'checkpoints')
       ? CheckpointsPage
       : ExposuresPage
-    const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
     return (
       <div>
@@ -185,13 +187,13 @@ class App extends React.Component {
               </ListItemIcon>
               <ListItemText primary=<Translation>{t => t('menuAboutButton')}</Translation> />
             </ListItemLink>
-            <ListItemLink style={{ width: 250 }} href='/checkpoint' target='_blank'>
+            <ListItemLink style={{ width: 250 }} href={`${serverDomain}/checkpoint`} target='_blank'>
               <ListItemIcon>
                 <RoomIcon />
               </ListItemIcon>
               <ListItemText primary=<Translation>{t => t('menuCheckpointButton')}</Translation> />
             </ListItemLink>
-            <ListItemLink style={{ width: 250 }} href='/admin' target='_blank'>
+            <ListItemLink style={{ width: 250 }} href={`${adminDomain}/admin`} target='_blank'>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>

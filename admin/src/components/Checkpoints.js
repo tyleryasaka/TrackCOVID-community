@@ -6,7 +6,7 @@ import { isValidJSON } from '../helpers/json'
 
 export function Checkpoints ({ onUpload }) {
   const { t } = useTranslation()
-  const webAppUrl = process.env.REACT_APP_WEB_APP_URL
+  const webAppUrl = process.env.REACT_APP_WEB_APP_DOMAIN
 
   const handleUpload = () => {
     const files = document.getElementById('checkpoint-upload').files

@@ -15,6 +15,7 @@ const ViewEnum = {
 }
 
 const superPrivilegeLevel = 1
+const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
@@ -52,7 +53,7 @@ function App () {
           <a class='navbar-brand col-sm-3 col-md-2 mr-0' href='/admin'>{process.env.REACT_APP_NAME} {t('admin')}</a>
           <ul class='navbar-nav px-3'>
             <li class='nav-item text-nowrap'>
-              <a class='nav-link' href='/admin/logout'>{t('logout_button')}</a>
+              <a class='nav-link' href={`${serverUrl}/admin/logout`}>{t('logout_button')}</a>
             </li>
           </ul>
         </nav>
