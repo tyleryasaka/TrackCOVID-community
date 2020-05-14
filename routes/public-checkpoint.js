@@ -12,7 +12,7 @@ publicCheckpointApiRouter.get('/', async (req, res) => {
   const doc = new PDFDocument()
   const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
   const appLink = process.env.APP_URL
-  const checkpointLink = `${appLink}/?checkpoint=${checkpointKey}`
+  const checkpointLink = `${appLink}?checkpoint=${checkpointKey}`
   const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
   const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
   const websiteLink = process.env.ABOUT_URL
