@@ -1,10 +1,10 @@
-# TrackCOVID-community
+# Contrace
 
 ![Build Status](https://travis-ci.com/tyleryasaka/TrackCOVID-community.svg?branch=master)
 
 An open source project which provides privacy-preserving contact tracing for communities using QR codes.
 
-[Demo](https://demo.trackcovid.net/)
+[Demo](https://demo.contrace.online/)
 
 This is an open source project which is provided freely to communities which are interested in setting up digital contact tracing to supplement manual contact tracing in a way that is both easy to use and preserves privacy.
 
@@ -22,7 +22,7 @@ Here we present a strategy for setting up QR code-based contact tracing in your 
 
 ### 1. How do I download the app?
 
-This is a "web app", rather than a native app. That means it's just a website you can view on your phone. So, there is nothing to download. You can see a demo at https://demo.trackcovid.net.
+This is a "web app", rather than a native app. That means it's just a website you can view on your phone. So, there is nothing to download. You can see a demo at https://demo.contrace.online.
 
 ### 2. Where is the data stored?
 
