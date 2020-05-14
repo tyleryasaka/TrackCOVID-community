@@ -20,6 +20,7 @@ You will need to have [mongodb](https://www.mongodb.com/) installed locally. Run
 - Configure environment variables: `cp .env.sample .env` and then edit this `.env` file to suit your preferences. See the list of environment variables below.
 - Setup: `npm install`
 - Run: `npm start`. This will host the server on `localhost:8000`.
+- Test: `npm test`
 
 ### Production deployment
 

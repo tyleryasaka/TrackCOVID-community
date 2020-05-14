@@ -8,7 +8,7 @@
     "build-env": "node build-env.js",
     "create-user": "NODE_OPTIONS=--no-warnings node create-admin-user.js",
     "clean-db": "NODE_OPTIONS=--no-warnings node clean-database.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cd trackcovid-js && npm test && cd ../admin && npm test && cd ../app && npm test",
     "postinstall": "npm run build-env && (cd admin && npm install && npm run build); (cd app && npm install && npm run build)"
   },
   "repository": {
