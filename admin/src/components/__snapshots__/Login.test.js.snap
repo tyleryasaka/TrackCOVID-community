@@ -60,7 +60,7 @@ exports[`Login component 1`] = `
      
     <a
       class="text-warning"
-      href="https://forms.gle/J38BLRpFtRFT846Z8"
+      href="http://my-form.my-org"
       target="_blank"
     >
       here
