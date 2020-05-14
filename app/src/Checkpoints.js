@@ -10,9 +10,8 @@ import QRCode from 'qrcode.react'
 import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
 import API from './api'
-import {
-  checkpointKeyLength
-} from 'trackcovid-js/config'
+
+const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
 
 const initialState = {
   mode: 'home',
@@ -27,30 +26,9 @@ class Checkpoints extends React.Component {
     this.state = initialState
   }
 
-  componentDidMount () {
-    const urlParams = new URLSearchParams(window.location.search)
-    const checkpointKey = urlParams.get('checkpoint')
-    if (checkpointKey) {
-      if (checkpointKey.length === checkpointKeyLength) {
-        try {
-          API.joinCheckpoint(checkpointKey).then(checkpointObj => {
-            this.setState({ mode: 'scan-success' })
-            window.history.replaceState(null, null, window.location.pathname)
-          })
-        } catch (e) {
-          console.error(e)
-          this.setState({ mode: 'scan-error' })
-          window.history.replaceState(null, null, window.location.pathname)
-        }
-      } else {
-        this.setState({ mode: 'scan-error' })
-        window.history.replaceState(null, null, window.location.pathname)
-      }
-    }
-  }
-
   async reset () {
     this.setState(initialState)
+    this.props.resetUrlScanState()
   }
 
   async becomeHost () {
@@ -111,9 +89,13 @@ class Checkpoints extends React.Component {
 
   render () {
     const { mode, checkpointKey, checkpointTime, legacyMode } = this.state
+    const { urlScanState } = this.props
+    const computedMode = typeof urlScanState !== 'undefined'
+      ? urlScanState
+      : mode
     const qrValue = `${window.location.href}?checkpoint=${checkpointKey}`
     let content
-    if (mode === 'home') {
+    if (computedMode === 'home') {
       content = (
         <Grid
           container
@@ -134,7 +116,7 @@ class Checkpoints extends React.Component {
           </Button>
         </Grid>
       )
-    } else if (mode === 'host') {
+    } else if (computedMode === 'host') {
       content = (
         <Grid
           container
@@ -155,7 +137,7 @@ class Checkpoints extends React.Component {
           </Typography>
         </Grid>
       )
-    } else if (mode === 'join') {
+    } else if (computedMode === 'join') {
       content = (
         <Grid
           container
@@ -186,7 +168,7 @@ class Checkpoints extends React.Component {
           </Button>
         </Grid>
       )
-    } else if (mode === 'scan-success') {
+    } else if (computedMode === 'scan-success') {
       content = (
         <Grid
           container
@@ -203,7 +185,7 @@ class Checkpoints extends React.Component {
           </Button>
         </Grid>
       )
-    } else if (mode === 'scan-error') {
+    } else if (computedMode === 'scan-error') {
       content = (
         <Grid
           container

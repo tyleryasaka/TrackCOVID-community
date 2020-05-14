@@ -3,7 +3,6 @@ const TrackCovid = require('./index')
 
 const getConfig = (checkpointsDb) => {
   return {
-    serverBaseUrl: '/dummyurl',
     estimatedDiagnosisDelay: 1,
     getCheckpoints: jest.fn(() => checkpointsDb.checkpoints),
     setCheckpoints: jest.fn((checkpoints) => {

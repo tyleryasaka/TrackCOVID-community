@@ -3,7 +3,6 @@ const sha256 = require('js-sha256').sha256
 
 function TrackCovid (config) {
   const {
-    serverBaseUrl,
     estimatedDiagnosisDelay,
     getCheckpoints,
     setCheckpoints,
@@ -17,6 +16,7 @@ function TrackCovid (config) {
   const contactWindowBeforeHours = contactWindowBefore * oneHour
   const contactWindowAfterHours = contactWindowAfter * oneHour
   const estimatedDiagnosisDelayDays = estimatedDiagnosisDelay * oneDay
+  const serverBaseUrl = '/api/checkpoints'
 
   async function serverRequest (method, url = '', body) {
     const response = await fetch(`${serverBaseUrl}/${url}`, {

@@ -30,6 +30,7 @@ import supportedLanguages from './languages'
 
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
+const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
 
 function ListItemLink (props) {
   return <ListItem button component='a' {...props} />
@@ -43,31 +44,50 @@ class App extends React.Component {
       status: false,
       statusLoaded: false,
       isDrawerOpen: false,
-      currentLanguage: i18n.language
+      currentLanguage: i18n.language,
+      urlScanState: undefined
     }
   }
 
   componentDidMount () {
-    this.checkConfirmcode()
-    const updateStatus = async () => {
-      try {
-        const exposureStatus = await API.getExposureStatus()
-        this.setState({ status: exposureStatus, statusLoaded: true })
-      } catch (e) {
-        console.error(e)
-        this.setState({ status: false, statusLoaded: false })
+    this.checkUrl().then(() => {
+      const updateStatus = async () => {
+        try {
+          const exposureStatus = await API.getExposureStatus()
+          this.setState({ status: exposureStatus, statusLoaded: true })
+        } catch (e) {
+          console.error(e)
+          this.setState({ status: false, statusLoaded: false })
+        }
       }
-    }
-    updateStatus()
-    setInterval(updateStatus, pollingTime)
+      updateStatus()
+      setInterval(updateStatus, pollingTime)
+    })
   }
 
-  checkConfirmcode () {
+  async checkUrl () {
     const urlParams = new URLSearchParams(window.location.search)
-    const confirmcode = urlParams.get('confirm')
-    if (confirmcode) {
-      this.setState({ currentTab: 'status' })
+    const checkpointKey = urlParams.get('checkpoint')
+    if (checkpointKey) {
+      if (checkpointKey.length === checkpointKeyLength) {
+        try {
+          await API.joinCheckpoint(checkpointKey)
+          this.setState({ urlScanState: 'scan-success' })
+          window.history.replaceState(null, null, window.location.pathname)
+        } catch (e) {
+          console.error(e)
+          this.setState({ urlScanState: 'scan-error' })
+          window.history.replaceState(null, null, window.location.pathname)
+        }
+      } else {
+        this.setState({ urlScanState: 'scan-error' })
+        window.history.replaceState(null, null, window.location.pathname)
+      }
     }
+  }
+
+  resetUrlScanState () {
+    this.setState({ urlScanState: undefined })
   }
 
   onChangeTab (event, newVal) {
@@ -88,7 +108,7 @@ class App extends React.Component {
   }
 
   render () {
-    const { currentTab, status, statusLoaded, isDrawerOpen, currentLanguage } = this.state
+    const { currentTab, status, statusLoaded, isDrawerOpen, currentLanguage, urlScanState } = this.state
     const CurrentPage = (currentTab === 'checkpoints')
       ? CheckpointsPage
       : ExposuresPage
@@ -116,7 +136,7 @@ class App extends React.Component {
         <Container maxWidth='sm' style={{ marginBottom: 76 }}>
           <Suspense fallback='loading'>
             <StatusAlert status={status} onExposuresTab={currentTab === 'status'} />
-            <CurrentPage status={status} statusLoaded={statusLoaded} />
+            <CurrentPage status={status} statusLoaded={statusLoaded} urlScanState={urlScanState} resetUrlScanState={this.resetUrlScanState.bind(this)} />
             {supportedLanguages.length > 1 && (
               <Container style={{ textAlign: 'center' }}>
                 <div>

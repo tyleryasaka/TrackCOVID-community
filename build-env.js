@@ -9,7 +9,8 @@ const appVars = [
   { originalName: 'ABOUT_URL', newName: 'REACT_APP_ABOUT_URL' },
   { originalName: 'ESTIMATED_DX_DELAY_DAYS', newName: 'REACT_APP_ESTIMATED_DX_DELAY_DAYS' },
   { originalName: 'CONTACT_WINDOW_HOURS_BEFORE', newName: 'REACT_APP_CONTACT_WINDOW_HOURS_BEFORE' },
-  { originalName: 'CONTACT_WINDOW_HOURS_AFTER', newName: 'REACT_APP_CONTACT_WINDOW_HOURS_AFTER' }
+  { originalName: 'CONTACT_WINDOW_HOURS_AFTER', newName: 'REACT_APP_CONTACT_WINDOW_HOURS_AFTER' },
+  { originalName: 'CHECKPOINT_KEY_LENGTH', newName: 'REACT_APP_CHECKPOINT_KEY_LENGTH' }
 ]
 
 const adminVars = [
