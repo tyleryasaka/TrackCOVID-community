@@ -25,12 +25,16 @@ const adminVars = [
 const buildNewEnvFile = (newVars) => {
   return newVars.map(newVar => {
     const value = process.env[newVar.originalName]
-    if (!newVar.optional && typeof value !== 'undefined') {
+    if (typeof value !== 'undefined') {
       return `${newVar.newName}=${value}`
     } else {
-      throw new Error(`Environment variable not set: ${newVar.originalName}`)
+      if (newVar.optional) {
+        return undefined
+      } else {
+        throw new Error(`Environment variable not set: ${newVar.originalName}`)
+      }
     }
-  }).join('\n')
+  }).filter(v => v).join('\n')
 }
 
 const appEnvFile = buildNewEnvFile(appVars)
