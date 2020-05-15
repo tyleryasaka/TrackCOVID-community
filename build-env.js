@@ -19,13 +19,13 @@ const adminVars = [
   { originalName: 'APP_NAME', newName: 'REACT_APP_NAME' },
   { originalName: 'APP_DOMAIN', newName: 'REACT_APP_WEB_APP_DOMAIN' },
   { originalName: 'SERVER_DOMAIN', newName: 'REACT_APP_SERVER_DOMAIN' },
-  { originalName: 'ADMIN_REGISTRATION_URL', newName: 'REACT_APP_REGISTRATION_URL' }
+  { originalName: 'ADMIN_REGISTRATION_URL', newName: 'REACT_APP_REGISTRATION_URL', optional: true }
 ]
 
 const buildNewEnvFile = (newVars) => {
   return newVars.map(newVar => {
     const value = process.env[newVar.originalName]
-    if (typeof value !== 'undefined') {
+    if (!newVar.optional && typeof value !== 'undefined') {
       return `${newVar.newName}=${value}`
     } else {
       throw new Error(`Environment variable not set: ${newVar.originalName}`)
