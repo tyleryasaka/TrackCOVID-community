@@ -58,23 +58,14 @@ class Checkpoints extends React.Component {
 
   async handleScan (data) {
     if (data) {
-      if (data.length === checkpointKeyLength) {
-        try {
-          await API.joinCheckpoint(data)
-          this.setState({ mode: 'scan-success' })
-        } catch (e) {
-          console.error(e)
-          this.setState({ mode: 'scan-error' })
-        }
+      // QR code is a url
+      const urlSplit = data.split('?checkpoint=')
+      if ((urlSplit.length === 2) && (urlSplit[1].length === checkpointKeyLength)) {
+        await API.joinCheckpoint(urlSplit[1])
+        this.setState({ mode: 'scan-success' })
+        setTimeout(() => this.reset(), 10000) // automatically go back to main screen after 10 seconds
       } else {
-        // QR code may be a url
-        const urlSplit = data.split('?checkpoint=')
-        if ((urlSplit.length === 2) && (urlSplit[1].length === checkpointKeyLength)) {
-          await API.joinCheckpoint(urlSplit[1])
-          this.setState({ mode: 'scan-success' })
-        } else {
-          this.setState({ mode: 'scan-error' })
-        }
+        this.setState({ mode: 'scan-error' })
       }
     }
   }
