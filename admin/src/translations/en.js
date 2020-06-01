@@ -18,6 +18,7 @@ module.exports = {
     'login_username': 'Username',
     'logout_button': 'Sign out',
     'menu_account': 'Account',
+    'menu_checkpoint_pdf': 'Checkpoint PDF',
     'menu_checkpoints': 'Checkpoints',
     'menu_users': 'Users',
     'upload_fail': 'Oops, that upload failed.',

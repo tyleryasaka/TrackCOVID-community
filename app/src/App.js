@@ -9,7 +9,6 @@ import CropFree from '@material-ui/icons/CropFree'
 import Face from '@material-ui/icons/Face'
 import MenuIcon from '@material-ui/icons/Menu'
 import InfoIcon from '@material-ui/icons/Info'
-import RoomIcon from '@material-ui/icons/Room'
 import PersonIcon from '@material-ui/icons/Person'
 import AppBar from '@material-ui/core/AppBar'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
@@ -32,7 +31,6 @@ const oneSecond = 1000
 const pollingTime = 30 * oneSecond
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
 const adminDomain = process.env.REACT_APP_ADMIN_DOMAIN
-const serverDomain = process.env.REACT_APP_SERVER_DOMAIN
 const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
 function ListItemLink (props) {
@@ -186,12 +184,6 @@ class App extends React.Component {
                 <InfoIcon />
               </ListItemIcon>
               <ListItemText primary=<Translation>{t => t('menuAboutButton')}</Translation> />
-            </ListItemLink>
-            <ListItemLink style={{ width: 250 }} href={`${serverDomain}/checkpoint`} target='_blank'>
-              <ListItemIcon>
-                <RoomIcon />
-              </ListItemIcon>
-              <ListItemText primary=<Translation>{t => t('menuCheckpointButton')}</Translation> />
             </ListItemLink>
             <ListItemLink style={{ width: 250 }} href={`${adminDomain}/admin`} target='_blank'>
               <ListItemIcon>

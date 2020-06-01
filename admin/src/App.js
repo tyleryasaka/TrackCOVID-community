@@ -70,6 +70,13 @@ function App () {
                   </li>
                   {hasSuperPrivilege && (
                     <li class='nav-item'>
+                      <a class='nav-link' href={`${serverUrl}/admin/checkpoint.pdf`} target='_blank'>
+                        {t('menu_checkpoint_pdf')}
+                      </a>
+                    </li>
+                  )}
+                  {hasSuperPrivilege && (
+                    <li class='nav-item'>
                       <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
                         {t('menu_users')}
                       </a>
