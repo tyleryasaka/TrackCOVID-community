@@ -131,6 +131,26 @@ class App extends React.Component {
               <Typography variant='h6' component='h1' style={{ flexGrow: 1 }}>
                 {process.env.REACT_APP_NAME}
               </Typography>
+              {supportedLanguages.length > 1 && (
+                <Container style={{ textAlign: 'right' }}>
+                  <div>
+                    <FormControl>
+                      <Select
+                        labelId='language-select-label'
+                        id='language-select'
+                        value={currentLanguage}
+                        onChange={this.onSelectLanguage.bind(this)}
+                      >
+                        { supportedLanguages.map(language => {
+                          return (
+                            <MenuItem value={language.id}>{language.name}</MenuItem>
+                          )
+                        }) }
+                      </Select>
+                    </FormControl>
+                  </div>
+                </Container>
+              )}
             </Toolbar>
           </Container>
         </AppBar>
@@ -138,26 +158,6 @@ class App extends React.Component {
           <Suspense fallback='loading'>
             <StatusAlert status={status} onExposuresTab={currentTab === 'status'} />
             <CurrentPage status={status} statusLoaded={statusLoaded} urlScanState={urlScanState} resetUrlScanState={this.resetUrlScanState.bind(this)} />
-            {supportedLanguages.length > 1 && (
-              <Container style={{ textAlign: 'center' }}>
-                <div>
-                  <FormControl style={{ marginTop: '20px' }}>
-                    <Select
-                      labelId='language-select-label'
-                      id='language-select'
-                      value={currentLanguage}
-                      onChange={this.onSelectLanguage.bind(this)}
-                    >
-                      { supportedLanguages.map(language => {
-                        return (
-                          <MenuItem value={language.id}>{language.name}</MenuItem>
-                        )
-                      }) }
-                    </Select>
-                  </FormControl>
-                </div>
-              </Container>
-            )}
           </Suspense>
         </Container>
         <BottomNavigation
