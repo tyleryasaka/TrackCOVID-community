@@ -1,9 +1,4 @@
-
-
-
 const appName = process.env.REACT_APP_NAME
-
-
 
 module.exports = {
 
@@ -35,7 +30,7 @@ module.exports = {
 
     'checkpointCreatedMessage': 'Controlepunt gemaakt',
 
-    'noCameraPermissionMessage': "Deze app heeft geen toestemming om toegang te krijgen tot de camera van uw apparaat. In plaats daarvan u een foto maken van de QR-code.",
+    'noCameraPermissionMessage': 'Deze app heeft geen toestemming om toegang te krijgen tot de camera van uw apparaat. In plaats daarvan u een foto maken van de QR-code.',
 
     'takePictureButton': 'Neem een foto',
 
@@ -69,11 +64,11 @@ module.exports = {
 
     'scanConfirmationCodeButton': 'Bevestigingscode scannen',
 
-    'scanWithoutConfirmationCodeButton': "Ik heb geen code.",
+    'scanWithoutConfirmationCodeButton': 'Ik heb geen code.',
 
     'reportConfirmationMessage': 'Dit zal degenen die mogelijk zijn blootgesteld aan hun verhoogd risico. U blijft anoniem. Dit kan niet ongedaan worden gemaakt.',
 
-    'reportCompletedMessage': 'Uw positieve status werd anoniem gemeld. De risico's worden hiervan op de hoogte gesteld. Dank u.',
+    'reportCompletedMessage': 'Uw positieve status werd anoniem gemeld. De risico\'s worden hiervan op de hoogte gesteld. Dank u.',
 
     'cancelReportButton': 'Laat maar',
 

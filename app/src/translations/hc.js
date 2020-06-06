@@ -1,8 +1,4 @@
-
-
 const appName = process.env.REACT_APP_NAME
-
-
 
 module.exports = {
 
@@ -34,7 +30,7 @@ module.exports = {
 
     'checkpointCreatedMessage': 'Tcheke pwen kreye',
 
-    'noCameraPermissionMessage': "Sa a app pa gen pemisyon jwenn akse nan kamera aparey ou a. Olye de sa, ou ka pran yon foto nan Kod QR la.",
+    'noCameraPermissionMessage': 'Sa a app pa gen pemisyon jwenn akse nan kamera aparey ou a. Olye de sa, ou ka pran yon foto nan Kod QR la.',
 
     'takePictureButton': 'Pran yon foto',
 
@@ -42,7 +38,7 @@ module.exports = {
 
     'joinSuccessfulMessage': 'Ou te mete pwen an chek avek sikse.',
 
-    'scanErrorMessage': 'Kod QR la pa t ' kapab li. Tanpri eseye anko.',
+    'scanErrorMessage': 'Kod QR la pa t \' kapab li. Tanpri eseye anko.',
 
     'statusLoadingMessage': 'Chaje estati ou...',
 
@@ -68,7 +64,7 @@ module.exports = {
 
     'scanConfirmationCodeButton': 'Eskane Kod konfimasyon',
 
-    'scanWithoutConfirmationCodeButton': "Mwen pa gen Kod",
+    'scanWithoutConfirmationCodeButton': 'Mwen pa gen Kod',
 
     'reportConfirmationMessage': 'Sa ap notifye moun ki ka ekspoze anba risk ogmante yo. Ou ap rete anonim. Sa pa kapab ti mouton sele.',
 
