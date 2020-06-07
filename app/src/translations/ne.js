@@ -16,7 +16,7 @@ module.exports = {
 
     'settingsTab': 'Instellingen',
 
-    'welcomeMessage': `Welkom bij ${appName}. Om deel te nemen aan de inspanning om de verspreiding van het SARS-COV-2 virus te volgen, u een controlepunt scannen wanneer u met anderen communiceert op een manier die het virus kan overbrengen.`,
+    'welcomeMessage': `Welkom bij ${appName}. Om deel te nemen aan de inspanning om de verspreiding van het SARS-COV-2 virus te volgen, kunt u een controlepunt scannen wanneer u met anderen communiceert op een manier die het virus kan overbrengen.`,
 
     'hostCheckpointButton': 'Een controlepunt hosten',
 
