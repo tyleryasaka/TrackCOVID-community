@@ -3,5 +3,6 @@ module.exports = [
   { id: 'es', name: 'Español' },
   { id: 'fr', name: 'Française' },
   { id: 'hc', name: 'Haiti Creole' },
-  { id: 'ne', name: 'Nederlands' }
+  { id: 'ne', name: 'Nederlands' },
+  { id: 'pu', name: 'Papiamentu' }
 ]

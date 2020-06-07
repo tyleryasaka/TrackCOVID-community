@@ -6,6 +6,7 @@ import es from './translations/es'
 import fr from './translations/fr'
 import hc from './translations/hc'
 import ne from './translations/ne'
+import pu from './translations/pu'
 
 // the translations
 // (tip move them in a JSON file and import them)
@@ -14,7 +15,8 @@ const resources = {
   es,
   fr,
   hc,
-  ne
+  ne,
+  pu
 }
 
 i18n
