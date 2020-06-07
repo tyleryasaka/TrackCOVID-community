@@ -1,8 +1,6 @@
 
 const appName = process.env.REACT_APP_NAME
 
-
-
 module.exports = {
 
   'translation': {
@@ -21,8 +19,7 @@ module.exports = {
 
     'welcomeMessage': `Bon bini na ${appName}. Pa partisipá den esfuerso pa "track" plamamentu di e SARS-COV-2 Virus. Sea asina bon pa porfabor scan un punto di chèk ora ku bo a interkambia ku otro na e manera ku e virus por plama.`,
 
-    'hostCheckpointButton': 'Ehersé un Punto di chèk
-',
+    'hostCheckpointButton': 'Ehersé un Punto di chèk',
 
     'joinCheckpointButton': 'Scan un Punto di chèk',
 
@@ -34,7 +31,7 @@ module.exports = {
 
     'checkpointCreatedMessage': 'A krea un punto di chèk ',
 
-    'noCameraPermissionMessage': "E app aki no tin permit pa asesá e kamera di bo aparato. Mas bien, por saka portret di e QR Code.",
+    'noCameraPermissionMessage': 'E app aki no tin permit pa asesá e kamera di bo aparato. Mas bien, por saka portret di e QR Code.',
 
     'takePictureButton': 'Saka un portret',
 
@@ -58,7 +55,7 @@ module.exports = {
 
     'yourRiskLevelMessage': 'Bo nivèl di riesgo',
 
-    'aboutReportMessage': 'Si bo a risibi un test positivo, bo por download e checkpoint nan resien abao, i 'share e file ku bo Dokter. Esaki pa alertá esnan ku por a bini den kontakto di nan propio riesgo elevá.',
+    'aboutReportMessage': 'Si bo a risibi un test positivo, bo por download e checkpoint nan resien abao, i \'share e file ku bo Dokter. Esaki pa alertá esnan ku por a bini den kontakto di nan propio riesgo elevá.',
 
     'reportButton': 'Rapport anònimo',
 
@@ -68,9 +65,9 @@ module.exports = {
 
     'scanConfirmationCodeButton': 'Scan ey code di konfirmashon',
 
-    'scanWithoutConfirmationCodeButton': "Mi no tin un code",
+    'scanWithoutConfirmationCodeButton': 'Mi no tin un code',
 
-    'reportConfirmationMessage': 'Esaki lo notifiká esnan ku por a bin na remarke di nan propio riesgo. Bo lo keda anonònimo. Esaki no por wordu deshasí. No por 'reverse' esaki.',
+    'reportConfirmationMessage': 'Esaki lo notifiká esnan ku por a bin na remarke di nan propio riesgo. Bo lo keda anonònimo. Esaki no por wordu deshasí. No por \'reverse\' esaki.',
 
     'reportCompletedMessage': 'A reportá bo status Positivo anònimamente. Masha danki mes.',
 
