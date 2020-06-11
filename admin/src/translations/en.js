@@ -15,7 +15,7 @@ module.exports = {
     'create_checkpoint_name': 'Location name',
     'create_checkpoint_phone': 'Location contact phone (optional)',
     'create_checkpoint_submit': 'Get Checkpoint QR Code',
-    'create_checkpoint_title': 'Checkpoint PDF',
+    'create_checkpoint_title': 'Create a Checkpoint QR code',
     'login_no_account_1': 'Don\'t have an account? You can request access',
     'login_no_account_2': 'here',
     'login_password': 'Password',
@@ -24,8 +24,9 @@ module.exports = {
     'login_username': 'Username',
     'logout_button': 'Sign out',
     'menu_account': 'Account',
-    'menu_checkpoint_pdf': 'Checkpoint PDF',
-    'menu_checkpoints': 'Checkpoints',
+    'menu_checkpoint_pdf': 'New Checkpoint',
+    'menu_checkpoints': 'Upload Checkpoints',
+    'menu_reports': 'Hotspots',
     'menu_users': 'Users',
     'upload_fail': 'Oops, that upload failed.',
     'upload_instructions_1': 'A COVID-19 positive patient can open the web app at',
@@ -45,6 +46,8 @@ module.exports = {
     'user_create_password': 'Temporary password',
     'user_delete_confirm': 'Delete user',
     'user_delete_fail': 'Oops, something went wrong.',
+    'reports_title': 'Hotspots',
+    'reports_csv': 'Download CSV of Hotspots',
     'welcome': 'Welcome'
   }
 }

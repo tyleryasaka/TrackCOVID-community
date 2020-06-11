@@ -67,3 +67,8 @@ export const postLocation = async (latitude, longitude, name, phone, email) => {
   )
   return res && !res.error && res.checkpointKey
 }
+
+export const fetchCheckpointLocations = async () => {
+  const res = await sendRequest('/admin/api/checkpoints/locations')
+  return (res && res.checkpoints) ? res.checkpoints : undefined
+}

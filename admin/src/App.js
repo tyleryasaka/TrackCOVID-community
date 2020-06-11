@@ -6,6 +6,7 @@ import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
 import { Checkpoints } from './components/Checkpoints'
 import { CreateCheckpoint } from './components/CreateCheckpoint'
+import { Reports } from './components/Reports'
 import { Users } from './components/Users'
 import { Account } from './components/Account'
 
@@ -22,7 +23,7 @@ const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
   const [currentUser, setCurrentUser] = useState({})
-  const [view, setView] = useState(ViewEnum.createCheckpoint) // temp
+  const [view, setView] = useState(ViewEnum.checkpoints)
   const { t } = useTranslation()
   const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
@@ -80,6 +81,13 @@ function App () {
                   )}
                   {hasSuperPrivilege && (
                     <li class='nav-item'>
+                      <a class='nav-link' onClick={() => setView(ViewEnum.reports)}>
+                        {t('menu_reports')}
+                      </a>
+                    </li>
+                  )}
+                  {hasSuperPrivilege && (
+                    <li class='nav-item'>
                       <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
                         {t('menu_users')}
                       </a>
@@ -100,6 +108,9 @@ function App () {
               )}
               {view === ViewEnum.createCheckpoint && (
                 <CreateCheckpoint />
+              )}
+              {view === ViewEnum.reports && (
+                <Reports />
               )}
               {hasSuperPrivilege && view === ViewEnum.users && (
                 <Users currentUser={currentUser} />

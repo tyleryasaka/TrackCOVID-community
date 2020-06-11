@@ -4,6 +4,7 @@ const PDFDocument = require('pdfkit')
 const QRCode = require('qrcode')
 const express = require('express')
 const passport = require('passport')
+const createCsv = require('csv-writer').createObjectCsvStringifier
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
@@ -28,6 +29,34 @@ function generatePassword () {
     pw += charset.charAt(Math.floor(Math.random() * n))
   }
   return pw
+}
+
+async function getCheckpointLocations (onSuccess, onErr) {
+  Checkpoint.find({}, async function (err, checkpoints) {
+    if (err || !checkpoints) {
+      if (err) {
+        console.error(err)
+      }
+      onErr(err)
+    } else {
+      const checkpointData = await Promise.all(checkpoints.map(checkpoint => {
+        return new Promise((resolve, reject) => {
+          Location.findOne({ checkpoint: checkpoint.key }, function (err, location) {
+            if (err || !location) {
+              resolve(undefined)
+            } else {
+              resolve({
+                key: checkpoint.key,
+                timestamp: checkpoint.timestamp,
+                location: location
+              })
+            }
+          })
+        })
+      }))
+      onSuccess(checkpointData.filter(checkpoint => checkpoint !== undefined))
+    }
+  })
 }
 
 adminApiRouter.use('/static/', express.static('admin/build/static'))
@@ -235,6 +264,60 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
     doc.image(websiteQrCodeImg, 378, 668.5, { width: 37 })
     doc.pipe(res)
     doc.end()
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.get('/api/checkpoints/locations', ensureAuthenticated, async (req, res) => {
+  if (req.user.privilege === 1) {
+    getCheckpointLocations(
+      (checkpointData) => res.send({ error: false, checkpoints: checkpointData }),
+      (err) => {
+        console.log(err)
+        res.send({ error: true })
+      }
+    )
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
+  if (req.user.privilege === 1) {
+    getCheckpointLocations(
+      (checkpointData) => {
+        const csvObj = createCsv({
+          header: [
+            { id: 'location', title: 'Location' },
+            { id: 'phone', title: 'Phone' },
+            { id: 'email', title: 'Email' },
+            { id: 'latitude', title: 'Latitude' },
+            { id: 'longitude', title: 'Longitude' },
+            { id: 'time', title: 'Time of scan' },
+            { id: 'checkpoint', title: 'Checkpoint' }
+          ]
+        })
+        const records = checkpointData.map(checkpoint => {
+          return {
+            location: checkpoint.location.name,
+            phone: checkpoint.location.phone,
+            email: checkpoint.location.email,
+            latitude: checkpoint.location.latitude,
+            longitude: checkpoint.location.longitude,
+            time: new Date(checkpoint.timestamp),
+            checkpoint: checkpoint.key
+          }
+        })
+        const csvString = csvObj.getHeaderString() + csvObj.stringifyRecords(records)
+        res.attachment('hotspots.csv')
+        res.status(200).send(csvString)
+      },
+      (err) => {
+        console.log(err)
+        res.send({ error: true })
+      }
+    )
   } else {
     res.sendStatus(403)
   }
