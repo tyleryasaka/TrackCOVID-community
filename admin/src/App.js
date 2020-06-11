@@ -5,13 +5,15 @@ import './App.css'
 import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
 import { Checkpoints } from './components/Checkpoints'
+import { CreateCheckpoint } from './components/CreateCheckpoint'
 import { Users } from './components/Users'
 import { Account } from './components/Account'
 
 const ViewEnum = {
   checkpoints: 1,
   users: 2,
-  account: 3
+  account: 3,
+  createCheckpoint: 4
 }
 
 const superPrivilegeLevel = 1
@@ -20,7 +22,7 @@ const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
   const [currentUser, setCurrentUser] = useState({})
-  const [view, setView] = useState(ViewEnum.checkpoints)
+  const [view, setView] = useState(ViewEnum.createCheckpoint) // temp
   const { t } = useTranslation()
   const hasSuperPrivilege = (currentUser && currentUser.privilege === superPrivilegeLevel)
 
@@ -51,6 +53,7 @@ function App () {
       <div className='App'>
         <nav class='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
           <a class='navbar-brand col-sm-3 col-md-2 mr-0' href='/admin'>{process.env.REACT_APP_NAME} {t('admin')}</a>
+          <div class='text-light'>{t('welcome')}, {currentUser.username}.</div>
           <ul class='navbar-nav px-3'>
             <li class='nav-item text-nowrap'>
               <a class='nav-link' href={`${serverUrl}/admin/logout`}>{t('logout_button')}</a>
@@ -70,7 +73,7 @@ function App () {
                   </li>
                   {hasSuperPrivilege && (
                     <li class='nav-item'>
-                      <a class='nav-link' href={`${serverUrl}/admin/checkpoint.pdf`} target='_blank'>
+                      <a class='nav-link' onClick={() => setView(ViewEnum.createCheckpoint)}>
                         {t('menu_checkpoint_pdf')}
                       </a>
                     </li>
@@ -92,9 +95,11 @@ function App () {
             </nav>
 
             <main role='main' class='col-md-9 ml-sm-auto col-lg-10 px-4'>
-              <p class='mt-3'>{t('welcome')}, {currentUser.username}.</p>
               {view === ViewEnum.checkpoints && (
                 <Checkpoints />
+              )}
+              {view === ViewEnum.createCheckpoint && (
+                <CreateCheckpoint />
               )}
               {hasSuperPrivilege && view === ViewEnum.users && (
                 <Users currentUser={currentUser} />

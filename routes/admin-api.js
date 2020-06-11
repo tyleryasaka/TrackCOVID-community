@@ -6,6 +6,7 @@ const express = require('express')
 const passport = require('passport')
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
+const Location = require('../models/location')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 
@@ -195,10 +196,33 @@ adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
   })
 })
 
-adminApiRouter.get('/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
+adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
   if (req.user.privilege === 1) {
-    const doc = new PDFDocument()
+    const { latitude, longitude, name, phone, email } = req.body
     const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
+    Location.create({
+      checkpoint: checkpointKey,
+      latitude,
+      longitude,
+      name,
+      phone,
+      email
+    }, function (err) {
+      if (err) {
+        console.error(err)
+        res.send({ error: true })
+      }
+    })
+    res.send({ error: false, checkpointKey })
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
+  if (req.user.privilege === 1) {
+    const { checkpointKey } = req.params
+    const doc = new PDFDocument()
     const appDomain = process.env.APP_DOMAIN
     const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
     const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
