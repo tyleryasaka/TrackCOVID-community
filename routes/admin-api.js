@@ -251,19 +251,40 @@ adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
 adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
   if (req.user.privilege === 1) {
     const { checkpointKey } = req.params
-    const doc = new PDFDocument()
-    const appDomain = process.env.APP_DOMAIN
-    const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
-    const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
-    const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-    const websiteLink = process.env.ABOUT_URL
-    const websiteQRCodeUrl = await QRCode.toDataURL(websiteLink, { margin: 0, scale: 4 })
-    const websiteQrCodeImg = Buffer.from(websiteQRCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-    doc.image('./public-checkpoint/track-covid.png', 0, 0, { width: 600 })
-    doc.image(checkpointQrCodeImg, 55, 325, { width: 300 })
-    doc.image(websiteQrCodeImg, 378, 668.5, { width: 37 })
-    doc.pipe(res)
-    doc.end()
+    Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
+      const doc = new PDFDocument()
+      const appDomain = process.env.APP_DOMAIN
+      const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
+      const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
+      const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
+      const websiteLink = process.env.ABOUT_URL
+      const websiteQRCodeUrl = await QRCode.toDataURL(websiteLink, { margin: 0, scale: 4 })
+      const websiteQrCodeImg = Buffer.from(websiteQRCodeUrl.replace('data:image/png;base64,', ''), 'base64')
+      doc.image('./public-checkpoint/track-covid.png', 0, 0, { width: 600 })
+      doc.image(checkpointQrCodeImg, 55, 325, { width: 300 })
+      doc.image(websiteQrCodeImg, 378, 668.5, { width: 37 })
+      if (!err && location) {
+        doc.fontSize(18)
+        doc.text(location.name, 55, 660)
+        const coords = [
+          { x: 55, y: 685 },
+          { x: 55, y: 700 }
+        ]
+        let numLines = 0
+        if (location.phone) {
+          doc.fontSize(12)
+          doc.text(location.phone, coords[numLines].x, coords[numLines].y)
+          numLines++
+        }
+        if (location.email) {
+          doc.fontSize(12)
+          doc.text(location.email, coords[numLines].x, coords[numLines].y)
+          numLines++
+        }
+      }
+      doc.pipe(res)
+      doc.end()
+    })
   } else {
     res.sendStatus(403)
   }
