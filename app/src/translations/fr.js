@@ -1,7 +1,5 @@
 const appName = process.env.REACT_APP_NAME
 
-
-
 module.exports = {
 
   'translation': {
@@ -24,7 +22,7 @@ module.exports = {
 
     'joinCheckpointButton': 'Scanner un point de contrôle',
 
-    'hostingCheckpointMessage': 'Vous hébergez maintenant un point de contrôle. D'autres peuvent rejoindre en utilisant le code QR ci-dessous.',
+    'hostingCheckpointMessage': 'Vous hébergez maintenant un point de contrôle. D\'autres peuvent rejoindre en utilisant le code QR ci-dessous.',
 
     'endCheckpointButton': 'Fin du point de contrôle',
 
@@ -40,13 +38,13 @@ module.exports = {
 
     'joinSuccessfulMessage': 'Vous avez rejoint le point de contrôle avec succès.',
 
-    'scanErrorMessage': 'Le code QR n'a pas pu être lu. Veuillez réessayer.',
+    'scanErrorMessage': 'Le code QR n\'a pas pu être lu. Veuillez réessayer.',
 
     'statusLoadingMessage': 'Chargement de votre statut...',
 
-    'statusNegativeMessage': 'Aucun lien de transmission d'individus infectés vers vous n'a été découvert à ce jour. Cependant, tout le monde est à risque et les individus doivent suivre les directives du Service de la Santé Publique et du gouvernement local.',
+    'statusNegativeMessage': 'Aucun lien de transmission d\'individus infectés vers vous n\'a été découvert à ce jour. Cependant, tout le monde est à risque et les individus doivent suivre les directives du Service de la Santé Publique et du gouvernement local.',
 
-    'statusPositiveMessage': 'Un lien de transmission possible d'un individu infecté à vous a été découvert. Vous devez prendre des mesures de précaution pour vous protéger et protéger les autres, conformément aux directives de l'autorité de santé publique et du gouvernement local.',
+    'statusPositiveMessage': 'Un lien de transmission possible d\'un individu infecté à vous a été découvert. Vous devez prendre des mesures de précaution pour vous protéger et protéger les autres, conformément aux directives de l\'autorité de santé publique et du gouvernement local.',
 
     'loadingMessage': 'Chargement...',
 
@@ -62,11 +60,11 @@ module.exports = {
 
     'downloadHistoryButton': 'Télécharger les points de contrôle',
 
-    'aboutConfirmationCodeMessage': 'Avez-vous un code de confirmation à scanner? La numérisation d'un code de confirmation aidera ceux qui ont pu être exposés, en leur faisant savoir qu'il s'agit d'un risque légitime.',
+    'aboutConfirmationCodeMessage': 'Avez-vous un code de confirmation à scanner? La numérisation d\'un code de confirmation aidera ceux qui ont pu être exposés, en leur faisant savoir qu\'il s\'agit d\'un risque légitime.',
 
     'scanConfirmationCodeButton': 'Scanner le code de confirmation',
 
-    'scanWithoutConfirmationCodeButton': "Je n’ai pas de code.",
+    'scanWithoutConfirmationCodeButton': 'Je n’ai pas de code.',
 
     'reportConfirmationMessage': 'Cela informera ceux qui ont pu être exposés de leur risque accru. Vous resterez anonyme. Ça ne peut pas être annulé.',
 
