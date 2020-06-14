@@ -33,19 +33,37 @@ export function CreateCheckpoint () {
       setAutocomplete(newAutocomplete)
       window.google.maps.event.addListener(newAutocomplete, 'place_changed', function () {
         const place = newAutocomplete.getPlace()
-        setLatitude(place.geometry.location.lat())
-        setLongitude(place.geometry.location.lng())
-        map.setCenter(place.geometry.location)
-        map.setZoom(16)
+        const newLat = place.geometry.location.lat()
+        const newLong = place.geometry.location.lng()
+        setLatitude(newLat)
+        setLongitude(newLong)
+        setMapLocation(newLat, newLong)
       })
     }
   }, [map, autocomplete])
+
+  function setMapLocation (lat, lng) {
+    if (lat !== null && lng !== null) {
+      map.setCenter({ lat, lng })
+      map.setZoom(16)
+    }
+  }
 
   const onSubmitCreateCheckpoint = async (event) => {
     const checkpointKey = await postLocation(latitude, longitude, name, phone, email)
     window.location.href = `${serverUrl}/admin/generate/${checkpointKey}/checkpoint.pdf`
   }
 
+  const onchangeLat = (event) => {
+    const newLat = Number(event.target.value)
+    setLatitude(newLat)
+    setMapLocation(newLat, longitude)
+  }
+  const onchangeLong = (event) => {
+    const newLong = Number(event.target.value)
+    setLongitude(newLong)
+    setMapLocation(latitude, newLong)
+  }
   const onchangeName = (event) => {
     setName(event.target.value)
   }
@@ -66,11 +84,18 @@ export function CreateCheckpoint () {
       <input id='search-text-field' type='text' placeholder={t('create_checkpoint_address')} class='form-control' />
       <div id='map-canvas' />
       <form class='form-create-checkpoint'>
-        <input value={name} onChange={onchangeName} type='text' placeholder={t('create_checkpoint_name')} class='form-control' />
-        <input value={phone} onChange={onchangePhone} type='text' placeholder={t('create_checkpoint_phone')} class='form-control mt-3' />
-        <input value={email} onChange={onchangeEmail} type='text' placeholder={t('create_checkpoint_email')} class='form-control mt-3' />
+        <label>{t('create_checkpoint_lat')}</label>
+        <input value={latitude} onChange={onchangeLat} type='number' placeholder={t('create_checkpoint_lat')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_long')}</label>
+        <input value={longitude} onChange={onchangeLong} type='number' placeholder={t('create_checkpoint_long')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_name')}</label>
+        <input value={name} onChange={onchangeName} type='text' placeholder={t('create_checkpoint_name')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_phone')}</label>
+        <input value={phone} onChange={onchangePhone} type='text' placeholder={t('create_checkpoint_phone')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_email')}</label>
+        <input value={email} onChange={onchangeEmail} type='text' placeholder={t('create_checkpoint_email')} class='form-control' />
       </form>
-      <button class='btn btn-lg btn-warning btn-block mt-3' onClick={onSubmitCreateCheckpoint} disabled={isSubmitDisabled}>{t('create_checkpoint_submit')}</button>
+      <button class='btn btn-lg btn-warning btn-block mt-3 mb-3' onClick={onSubmitCreateCheckpoint} disabled={isSubmitDisabled}>{t('create_checkpoint_submit')}</button>
     </div>
   )
 }

@@ -12,6 +12,8 @@ module.exports = {
     'account_update_password_title': 'Update password',
     'create_checkpoint_address': 'Search for location',
     'create_checkpoint_email': 'Location contact email (optional)',
+    'create_checkpoint_lat': 'Latitude',
+    'create_checkpoint_long': 'Longitude',
     'create_checkpoint_name': 'Location name',
     'create_checkpoint_phone': 'Location contact phone (optional)',
     'create_checkpoint_submit': 'Get Checkpoint QR Code',
