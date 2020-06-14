@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { fetchCheckpointLocations } from '../helpers/api'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
+let markers = []
 
 export function Reports () {
   const [map, setMap] = useState(null)
@@ -36,11 +37,17 @@ export function Reports () {
     var infowindow = new window.google.maps.InfoWindow()
     var marker, i
 
+    markers.forEach((m) => {
+      m.setMap(null)
+    })
+    markers = []
+
     for (i = 0; i < locations.length; i++) {
       marker = new window.google.maps.Marker({
         position: new window.google.maps.LatLng(locations[i][1], locations[i][2]),
         map: googleMap
       })
+      markers.push(marker)
       bounds.extend(marker.position)
       window.google.maps.event.addListener(marker, 'click', (function (marker, i) {
         return function () {
