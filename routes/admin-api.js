@@ -8,6 +8,7 @@ const createCsv = require('csv-writer').createObjectCsvStringifier
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
+const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 
@@ -259,28 +260,28 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
       const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
       const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
       const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-      const websiteLink = process.env.ABOUT_URL
-      const websiteQRCodeUrl = await QRCode.toDataURL(websiteLink, { margin: 0, scale: 4 })
-      const websiteQrCodeImg = Buffer.from(websiteQRCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-      doc.image('./public-checkpoint/track-covid.png', 0, 0, { width: 600 })
+      doc.image('./public-checkpoint/AVOTAS.png', 0, 0, { width: 600 })
       doc.image(checkpointQrCodeImg, 55, 325, { width: 300 })
-      doc.image(websiteQrCodeImg, 378, 668.5, { width: 37 })
       if (!err && location) {
-        doc.fontSize(18)
-        doc.text(location.name, 55, 660)
+        doc.fontSize(16)
+        doc.text(location.name, 55, 650)
         const coords = [
-          { x: 55, y: 685 },
-          { x: 55, y: 700 }
+          { x: 55, y: 690 },
+          { x: 55, y: 705 }
         ]
         let numLines = 0
-        if (location.phone) {
+        const countryObj = getCountryInfo(location.country)
+        let locales
+        if (countryObj) {
+          locales = countryObj.locales.map(l => getLocaleInfo(l))
+          const localeObj = locales.find(l => l.localeCode === location.locale)
+          if (localeObj) {
+            doc.fontSize(12)
+            doc.text(localeObj.localeName, coords[numLines].x, coords[numLines].y)
+            numLines++
+          }
           doc.fontSize(12)
-          doc.text(location.phone, coords[numLines].x, coords[numLines].y)
-          numLines++
-        }
-        if (location.email) {
-          doc.fontSize(12)
-          doc.text(location.email, coords[numLines].x, coords[numLines].y)
+          doc.text(countryObj.countryName, coords[numLines].x, coords[numLines].y)
           numLines++
         }
       }

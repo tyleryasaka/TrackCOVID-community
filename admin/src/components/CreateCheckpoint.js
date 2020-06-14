@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { postLocation } from '../helpers/api'
-import locales from '../locales/locales'
+import { locales, getCountryInfo, getLocaleInfo } from '../helpers/locale'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 
@@ -86,11 +86,7 @@ export function CreateCheckpoint () {
 
   const isSubmitDisabled = !latitude || !longitude || !name || !country || !locale
   const localesForCountry = country
-    ? locales.find(l => l.countryCode === country).locales.map(l => {
-      const localeCode = Object.keys(l)[0]
-      const localeName = l[localeCode]
-      return { localeCode, localeName }
-    })
+    ? getCountryInfo(country).locales.map(l => getLocaleInfo(l))
     : []
 
   return (
@@ -124,7 +120,7 @@ export function CreateCheckpoint () {
           })}
         </select>
         <label>{t('create_checkpoint_name')}</label>
-        <input value={name} onChange={onchangeName} type='text' placeholder={t('create_checkpoint_name')} class='form-control mb-3' />
+        <input value={name} onChange={onchangeName} type='text' placeholder={t('create_checkpoint_name')} maxlength='80' class='form-control mb-3' />
         <label>{t('create_checkpoint_phone')}</label>
         <input value={phone} onChange={onchangePhone} type='text' placeholder={t('create_checkpoint_phone')} class='form-control mb-3' />
         <label>{t('create_checkpoint_email')}</label>

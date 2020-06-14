@@ -1,4 +1,4 @@
-module.exports = [
+const locales = [
   {
     countryName: 'StMaarten (Dutch)',
     countryCode: 'SXM',
@@ -84,3 +84,19 @@ module.exports = [
     ]
   }
 ]
+
+function getCountryInfo (countryCode) {
+  return locales.find(l => l.countryCode === countryCode)
+}
+
+function getLocaleInfo (localeObj) {
+  const localeCode = Object.keys(localeObj)[0]
+  const localeName = localeObj[localeCode]
+  return { localeCode, localeName }
+}
+
+module.exports = {
+  locales,
+  getCountryInfo,
+  getLocaleInfo
+}
