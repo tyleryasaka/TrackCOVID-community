@@ -26,7 +26,7 @@ module.exports = {
     'menu_account': 'Account',
     'menu_checkpoint_pdf': 'New Checkpoint',
     'menu_checkpoints': 'Upload Checkpoints',
-    'menu_reports': 'Hotspots',
+    'menu_reports': 'Reports',
     'menu_users': 'Users',
     'upload_fail': 'Oops, that upload failed.',
     'upload_instructions_1': 'A COVID-19 positive patient can open the web app at',
@@ -46,7 +46,7 @@ module.exports = {
     'user_create_password': 'Temporary password',
     'user_delete_confirm': 'Delete user',
     'user_delete_fail': 'Oops, something went wrong.',
-    'reports_title': 'Hotspots',
+    'reports_title': 'Reports',
     'reports_csv': 'Download CSV of Hotspots',
     'welcome': 'Welcome'
   }
