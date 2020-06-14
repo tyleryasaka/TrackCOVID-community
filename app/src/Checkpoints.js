@@ -11,7 +11,8 @@ import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
 import API from './api'
 
-const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+// Add 4 to checkpoint key length for 3 digit country code and : (e.g. ABC:)
+const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH) + 4
 
 const initialState = {
   mode: 'home',

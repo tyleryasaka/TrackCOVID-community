@@ -229,7 +229,8 @@ adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
 adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
   if (req.user.privilege === 1) {
     const { latitude, longitude, country, locale, name, phone, email } = req.body
-    const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
+    const checkpointHash = sha256(String(Math.random())).substring(0, checkpointKeyLength)
+    const checkpointKey = `${country}:${checkpointHash}`
     Location.create({
       checkpoint: checkpointKey,
       latitude,
@@ -257,7 +258,7 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
     Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
       const doc = new PDFDocument()
       const appDomain = process.env.APP_DOMAIN
-      const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
+      const checkpointLink = `${appDomain}?checkpoint=${location.country}:${checkpointKey}`
       const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
       const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
       doc.image('./public-checkpoint/AVOTAS.png', 0, 0, { width: 600 })
@@ -325,8 +326,11 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
           ]
         })
         const records = checkpointData.map(checkpoint => {
+          const checkpointKeySplit = checkpoint.key.split(':')
+          const usingNewFormat = checkpointKeySplit.length === 2
+          const country = usingNewFormat ? checkpointKeySplit[0] : checkpoint.location.country
           return {
-            country: checkpoint.location.country,
+            country,
             locale: checkpoint.location.locale,
             location: checkpoint.location.name,
             phone: checkpoint.location.phone,

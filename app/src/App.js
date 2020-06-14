@@ -29,7 +29,8 @@ import supportedLanguages from './languages'
 
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
-const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+// Add 4 to checkpoint key length for 3 digit country code and : (e.g. ABC:)
+const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH) + 4
 const adminDomain = process.env.REACT_APP_ADMIN_DOMAIN
 const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
