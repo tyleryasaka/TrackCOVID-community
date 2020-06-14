@@ -227,12 +227,14 @@ adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
 
 adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
   if (req.user.privilege === 1) {
-    const { latitude, longitude, name, phone, email } = req.body
+    const { latitude, longitude, country, locale, name, phone, email } = req.body
     const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
     Location.create({
       checkpoint: checkpointKey,
       latitude,
       longitude,
+      country,
+      locale,
       name,
       phone,
       email
@@ -310,6 +312,8 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
       (checkpointData) => {
         const csvObj = createCsv({
           header: [
+            { id: 'country', title: 'Country' },
+            { id: 'locale', title: 'Locale' },
             { id: 'location', title: 'Location' },
             { id: 'phone', title: 'Phone' },
             { id: 'email', title: 'Email' },
@@ -321,6 +325,8 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
         })
         const records = checkpointData.map(checkpoint => {
           return {
+            country: checkpoint.location.country,
+            locale: checkpoint.location.locale,
             location: checkpoint.location.name,
             phone: checkpoint.location.phone,
             email: checkpoint.location.email,

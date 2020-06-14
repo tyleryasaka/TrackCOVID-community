@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { postLocation } from '../helpers/api'
+import locales from '../locales/locales'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 
 export function CreateCheckpoint () {
+  const [country, setCountry] = useState('')
+  const [locale, setLocale] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
@@ -50,7 +53,7 @@ export function CreateCheckpoint () {
   }
 
   const onSubmitCreateCheckpoint = async (event) => {
-    const checkpointKey = await postLocation(latitude, longitude, name, phone, email)
+    const checkpointKey = await postLocation({ latitude, longitude, country, locale, name, phone, email })
     window.location.href = `${serverUrl}/admin/generate/${checkpointKey}/checkpoint.pdf`
   }
 
@@ -64,6 +67,13 @@ export function CreateCheckpoint () {
     setLongitude(newLong)
     setMapLocation(latitude, newLong)
   }
+  const onchangeCountry = (event) => {
+    setLocale('')
+    setCountry(event.target.value)
+  }
+  const onchangeLocale = (event) => {
+    setLocale(event.target.value)
+  }
   const onchangeName = (event) => {
     setName(event.target.value)
   }
@@ -74,7 +84,14 @@ export function CreateCheckpoint () {
     setEmail(event.target.value)
   }
 
-  const isSubmitDisabled = !latitude || !longitude || !name
+  const isSubmitDisabled = !latitude || !longitude || !name || !country || !locale
+  const localesForCountry = country
+    ? locales.find(l => l.countryCode === country).locales.map(l => {
+      const localeCode = Object.keys(l)[0]
+      const localeName = l[localeCode]
+      return { localeCode, localeName }
+    })
+    : []
 
   return (
     <div>
@@ -85,9 +102,27 @@ export function CreateCheckpoint () {
       <div id='map-canvas' />
       <form class='form-create-checkpoint'>
         <label>{t('create_checkpoint_lat')}</label>
-        <input value={latitude} onChange={onchangeLat} type='number' placeholder={t('create_checkpoint_lat')} class='form-control mb-3' />
+        <input value={latitude || ''} onChange={onchangeLat} type='number' placeholder={t('create_checkpoint_lat')} class='form-control mb-3' />
         <label>{t('create_checkpoint_long')}</label>
-        <input value={longitude} onChange={onchangeLong} type='number' placeholder={t('create_checkpoint_long')} class='form-control mb-3' />
+        <input value={longitude || ''} onChange={onchangeLong} type='number' placeholder={t('create_checkpoint_long')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_country')}</label>
+        <select class='custom-select mb-3' onChange={onchangeCountry} value={country}>
+          <option value=''>{t('create_checkpoint_country_select')}</option>
+          {locales.map((localeOption, index) => {
+            return (
+              <option key={index} value={localeOption.countryCode}>{localeOption.countryName} ({localeOption.countryCode})</option>
+            )
+          })}
+        </select>
+        <label>{t('create_checkpoint_locale')}</label>
+        <select class='custom-select mb-3' onChange={onchangeLocale} value={locale}>
+          <option value=''>{t('create_checkpoint_locale_select')}</option>
+          {localesForCountry.map(({ localeCode, localeName }, index) => {
+            return (
+              <option key={index} value={localeCode}>{localeName} ({localeCode})</option>
+            )
+          })}
+        </select>
         <label>{t('create_checkpoint_name')}</label>
         <input value={name} onChange={onchangeName} type='text' placeholder={t('create_checkpoint_name')} class='form-control mb-3' />
         <label>{t('create_checkpoint_phone')}</label>

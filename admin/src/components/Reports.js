@@ -115,7 +115,7 @@ export function Reports () {
           })}
         </tbody>
       </table>
-      <a class='btn btn-lg btn-warning btn-block mt-3' href={`${serverUrl}/admin/hotspots.csv`}>{t('reports_csv')}</a>
+      <a class='btn btn-lg btn-warning btn-block mt-3 mb-3' href={`${serverUrl}/admin/hotspots.csv`}>{t('reports_csv')}</a>
     </div>
   )
 }

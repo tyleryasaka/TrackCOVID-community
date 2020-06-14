@@ -4,6 +4,8 @@ const locationSchema = new mongoose.Schema({
   checkpoint: String,
   latitude: Number,
   longitude: Number,
+  country: String,
+  locale: String,
   name: String,
   phone: String,
   email: String
