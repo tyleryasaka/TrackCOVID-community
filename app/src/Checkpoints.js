@@ -3,10 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import CropFreeIcon from '@material-ui/icons/CropFree'
-import HomeIcon from '@material-ui/icons/Home'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import StopIcon from '@material-ui/icons/Stop'
-import QRCode from 'qrcode.react'
 import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
 import API from './api'
@@ -30,25 +27,6 @@ class Checkpoints extends React.Component {
   async reset () {
     this.setState(initialState)
     this.props.resetUrlScanState()
-  }
-
-  async becomeHost () {
-    try {
-      const { key, timestamp } = await API.hostCheckpoint()
-      this.setState({
-        mode: 'host',
-        checkpointKey: key,
-        checkpointTime: timestamp
-      })
-    } catch (e) {
-      console.error(e)
-      window.alert('There was an unexpected error. Please leave feedback so the developer can fix this.')
-    }
-  }
-
-  async endHost () {
-    // TODO confirmation
-    this.reset()
   }
 
   async joinCheckpoint () {
@@ -80,12 +58,11 @@ class Checkpoints extends React.Component {
   }
 
   render () {
-    const { mode, checkpointKey, checkpointTime, legacyMode } = this.state
+    const { mode, legacyMode } = this.state
     const { urlScanState } = this.props
     const computedMode = typeof urlScanState !== 'undefined'
       ? urlScanState
       : mode
-    const qrValue = `${window.location.href}?checkpoint=${checkpointKey}`
     let content
     if (computedMode === 'home') {
       content = (
@@ -102,31 +79,6 @@ class Checkpoints extends React.Component {
             <CropFreeIcon />
             <Translation>{t => t('joinCheckpointButton')}</Translation>
           </Button>
-          <Button onClick={this.becomeHost.bind(this)} variant='contained' color='secondary' aria-label='add' style={{ marginTop: 50 }}>
-            <HomeIcon />
-            <Translation>{t => t('hostCheckpointButton')}</Translation>
-          </Button>
-        </Grid>
-      )
-    } else if (computedMode === 'host') {
-      content = (
-        <Grid
-          container
-          direction='column'
-          justify='center'
-          alignItems='center'
-        >
-          <Typography style={{ marginTop: 25, marginBottom: 25 }}>
-            <Translation>{t => t('hostingCheckpointMessage')}</Translation>
-          </Typography>
-          <QRCode value={qrValue} size={200} style={{ backgroundColor: '#fff', padding: 20 }} />
-          <Button onClick={this.endHost.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 25 }}>
-            <StopIcon />
-            <Translation>{t => t('endCheckpointButton')}</Translation>
-          </Button>
-          <Typography style={{ marginTop: 25 }}>
-            <Translation>{t => t('checkpointCreatedMessage')}</Translation> {new Date(checkpointTime).toString()}
-          </Typography>
         </Grid>
       )
     } else if (computedMode === 'join') {

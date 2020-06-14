@@ -18,11 +18,7 @@ module.exports = {
 
     'welcomeMessage': `Bienvenido a ${appName}. Para participar en el esfuerzo para realizar un seguimiento de la propagación del virus SARS-COV-2, por favor escanee un punto de control cada vez que interactúe con otros de una manera que pueda transmitir el virus.`,
 
-    'hostCheckpointButton': 'Aloje un punto de control',
-
     'joinCheckpointButton': 'Escanea un punto de control',
-
-    'hostingCheckpointMessage': 'Ahora está alojando un punto de control. Otros pueden unirse usando el código QR a continuación.',
 
     'endCheckpointButton': 'Final del punto de control',
 

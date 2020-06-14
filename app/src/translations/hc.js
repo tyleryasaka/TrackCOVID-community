@@ -18,11 +18,7 @@ module.exports = {
 
     'welcomeMessage': `Byenveni nan ${appName}. Pou patisipe nan efo a yo swiv gaye nan SARS-COV-2 viris la, tanpri analysis yon tipos chak fwa ou kominike avek lot moun nan yon fason ki ta ka transmet viris la.`,
 
-    'hostCheckpointButton': 'Oganize yon Tipos',
-
     'joinCheckpointButton': 'Analysis yon Tipos',
-
-    'hostingCheckpointMessage': 'Ou kounye a oganize yon pwen chek. Gen lot ki ka rantre nan Kod QR ki anba a.',
 
     'endCheckpointButton': 'Fen chek pwen',
 

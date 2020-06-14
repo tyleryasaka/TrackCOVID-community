@@ -28,14 +28,6 @@ describe('trackcovid-js', () => {
     config = getConfig(checkpointsDb)
   })
 
-  test('hostCheckpoint', async () => {
-    const trackCovid = new TrackCovid(config)
-    await trackCovid.hostCheckpoint()
-    expect(config.getCheckpoints.mock.calls.length).toBe(1)
-    expect(config.setCheckpoints.mock.calls.length).toBe(1)
-    expect(checkpointsDb.checkpoints.length).toBe(3)
-  })
-
   test('joinCheckpoint', async () => {
     const newCheckpointKey = 'd033e29071c4e485'
     const trackCovid = new TrackCovid(config)

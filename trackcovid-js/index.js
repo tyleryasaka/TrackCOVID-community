@@ -1,5 +1,4 @@
 /* globals fetch */
-const sha256 = require('js-sha256').sha256
 
 function TrackCovid (config) {
   const {
@@ -8,7 +7,6 @@ function TrackCovid (config) {
     setCheckpoints,
     contactWindowBefore,
     contactWindowAfter,
-    checkpointKeyLength,
     serverBaseUrl
   } = config
 
@@ -55,11 +53,6 @@ function TrackCovid (config) {
     return recentCheckpoints
   }
 
-  async function hostCheckpoint () {
-    const newCheckpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
-    return addCheckpoint(newCheckpointKey)
-  }
-
   function joinCheckpoint (checkpointKey) {
     return addCheckpoint(checkpointKey)
   }
@@ -86,7 +79,6 @@ function TrackCovid (config) {
   }
 
   return {
-    hostCheckpoint,
     joinCheckpoint,
     getExposureStatus,
     exportCheckpoints

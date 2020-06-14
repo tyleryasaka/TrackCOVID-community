@@ -19,11 +19,7 @@ module.exports = {
 
     'welcomeMessage': `Bon bini na ${appName}. Pa partisipá den esfuerso pa "track" plamamentu di e SARS-COV-2 Virus. Sea asina bon pa porfabor scan un chèkpoint ora ku bo a interkambia ku otro na e manera ku e virus por plama.`,
 
-    'hostCheckpointButton': 'Ehersé un chèkpoint',
-
     'joinCheckpointButton': 'Scan un chèkpoint',
-
-    'hostingCheckpointMessage': 'Aktualmente bo ta Ehersiendo un Chèkpoint. Otro nan por djòin usando e code QR abao.',
 
     'endCheckpointButton': 'Fin di chèkpoint',
 

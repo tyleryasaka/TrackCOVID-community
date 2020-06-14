@@ -29,14 +29,12 @@ const trackCovid = TrackCovid({
 })
 
 const {
-  hostCheckpoint,
   joinCheckpoint,
   getExposureStatus,
   exportCheckpoints
 } = trackCovid
 
 export default {
-  hostCheckpoint,
   joinCheckpoint,
   getExposureStatus,
   exportCheckpoints
