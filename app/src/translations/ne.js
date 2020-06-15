@@ -6,25 +6,15 @@ module.exports = {
 
     'menuAboutButton': 'Informatie',
 
-    'menuCheckpointButton': 'Controlepunt',
-
     'menuAdminButton': 'Admin',
 
     'checkpointsTab': 'Controlepunten',
 
     'statusTab': 'Status',
 
-    'settingsTab': 'Instellingen',
-
     'welcomeMessage': `Welkom bij ${appName}. Om deel te nemen aan de inspanning om de verspreiding van het SARS-COV-2 virus te volgen, kunt u een controlepunt scannen wanneer u met anderen communiceert op een manier die het virus kan overbrengen.`,
 
     'joinCheckpointButton': 'Een controlepunt scannen',
-
-    'endCheckpointButton': 'Controlepunt beëindigen',
-
-    'printCheckpointButton': 'Afdrukken',
-
-    'checkpointCreatedMessage': 'Controlepunt gemaakt',
 
     'noCameraPermissionMessage': 'Deze app heeft geen toestemming om toegang te krijgen tot de camera van uw apparaat. In plaats daarvan u een foto maken van de QR-code.',
 
@@ -52,27 +42,7 @@ module.exports = {
 
     'aboutReportMessage': 'Als u een positieve test hebt ontvangen, u kan hieronder uw recente controlepunten downloaden en dit bestand delen met uw arts. Dit zal degenen die kunnen zijn blootgesteld van hun verhoogd risico te waarschuwen. U blijft anoniem.',
 
-    'reportButton': 'Anoniem Verklaring',
-
     'downloadHistoryButton': 'Controlepunten downloaden',
-
-    'aboutConfirmationCodeMessage': 'Heeft u een bevestigingscode om te scannen? Het scannen van een bevestigingscode zal helpen degenen die kunnen zijn blootgesteld, door hen te laten weten dat dit een legitiem risico.',
-
-    'scanConfirmationCodeButton': 'Bevestigingscode scannen',
-
-    'scanWithoutConfirmationCodeButton': 'Ik heb geen code.',
-
-    'reportConfirmationMessage': 'Dit zal degenen die mogelijk zijn blootgesteld aan hun verhoogd risico. U blijft anoniem. Dit kan niet ongedaan worden gemaakt.',
-
-    'reportCompletedMessage': 'Uw positieve status werd anoniem gemeld. De risico\'s worden hiervan op de hoogte gesteld. Dank u.',
-
-    'cancelReportButton': 'Laat maar',
-
-    'confirmReportButton': 'Rapport nu',
-
-    'aboutUseConfirmedDiagnoses': 'Als u "Alleen bevestigde diagnoses gebruiken" selecteert, worden mogelijke transmissiepaden uit onbevestigde rapporten genegeerd.',
-
-    'useConfirmedDiagnosesButton': 'Alleen bevestigde diagnoses gebruiken',
 
     'elevatedRiskAlertMessage': 'Uw risiconiveau is verhoogd.',
 
