@@ -10,12 +10,22 @@ export function Reports () {
   const [map, setMap] = useState(null)
   const [checkpoints, setCheckpoints] = useState([])
   const [checkpointsDisplay, setCheckpointsDisplay] = useState([])
+  const [locationCounts, setLocationCounts] = useState({})
   const { t } = useTranslation()
 
   async function init () {
     const fetchedCheckpoints = await fetchCheckpointLocations()
-    setCheckpointsDisplay(fetchedCheckpoints.map(() => true))
-    setCheckpoints(fetchedCheckpoints)
+    const uniqueLocationFlags = {}
+    const uniqueCheckpoints = fetchedCheckpoints.filter(cp => {
+      const isUnique = !uniqueLocationFlags[cp.key]
+      uniqueLocationFlags[cp.key] = uniqueLocationFlags[cp.key]
+        ? uniqueLocationFlags[cp.key] + 1
+        : 1
+      return isUnique
+    })
+    setLocationCounts(uniqueLocationFlags)
+    setCheckpointsDisplay(uniqueCheckpoints.map(() => true))
+    setCheckpoints(uniqueCheckpoints)
     const myOptions = {
       mapTypeControl: false,
       navigationControl: false,
@@ -100,9 +110,12 @@ export function Reports () {
         <thead>
           <tr>
             <th scope='col'>Show on map</th>
+            <th scope='col'>Country</th>
+            <th scope='col'>Locale</th>
             <th scope='col'>Location</th>
             <th scope='col'>Phone</th>
             <th scope='col'>Email</th>
+            <th scope='col'>Exposures</th>
           </tr>
         </thead>
         <tbody>
@@ -114,9 +127,12 @@ export function Reports () {
                     <input class='form-check-input' type='checkbox' checked={checkpointsDisplay[checkpointIndex]} onChange={() => onChangeDisplay(checkpointIndex)} />
                   </div>
                 </th>
+                <td>{checkpoint.location.country}</td>
+                <td>{checkpoint.location.locale}</td>
                 <td>{checkpoint.location.name}</td>
                 <td>{checkpoint.location.phone}</td>
                 <td>{checkpoint.location.email}</td>
+                <td>{locationCounts[checkpoint.key]}</td>
               </tr>
             )
           })}

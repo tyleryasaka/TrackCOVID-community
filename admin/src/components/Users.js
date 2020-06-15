@@ -1,7 +1,7 @@
 /* globals alert */
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { fetchUsers, createUser, deleteUser } from '../helpers/api'
+import { fetchUsers, createUser, deleteUser, updateUser } from '../helpers/api'
 
 const ViewEnum = {
   list: 1,
@@ -76,6 +76,21 @@ export function Users ({ currentUser }) {
   const onchangeNewCanAccessReports = () => {
     setNewCanAccessReports(!newCanAccessReports)
   }
+  const onEditUser = async (user, prop) => {
+    const newUser = {
+      userId: user.id,
+      canUploadCheckpoints: user.canUploadCheckpoints,
+      canCreateCheckpoints: user.canCreateCheckpoints,
+      canManageUsers: user.canManageUsers,
+      canAccessReports: user.canAccessReports
+    }
+    newUser[prop] = !user[prop]
+    if (await updateUser(newUser)) {
+      loadUsers()
+    } else {
+      alert('Oops, something went wrong.')
+    }
+  }
 
   const handleDelete = async (userId, username) => {
     if (window.confirm(`${t('user_delete_confirm')}: ${username}?`)) {
@@ -98,25 +113,63 @@ export function Users ({ currentUser }) {
           <a class='btn btn-dark text-light mb-2' onClick={() => setView(ViewEnum.new)}>
             New user
           </a>
-          <ul class='list-group'>
-            {usersList.map(user => {
-              const canManage = user.canManageUsers
-              const canDelete = user.id !== currentUser.id
-              return (
-                <li class='list-group-item user-list'>
-                  <strong>{user.username}</strong>
-                  {canManage && (
-                    <span> (can manage users)</span>
-                  )}
-                  {canDelete && (
-                    <a onClick={() => handleDelete(user.id, user.username)} class='btn btn-danger text-light user-delete'>
-                      Delete
-                    </a>
-                  )}
-                </li>
-              )
-            })}
-          </ul>
+          <table class='table mt-3'>
+            <thead>
+              <tr>
+                <th scope='col'>{t('login_username')}</th>
+                <th scope='col'>{t('user_create_can_upload_checkpoints')}</th>
+                <th scope='col'>{t('user_create_can_create_checkpoints')}</th>
+                <th scope='col'>{t('user_create_can_manage_users')}</th>
+                <th scope='col'>{t('user_create_can_access_reports')}</th>
+                <th scope='col' />
+              </tr>
+            </thead>
+            <tbody>
+              {usersList.map((user, userIndex) => {
+                const canEdit = user.id !== currentUser.id
+                return (
+                  <tr key={userIndex}>
+                    <td>{user.username}</td>
+                    <td>
+                      {canEdit && (
+                        <div class='form-check'>
+                          <input class='form-check-input' type='checkbox' checked={user.canUploadCheckpoints} onChange={() => onEditUser(user, 'canUploadCheckpoints')} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {canEdit && (
+                        <div class='form-check'>
+                          <input class='form-check-input' type='checkbox' checked={user.canCreateCheckpoints} onChange={() => onEditUser(user, 'canCreateCheckpoints')} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {canEdit && (
+                        <div class='form-check'>
+                          <input class='form-check-input' type='checkbox' checked={user.canManageUsers} onChange={() => onEditUser(user, 'canManageUsers')} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {canEdit && (
+                        <div class='form-check'>
+                          <input class='form-check-input' type='checkbox' checked={user.canAccessReports} onChange={() => onEditUser(user, 'canAccessReports')} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {canEdit && (
+                        <a onClick={() => handleDelete(user.id, user.username)} class='btn btn-danger text-light user-delete'>
+                          {t('user_delete_button')}
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         </div>
       )}
       {view === ViewEnum.new && (
