@@ -66,13 +66,19 @@ adminApiRouter.get('/', function (req, res) {
 })
 
 adminApiRouter.get('/api/status', function (req, res) {
-  const privilege = req.user && req.user.privilege
+  const canUploadCheckpoints = req.user && req.user.canUploadCheckpoints
+  const canCreateCheckpoints = req.user && req.user.canCreateCheckpoints
+  const canManageUsers = req.user && req.user.canManageUsers
+  const canAccessReports = req.user && req.user.canAccessReports
   const id = req.user && req.user._id
   const username = req.user && req.user.username
   res.send({
     isLoggedIn: req.isAuthenticated(),
     user: {
-      privilege,
+      canUploadCheckpoints,
+      canCreateCheckpoints,
+      canManageUsers,
+      canAccessReports,
       id,
       username
     }
@@ -121,10 +127,13 @@ adminApiRouter.put('/api/account', function (req, res) {
 })
 
 adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
-  if (req.user.privilege === 1) {
+  if (req.user.canManageUsers) {
     const newUser = {
       username: req.body.username,
-      privilege: Number(req.body.privilege)
+      canUploadCheckpoints: Boolean(req.body.canUploadCheckpoints),
+      canCreateCheckpoints: Boolean(req.body.canCreateCheckpoints),
+      canManageUsers: Boolean(req.body.canManageUsers),
+      canAccessReports: Boolean(req.body.canAccessReports)
     }
     const tempPass = generatePassword()
     User.register(newUser, tempPass, function (err) {
@@ -136,7 +145,10 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
           error: false,
           user: {
             username: newUser.username,
-            privilege: newUser.privilege,
+            canUploadCheckpoints: newUser.canUploadCheckpoints,
+            canCreateCheckpoints: newUser.canCreateCheckpoints,
+            canManageUsers: newUser.canManageUsers,
+            canAccessReports: newUser.canAccessReports,
             password: tempPass
           }
         })
@@ -148,7 +160,7 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
 })
 
 adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
-  if (req.user.privilege === 1) {
+  if (req.user.canManageUsers) {
     User.findOne({ _id: req.params.id }, function (err, user) {
       if (err || !user) {
         if (err) {
@@ -156,7 +168,10 @@ adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
         }
         res.send({ error: true })
       } else {
-        user.privilege = Number(req.body.privilege)
+        user.canUploadCheckpoints = Boolean(req.body.canUploadCheckpoints)
+        user.canCreateCheckpoints = Boolean(req.body.canCreateCheckpoints)
+        user.canManageUsers = Boolean(req.body.canManageUsers)
+        user.canAccessReports = Boolean(req.body.canAccessReports)
         user.save((err) => {
           if (err) {
             console.error(err)
@@ -173,7 +188,7 @@ adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
 })
 
 adminApiRouter.delete('/api/users/:id', ensureAuthenticated, function (req, res) {
-  if (req.user.privilege === 1) {
+  if (req.user.canManageUsers) {
     User.deleteOne({ _id: req.params.id }, function (err) {
       if (err) {
         console.error(err)
@@ -188,7 +203,7 @@ adminApiRouter.delete('/api/users/:id', ensureAuthenticated, function (req, res)
 })
 
 adminApiRouter.get('/api/users', ensureAuthenticated, function (req, res) {
-  if (req.user.privilege === 1) {
+  if (req.user.canManageUsers) {
     User.find({}, function (err, users) {
       if (err || !users) {
         if (err) {
@@ -200,7 +215,10 @@ adminApiRouter.get('/api/users', ensureAuthenticated, function (req, res) {
           return {
             id: user._id,
             username: user.username,
-            privilege: user.privilege
+            canUploadCheckpoints: user.canUploadCheckpoints,
+            canCreateCheckpoints: user.canCreateCheckpoints,
+            canManageUsers: user.canManageUsers,
+            canAccessReports: user.canAccessReports
           }
         })
         res.send({ error: false, users: usersData })
@@ -212,22 +230,26 @@ adminApiRouter.get('/api/users', ensureAuthenticated, function (req, res) {
 })
 
 adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
-  const { checkpoints } = req.body
-  const checkpointsForDb = checkpoints.map(checkpoint => {
-    return { key: checkpoint.key, timestamp: checkpoint.timestamp }
-  })
-  Checkpoint.create(checkpointsForDb, function (err, checkpoints) {
-    if (err) {
-      console.error(err)
-      res.send({ error: true })
-    } else {
-      res.send({ error: false })
-    }
-  })
+  if (req.user.canUploadCheckpoints) {
+    const { checkpoints } = req.body
+    const checkpointsForDb = checkpoints.map(checkpoint => {
+      return { key: checkpoint.key, timestamp: checkpoint.timestamp }
+    })
+    Checkpoint.create(checkpointsForDb, function (err, checkpoints) {
+      if (err) {
+        console.error(err)
+        res.send({ error: true })
+      } else {
+        res.send({ error: false })
+      }
+    })
+  } else {
+    res.sendStatus(403)
+  }
 })
 
 adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
-  if (req.user.privilege === 1) {
+  if (req.user.canCreateCheckpoints) {
     const { latitude, longitude, country, locale, name, phone, email } = req.body
     const checkpointHash = sha256(String(Math.random())).substring(0, checkpointKeyLength)
     const checkpointKey = `${country}:${checkpointHash}`
@@ -253,7 +275,7 @@ adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
 })
 
 adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
-  if (req.user.privilege === 1) {
+  if (req.user.canCreateCheckpoints) {
     const { checkpointKey } = req.params
     Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
       const doc = new PDFDocument()
@@ -295,7 +317,7 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
 })
 
 adminApiRouter.get('/api/checkpoints/locations', ensureAuthenticated, async (req, res) => {
-  if (req.user.privilege === 1) {
+  if (req.user.canAccessReports) {
     getCheckpointLocations(
       (checkpointData) => res.send({ error: false, checkpoints: checkpointData }),
       (err) => {
@@ -309,7 +331,7 @@ adminApiRouter.get('/api/checkpoints/locations', ensureAuthenticated, async (req
 })
 
 adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
-  if (req.user.privilege === 1) {
+  if (req.user.canAccessReports) {
     getCheckpointLocations(
       (checkpointData) => {
         const csvObj = createCsv({

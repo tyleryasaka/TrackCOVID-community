@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fetchUsers, createUser, deleteUser } from '../helpers/api'
 
-const superPrivilegeLevel = 1
-const defaultPrivilegeLevel = 2
-
 const ViewEnum = {
   list: 1,
   new: 2
@@ -15,7 +12,10 @@ export function Users ({ currentUser }) {
   const [users, setUsers] = useState(undefined)
   const [view, setView] = useState(ViewEnum.list)
   const [newUsername, setNewUsername] = useState('')
+  const [newCanUpload, setNewCanUpload] = useState(true)
+  const [newCanCreate, setNewCanCreate] = useState(false)
   const [newCanManage, setNewCanManage] = useState(false)
+  const [newCanAccessReports, setNewCanAccessReports] = useState(false)
   const [createdUsername, setCreatedUsername] = useState('')
   const [createdPassword, setCreatedPassword] = useState('')
   const { t } = useTranslation()
@@ -38,8 +38,13 @@ export function Users ({ currentUser }) {
     event.preventDefault()
     const usernameRegex = /((^[a-z]+)|(^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i
     if (usernameRegex.test(newUsername)) {
-      const privilege = newCanManage ? superPrivilegeLevel : defaultPrivilegeLevel
-      const createdUser = await createUser(newUsername, privilege)
+      const createdUser = await createUser({
+        username: newUsername,
+        canUploadCheckpoints: newCanUpload,
+        canCreateCheckpoints: newCanCreate,
+        canManageUsers: newCanManage,
+        canAccessReports: newCanAccessReports
+      })
       if (typeof createdUser === 'undefined') {
         alert(t('user_create_fail'))
       } else {
@@ -59,8 +64,17 @@ export function Users ({ currentUser }) {
     setNewUsername(event.target.value)
   }
 
+  const onchangeNewCanUpload = () => {
+    setNewCanUpload(!newCanUpload)
+  }
+  const onchangeNewCanCreate = () => {
+    setNewCanCreate(!newCanCreate)
+  }
   const onchangeNewCanManage = () => {
     setNewCanManage(!newCanManage)
+  }
+  const onchangeNewCanAccessReports = () => {
+    setNewCanAccessReports(!newCanAccessReports)
   }
 
   const handleDelete = async (userId, username) => {
@@ -86,7 +100,7 @@ export function Users ({ currentUser }) {
           </a>
           <ul class='list-group'>
             {usersList.map(user => {
-              const canManage = user.privilege === superPrivilegeLevel
+              const canManage = user.canManageUsers
               const canDelete = user.id !== currentUser.id
               return (
                 <li class='list-group-item user-list'>
@@ -109,11 +123,29 @@ export function Users ({ currentUser }) {
         <form class='form-signin' onSubmit={onSubmitNewUser}>
           <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_title')}</h2>
           <label for='username' class='sr-only'>{t('user_create_username')}:</label>
-          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('user_create_username')} class='form-control' />
+          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('user_create_username')} class='form-control mb-3' />
+          <div class='form-check'>
+            <input checked={newCanUpload} onChange={onchangeNewCanUpload} class='form-check-input' type='checkbox' id='can-upload' />
+            <label class='form-check-label' for='can-upload'>
+              {t('user_create_can_upload_checkpoints')}
+            </label>
+          </div>
+          <div class='form-check'>
+            <input checked={newCanCreate} onChange={onchangeNewCanCreate} class='form-check-input' type='checkbox' id='can-create' />
+            <label class='form-check-label' for='can-create'>
+              {t('user_create_can_create_checkpoints')}
+            </label>
+          </div>
           <div class='form-check'>
             <input checked={newCanManage} onChange={onchangeNewCanManage} class='form-check-input' type='checkbox' id='can-manage' />
             <label class='form-check-label' for='can-manage'>
               {t('user_create_can_manage_users')}
+            </label>
+          </div>
+          <div class='form-check'>
+            <input checked={newCanAccessReports} onChange={onchangeNewCanAccessReports} class='form-check-input' type='checkbox' id='can-access-reports' />
+            <label class='form-check-label' for='can-access-reports'>
+              {t('user_create_can_access_reports')}
             </label>
           </div>
           <button class='btn btn-lg btn-warning btn-block mt-3' type='submit'>{t('user_create_submit')}</button>

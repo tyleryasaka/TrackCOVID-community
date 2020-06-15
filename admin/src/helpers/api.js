@@ -27,11 +27,11 @@ export const fetchUsers = async () => {
   return (res && res.users) ? res.users : undefined
 }
 
-export const createUser = async (username, privilege) => {
+export const createUser = async ({ username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
   const res = await sendRequest(
     '/admin/api/users',
     'POST',
-    { username, privilege }
+    { username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
   )
   return res && !res.error ? res.user : undefined
 }
