@@ -84,10 +84,14 @@ export function CreateCheckpoint () {
     setEmail(event.target.value)
   }
 
-  const isSubmitDisabled = !latitude || !longitude || !name || !country || !locale
+  const isSubmitDisabled = (latitude === null) || (longitude === null) || !name || !country || !locale
   const localesForCountry = country
     ? getCountryInfo(country).locales.map(l => getLocaleInfo(l))
     : []
+
+  const externalMapLink = (latitude !== null) && (longitude !== null)
+    ? `http://maps.google.com/?q=${latitude},${longitude}`
+    : 'http://maps.google.com'
 
   return (
     <div>
@@ -96,6 +100,7 @@ export function CreateCheckpoint () {
       </div>
       <input id='search-text-field' type='text' placeholder={t('create_checkpoint_address')} class='form-control' />
       <div id='map-canvas' />
+      <a href={externalMapLink} class='btn btn-primary mb-3' target='_blank'>{t('create_checkpoint_external_map')}</a>
       <form class='form-create-checkpoint'>
         <label>{t('create_checkpoint_lat')}</label>
         <input value={latitude || ''} onChange={onchangeLat} type='number' placeholder={t('create_checkpoint_lat')} class='form-control mb-3' />

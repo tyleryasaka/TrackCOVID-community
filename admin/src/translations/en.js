@@ -14,6 +14,7 @@ module.exports = {
     'create_checkpoint_country': 'Country',
     'create_checkpoint_country_select': 'Select country',
     'create_checkpoint_email': 'Location contact email (optional)',
+    'create_checkpoint_external_map': 'Open Google maps in new tab',
     'create_checkpoint_lat': 'Latitude',
     'create_checkpoint_locale': 'Locale',
     'create_checkpoint_locale_select': 'Select locale',
