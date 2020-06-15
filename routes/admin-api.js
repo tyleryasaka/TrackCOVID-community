@@ -88,7 +88,6 @@ adminApiRouter.get('/api/status', function (req, res) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  console.log(adminDomain)
   res.redirect(`${adminDomain}/admin`)
 })
 
