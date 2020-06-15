@@ -11,6 +11,7 @@ const Location = require('../models/location')
 const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
+const adminDomain = process.env['ADMIN_DOMAIN']
 
 const adminApiRouter = express.Router()
 
@@ -87,7 +88,8 @@ adminApiRouter.get('/api/status', function (req, res) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  res.redirect('/admin')
+  console.log(adminDomain)
+  res.redirect(`${adminDomain}/admin`)
 })
 
 adminApiRouter.post('/login', function (req, res, next) {
