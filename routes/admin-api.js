@@ -258,7 +258,7 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
     Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
       const doc = new PDFDocument()
       const appDomain = process.env.APP_DOMAIN
-      const checkpointLink = `${appDomain}?checkpoint=${location.country}:${checkpointKey}`
+      const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
       const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
       const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
       doc.image('./public-checkpoint/AVOTAS.png', 0, 0, { width: 600 })
