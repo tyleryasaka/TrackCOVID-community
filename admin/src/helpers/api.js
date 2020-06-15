@@ -36,6 +36,15 @@ export const createUser = async ({ username, canUploadCheckpoints, canCreateChec
   return res && !res.error ? res.user : undefined
 }
 
+export const updateUser = async ({ userId, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
+  const res = await sendRequest(
+    `/admin/api/users/${userId}`,
+    'PUT',
+    { canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
+  )
+  return res && !res.error
+}
+
 export const updatePassword = async (currentPassword, newPassword) => {
   const res = await sendRequest(
     '/admin/api/account',
