@@ -38,6 +38,22 @@ app.use(function (req, res, next) {
   next()
 })
 
+// www redirect
+if (process.env['REDIRECT_WWW'] === 'true') {
+  app.use(function (req, res, next) {
+    if (req.headers.host.match(/^www\..*/i)) {
+      next()
+    } else {
+      // https redirect
+      if (process.env['REDIRECT_HTTPS'] === 'true') {
+        res.redirect('https://' + req.headers.host + req.url)
+      } else {
+        res.redirect('http://' + req.headers.host + req.url)
+      }
+    }
+  })
+}
+
 // https redirect
 if (process.env['REDIRECT_HTTPS'] === 'true') {
   app.enable('trust proxy')
