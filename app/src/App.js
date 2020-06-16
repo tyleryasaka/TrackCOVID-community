@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import i18n from './i18n'
-import supportedLanguages from './languages'
+import languageNames from './languages'
 
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
@@ -47,7 +47,8 @@ class App extends React.Component {
       statusLoaded: false,
       isDrawerOpen: false,
       currentLanguage: i18n.language,
-      urlScanState: undefined
+      urlScanState: undefined,
+      languages: []
     }
   }
 
@@ -55,6 +56,20 @@ class App extends React.Component {
     this.checkUrl().then(() => {
       this.updateStatus()
       setInterval(this.updateStatus.bind(this), pollingTime)
+    })
+    i18n.services.backendConnector.backend.getLanguages((err, data) => {
+      if (err) {
+        console.error(err)
+      } else {
+        const languages = Object.keys(data).map(languageCode => {
+          return {
+            code: languageCode,
+            name: languageNames[languageCode] || data[languageCode].name
+          }
+        })
+        const currentLanguage = i18n.language
+        this.setState({ languages, currentLanguage })
+      }
     })
   }
 
@@ -111,7 +126,7 @@ class App extends React.Component {
   }
 
   render () {
-    const { currentTab, status, statusLoaded, isDrawerOpen, currentLanguage, urlScanState } = this.state
+    const { currentTab, status, statusLoaded, isDrawerOpen, currentLanguage, urlScanState, languages } = this.state
     const CurrentPage = (currentTab === 'checkpoints')
       ? CheckpointsPage
       : ExposuresPage
@@ -132,7 +147,7 @@ class App extends React.Component {
               <Typography variant='h6' component='h1' style={{ flexGrow: 1 }}>
                 {process.env.REACT_APP_NAME}
               </Typography>
-              {supportedLanguages.length > 1 && (
+              {languages.length > 1 && (
                 <Container style={{ textAlign: 'right' }}>
                   <div>
                     <FormControl>
@@ -142,9 +157,9 @@ class App extends React.Component {
                         value={currentLanguage}
                         onChange={this.onSelectLanguage.bind(this)}
                       >
-                        { supportedLanguages.map(language => {
+                        { languages.map((language, index) => {
                           return (
-                            <MenuItem value={language.id}>{language.name}</MenuItem>
+                            <MenuItem key={index} value={language.code}>{language.name}</MenuItem>
                           )
                         }) }
                       </Select>
