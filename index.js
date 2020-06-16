@@ -33,9 +33,9 @@ if (process.env['REDIRECT_WWW'] === 'true') {
     if (req.headers.host.match(/^www\..*/i)) {
       // https redirect
       if (process.env['REDIRECT_HTTPS'] === 'true') {
-        res.redirect('https://' + req.headers.host + req.url)
+        res.redirect('https://' + req.headers.host.split('www.')[1] + req.url)
       } else {
-        res.redirect('http://' + req.headers.host + req.url)
+        res.redirect('http://' + req.headers.host.split('www.')[1] + req.url)
       }
     } else {
       next()
