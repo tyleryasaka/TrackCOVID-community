@@ -50,17 +50,6 @@ if (process.env['REDIRECT_HTTPS'] === 'true') {
   })
 }
 
-// www redirect
-if (process.env['REDIRECT_WWW'] === 'true') {
-  app.use(function (req, res, next) {
-    if (req.headers.host.match(/^www\..*/i)) {
-      next()
-    } else {
-      res.redirect('http://www' + req.headers.host + req.url)
-    }
-  })
-}
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
