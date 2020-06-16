@@ -10,6 +10,8 @@ module.exports = {
     'account_update_password_submit': 'Update',
     'account_update_password_success': 'Your password was updated successfully.',
     'account_update_password_title': 'Update password',
+    'create_checkpoint_additional_language': 'PDF Language',
+    'create_checkpoint_additional_language_none': 'English only',
     'create_checkpoint_address': 'Search for location',
     'create_checkpoint_country': 'Country',
     'create_checkpoint_country_select': 'Select country',

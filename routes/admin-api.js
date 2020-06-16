@@ -278,14 +278,26 @@ adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
 adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
   if (req.user.canCreateCheckpoints) {
     const { checkpointKey } = req.params
+    const { altTitle, altHelp } = req.query
     Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
       const doc = new PDFDocument()
       const appDomain = process.env.APP_DOMAIN
       const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
       const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
       const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-      doc.image('./public-checkpoint/AVOTAS.png', 0, 0, { width: 600 })
-      doc.image(checkpointQrCodeImg, 55, 325, { width: 300 })
+      doc.fontSize(50)
+      doc.text('Stay safe. Keep track.', 55, 50)
+      if (altTitle) {
+        doc.fontSize(30)
+        doc.text(altTitle, 55, 120)
+      }
+      doc.image(checkpointQrCodeImg, 55, 225, { width: 280 })
+      doc.fontSize(24)
+      doc.text('Scan this code using your smartphone', 370, 225)
+      if (altHelp) {
+        doc.fontSize(20)
+        doc.text(altHelp, 370, 320)
+      }
       if (!err && location) {
         doc.fontSize(16)
         doc.text(location.name, 55, 650)

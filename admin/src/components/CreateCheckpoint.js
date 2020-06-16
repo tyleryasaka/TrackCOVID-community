@@ -1,7 +1,7 @@
 /* globals */
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { postLocation } from '../helpers/api'
+import { postLocation, fetchLanguages, fetchTranslations } from '../helpers/api'
 import { locales, getCountryInfo, getLocaleInfo } from '../helpers/locale'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
@@ -16,7 +16,18 @@ export function CreateCheckpoint () {
   const [autocomplete, setAutocomplete] = useState(null)
   const [latitude, setLatitude] = useState(null)
   const [longitude, setLongitude] = useState(null)
+  const [pdfTranslations, setPdfTranslations] = useState([])
+  const [pdfTranslation, setPdfTranslation] = useState('')
   const { t } = useTranslation()
+
+  const languageNames = {
+    en: 'English',
+    es: 'Español',
+    fr: 'Française',
+    ht: 'Haiti Creole',
+    nl: 'Nederlands',
+    pap: 'Papiamentu'
+  }
 
   useEffect(() => {
     if (!map) {
@@ -43,6 +54,28 @@ export function CreateCheckpoint () {
         setMapLocation(newLat, newLong)
       })
     }
+    if (pdfTranslations.length === 0) {
+      fetchLanguages().then(async languages => {
+        const newPDFTranslations = await Promise.all(Object.keys(languages).map(code => {
+          return new Promise(async resolve => {
+            const translations = await fetchTranslations(code)
+            if (translations['pdfTitle']) {
+              resolve({
+                languageCode: code,
+                languageName: languageNames[code] || languages[code].name,
+                altTitle: translations['pdfTitle'],
+                altHelp: translations['pdfHelp']
+              })
+            } else {
+              resolve(null)
+            }
+          })
+        }))
+        setPdfTranslations(newPDFTranslations.filter(t => {
+          return (t !== null) && (t.languageCode !== 'en')
+        }))
+      })
+    }
   }, [map, autocomplete])
 
   function setMapLocation (lat, lng) {
@@ -54,7 +87,12 @@ export function CreateCheckpoint () {
 
   const onSubmitCreateCheckpoint = async (event) => {
     const checkpointKey = await postLocation({ latitude, longitude, country, locale, name, phone, email })
-    window.location.href = `${serverUrl}/admin/generate/${checkpointKey}/checkpoint.pdf`
+    let queryString = ''
+    if (pdfTranslation !== '') {
+      const translationObject = pdfTranslations.find(t => t.languageCode === pdfTranslation)
+      queryString = `?altTitle=${translationObject.altTitle}&altHelp=${translationObject.altHelp}`
+    }
+    window.location.href = `${serverUrl}/admin/generate/${checkpointKey}/checkpoint.pdf${queryString}`
   }
 
   const onchangeLat = (event) => {
@@ -82,6 +120,9 @@ export function CreateCheckpoint () {
   }
   const onchangeEmail = (event) => {
     setEmail(event.target.value)
+  }
+  const onchangePDFTranslation = (event) => {
+    setPdfTranslation(event.target.value)
   }
 
   const isSubmitDisabled = (latitude === null) || (longitude === null) || !name || !country || !locale
@@ -129,7 +170,16 @@ export function CreateCheckpoint () {
         <label>{t('create_checkpoint_phone')}</label>
         <input value={phone} onChange={onchangePhone} type='text' placeholder={t('create_checkpoint_phone')} class='form-control mb-3' />
         <label>{t('create_checkpoint_email')}</label>
-        <input value={email} onChange={onchangeEmail} type='text' placeholder={t('create_checkpoint_email')} class='form-control' />
+        <input value={email} onChange={onchangeEmail} type='text' placeholder={t('create_checkpoint_email')} class='form-control mb-3' />
+        <label>{t('create_checkpoint_additional_language')}</label>
+        <select class='custom-select mb-3' onChange={onchangePDFTranslation} value={pdfTranslation}>
+          <option value=''>{t('create_checkpoint_additional_language_none')}</option>
+          {pdfTranslations.map((pdfTranslation, index) => {
+            return (
+              <option key={index} value={pdfTranslation.languageCode}>English + {pdfTranslation.languageName}</option>
+            )
+          })}
+        </select>
       </form>
       <button class='btn btn-lg btn-warning btn-block mt-3 mb-3' onClick={onSubmitCreateCheckpoint} disabled={isSubmitDisabled}>{t('create_checkpoint_submit')}</button>
     </div>
