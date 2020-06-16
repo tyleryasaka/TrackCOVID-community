@@ -27,6 +27,22 @@ if (logToken) {
   app.use(morgan('dev', { stream: logStream }))
 }
 
+// www redirect
+if (process.env['REDIRECT_WWW'] === 'true') {
+  app.use(function (req, res, next) {
+    if (req.headers.host.match(/^www\..*/i)) {
+      // https redirect
+      if (process.env['REDIRECT_HTTPS'] === 'true') {
+        res.redirect('https://' + req.headers.host + req.url)
+      } else {
+        res.redirect('http://' + req.headers.host + req.url)
+      }
+    } else {
+      next()
+    }
+  })
+}
+
 app.use(function (req, res, next) {
   const allowOrigin = (process.env['NODE_ENV'] === 'development')
     ? req.headers.origin
