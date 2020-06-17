@@ -21,7 +21,8 @@ const adminVars = [
   { originalName: 'APP_DOMAIN', newName: 'REACT_APP_WEB_APP_DOMAIN' },
   { originalName: 'SERVER_DOMAIN', newName: 'REACT_APP_SERVER_DOMAIN' },
   { originalName: 'ADMIN_REGISTRATION_URL', newName: 'REACT_APP_REGISTRATION_URL', optional: true },
-  { originalName: 'GOOGLE_API_KEY', newName: 'REACT_APP_GOOGLE_API_KEY' }
+  { originalName: 'GOOGLE_API_KEY', newName: 'REACT_APP_GOOGLE_API_KEY' },
+  { originalName: 'LOCIZE_PRODUCT_ID', newName: 'REACT_APP_LOCIZE_PRODUCT_ID' }
 ]
 
 const buildNewEnvFile = (newVars) => {
