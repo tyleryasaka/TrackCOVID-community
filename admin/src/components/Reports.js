@@ -110,8 +110,6 @@ export function Reports () {
         <thead>
           <tr>
             <th scope='col'>Show on map</th>
-            <th scope='col'>Country</th>
-            <th scope='col'>Locale</th>
             <th scope='col'>Location</th>
             <th scope='col'>Phone</th>
             <th scope='col'>Email</th>
@@ -127,8 +125,6 @@ export function Reports () {
                     <input class='form-check-input' type='checkbox' checked={checkpointsDisplay[checkpointIndex]} onChange={() => onChangeDisplay(checkpointIndex)} />
                   </div>
                 </th>
-                <td>{checkpoint.location.country}</td>
-                <td>{checkpoint.location.locale}</td>
                 <td>{checkpoint.location.name}</td>
                 <td>{checkpoint.location.phone}</td>
                 <td>{checkpoint.location.email}</td>

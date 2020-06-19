@@ -8,7 +8,6 @@ const createCsv = require('csv-writer').createObjectCsvStringifier
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
-const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const adminDomain = process.env['ADMIN_DOMAIN']
@@ -251,15 +250,13 @@ adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
 
 adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
   if (req.user.canCreateCheckpoints) {
-    const { latitude, longitude, country, locale, name, phone, email } = req.body
+    const { latitude, longitude, name, phone, email } = req.body
     const checkpointHash = sha256(String(Math.random())).substring(0, checkpointKeyLength)
-    const checkpointKey = `${country}:${checkpointHash}`
+    const checkpointKey = checkpointHash
     Location.create({
       checkpoint: checkpointKey,
       latitude,
       longitude,
-      country,
-      locale,
       name,
       phone,
       email
@@ -278,8 +275,10 @@ adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
 adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
   if (req.user.canCreateCheckpoints) {
     const { checkpointKey } = req.params
-    const { altTitle, altHelp } = req.query
     Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
+      if (err) {
+        console.log(err)
+      }
       const doc = new PDFDocument()
       const appDomain = process.env.APP_DOMAIN
       const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
@@ -287,40 +286,9 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
       const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
       doc.fontSize(50)
       doc.text('Stay safe. Keep track.', 55, 50)
-      if (altTitle) {
-        doc.fontSize(30)
-        doc.text(altTitle, 55, 120)
-      }
       doc.image(checkpointQrCodeImg, 55, 225, { width: 280 })
       doc.fontSize(24)
       doc.text('Scan this code using your smartphone', 370, 225)
-      if (altHelp) {
-        doc.fontSize(20)
-        doc.text(altHelp, 370, 320)
-      }
-      if (!err && location) {
-        doc.fontSize(16)
-        doc.text(location.name, 55, 650)
-        const coords = [
-          { x: 55, y: 690 },
-          { x: 55, y: 705 }
-        ]
-        let numLines = 0
-        const countryObj = getCountryInfo(location.country)
-        let locales
-        if (countryObj) {
-          locales = countryObj.locales.map(l => getLocaleInfo(l))
-          const localeObj = locales.find(l => l.localeCode === location.locale)
-          if (localeObj) {
-            doc.fontSize(12)
-            doc.text(localeObj.localeName, coords[numLines].x, coords[numLines].y)
-            numLines++
-          }
-          doc.fontSize(12)
-          doc.text(countryObj.countryName, coords[numLines].x, coords[numLines].y)
-          numLines++
-        }
-      }
       doc.pipe(res)
       doc.end()
     })
@@ -349,8 +317,6 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
       (checkpointData) => {
         const csvObj = createCsv({
           header: [
-            { id: 'country', title: 'Country' },
-            { id: 'locale', title: 'Locale' },
             { id: 'location', title: 'Location' },
             { id: 'phone', title: 'Phone' },
             { id: 'email', title: 'Email' },
@@ -361,12 +327,7 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
           ]
         })
         const records = checkpointData.map(checkpoint => {
-          const checkpointKeySplit = checkpoint.key.split(':')
-          const usingNewFormat = checkpointKeySplit.length === 2
-          const country = usingNewFormat ? checkpointKeySplit[0] : checkpoint.location.country
           return {
-            country,
-            locale: checkpoint.location.locale,
             location: checkpoint.location.name,
             phone: checkpoint.location.phone,
             email: checkpoint.location.email,
