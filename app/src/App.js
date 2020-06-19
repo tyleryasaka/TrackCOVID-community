@@ -7,7 +7,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import CropFree from '@material-ui/icons/CropFree'
 import Face from '@material-ui/icons/Face'
-import MenuIcon from '@material-ui/icons/Menu'
+import PinDropIcon from '@material-ui/icons/PinDrop'
 import InfoIcon from '@material-ui/icons/Info'
 import PersonIcon from '@material-ui/icons/Person'
 import ReportIcon from '@material-ui/icons/Description'
@@ -28,11 +28,13 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import i18n from './i18n'
 import languageNames from './languages'
+import logo from './img/logo.svg'
 
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
 const adminDomain = process.env.REACT_APP_ADMIN_DOMAIN
+const serverDomain = process.env.REACT_APP_SERVER_DOMAIN
 const aboutUrl = process.env.REACT_APP_ABOUT_URL
 const isUsingLocize = Boolean(process.env.REACT_APP_LOCIZE_PRODUCT_ID)
 
@@ -154,7 +156,7 @@ class App extends React.Component {
                 aria-label='open drawer'
                 onClick={this.openDrawer.bind(this)}
               >
-                <MenuIcon />
+                <img src={logo} width={30} height={30} style={{ width: 30, marginRight: 10 }} />
               </IconButton>
               <Typography variant='h6' component='h1' style={{ flexGrow: 1 }}>
                 {process.env.REACT_APP_NAME}
@@ -213,6 +215,12 @@ class App extends React.Component {
                 <InfoIcon />
               </ListItemIcon>
               <ListItemText primary=<Translation>{t => t('menuAboutButton')}</Translation> />
+            </ListItemLink>
+            <ListItemLink style={{ width: 250 }} href={`${serverDomain}/checkpoint`} target='_blank'>
+              <ListItemIcon>
+                <PinDropIcon />
+              </ListItemIcon>
+              <ListItemText primary=<Translation>{t => t('menuCheckpointButton')}</Translation> />
             </ListItemLink>
             <ListItemLink style={{ width: 250 }} href={`${adminDomain}/admin`} target='_blank'>
               <ListItemIcon>
