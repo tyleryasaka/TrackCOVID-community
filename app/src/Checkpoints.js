@@ -3,15 +3,15 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import CropFreeIcon from '@material-ui/icons/CropFree'
-import HomeIcon from '@material-ui/icons/Home'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import StopIcon from '@material-ui/icons/Stop'
-import QRCode from 'qrcode.react'
 import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
+import Link from '@material-ui/core/Link'
+import virusIcon from './img/virus-icon.png'
 import API from './api'
 
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
 const initialState = {
   mode: 'home',
@@ -31,25 +31,6 @@ class Checkpoints extends React.Component {
     this.props.resetUrlScanState()
   }
 
-  async becomeHost () {
-    try {
-      const { key, timestamp } = await API.hostCheckpoint()
-      this.setState({
-        mode: 'host',
-        checkpointKey: key,
-        checkpointTime: timestamp
-      })
-    } catch (e) {
-      console.error(e)
-      window.alert('There was an unexpected error. Please leave feedback so the developer can fix this.')
-    }
-  }
-
-  async endHost () {
-    // TODO confirmation
-    this.reset()
-  }
-
   async joinCheckpoint () {
     this.setState({
       mode: 'join'
@@ -58,23 +39,14 @@ class Checkpoints extends React.Component {
 
   async handleScan (data) {
     if (data) {
-      if (data.length === checkpointKeyLength) {
-        try {
-          await API.joinCheckpoint(data)
-          this.setState({ mode: 'scan-success' })
-        } catch (e) {
-          console.error(e)
-          this.setState({ mode: 'scan-error' })
-        }
+      // QR code is a url
+      const urlSplit = data.split('?checkpoint=')
+      if ((urlSplit.length === 2) && (urlSplit[1].length === checkpointKeyLength)) {
+        await API.joinCheckpoint(urlSplit[1])
+        this.setState({ mode: 'scan-success' })
+        setTimeout(() => this.reset(), 10000) // automatically go back to main screen after 10 seconds
       } else {
-        // QR code may be a url
-        const urlSplit = data.split('?checkpoint=')
-        if ((urlSplit.length === 2) && (urlSplit[1].length === checkpointKeyLength)) {
-          await API.joinCheckpoint(urlSplit[1])
-          this.setState({ mode: 'scan-success' })
-        } else {
-          this.setState({ mode: 'scan-error' })
-        }
+        this.setState({ mode: 'scan-error' })
       }
     }
   }
@@ -88,12 +60,11 @@ class Checkpoints extends React.Component {
   }
 
   render () {
-    const { mode, checkpointKey, checkpointTime, legacyMode } = this.state
+    const { mode, legacyMode } = this.state
     const { urlScanState } = this.props
     const computedMode = typeof urlScanState !== 'undefined'
       ? urlScanState
       : mode
-    const qrValue = `${window.location.href}?checkpoint=${checkpointKey}`
     let content
     if (computedMode === 'home') {
       content = (
@@ -103,37 +74,25 @@ class Checkpoints extends React.Component {
           justify='center'
           alignItems='center'
         >
-          <Typography style={{ marginTop: 25, marginBottom: 25 }}>
+          <Typography variant='h5' style={{ marginTop: 25 }}>
+            <Translation>{t => t('slogan')}</Translation>
+          </Typography>
+          <img src={virusIcon} width={200} style={{ maxWidth: '80px', marginTop: 20 }} />
+          <Typography style={{ marginTop: 25 }}>
             <Translation>{t => t('welcomeMessage')}</Translation>
           </Typography>
-          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 50 }}>
+          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 35 }}>
             <CropFreeIcon />
             <Translation>{t => t('joinCheckpointButton')}</Translation>
           </Button>
-          <Button onClick={this.becomeHost.bind(this)} variant='contained' color='secondary' aria-label='add' style={{ marginTop: 50 }}>
-            <HomeIcon />
-            <Translation>{t => t('hostCheckpointButton')}</Translation>
-          </Button>
-        </Grid>
-      )
-    } else if (computedMode === 'host') {
-      content = (
-        <Grid
-          container
-          direction='column'
-          justify='center'
-          alignItems='center'
-        >
-          <Typography style={{ marginTop: 25, marginBottom: 25 }}>
-            <Translation>{t => t('hostingCheckpointMessage')}</Translation>
-          </Typography>
-          <QRCode value={qrValue} size={200} style={{ backgroundColor: '#fff', padding: 20 }} />
-          <Button onClick={this.endHost.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 25 }}>
-            <StopIcon />
-            <Translation>{t => t('endCheckpointButton')}</Translation>
-          </Button>
-          <Typography style={{ marginTop: 25 }}>
-            <Translation>{t => t('checkpointCreatedMessage')}</Translation> {new Date(checkpointTime).toString()}
+          <Typography style={{ marginTop: 35, marginBottom: 25 }}>
+            <Translation>
+              {t => t('learnMoreText')}
+            </Translation>
+            <Link href={aboutUrl} target='_blank'>
+              {aboutUrl}
+            </Link>
+            .
           </Typography>
         </Grid>
       )

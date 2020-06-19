@@ -1,10 +1,8 @@
-# TrackCOVID-community
-
-![Build Status](https://travis-ci.com/tyleryasaka/TrackCOVID-community.svg?branch=master)
+# AVOTAS
 
 An open source project which provides privacy-preserving contact tracing for communities using QR codes.
 
-[Demo](https://demo.trackcovid.net/)
+[Demo](https://avotas.herokuapp.com/)
 
 This is an open source project which is provided freely to communities which are interested in setting up digital contact tracing to supplement manual contact tracing in a way that is both easy to use and preserves privacy.
 

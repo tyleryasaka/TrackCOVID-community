@@ -1,6 +1,16 @@
 /* globals fetch */
 
 const serverBaseUrl = `${process.env.REACT_APP_SERVER_DOMAIN}`
+const locizeProductId = process.env['REACT_APP_LOCIZE_PRODUCT_ID']
+
+const sendExternalRequest = async (url, method = 'GET', body) => {
+  const res = await fetch(`${url}`, {
+    method,
+    body: body ? JSON.stringify(body) : undefined,
+    headers: { 'Content-Type': 'application/json', 'authorization': undefined }
+  })
+  return res.json()
+}
 
 const sendRequest = async (url, method = 'GET', body) => {
   const res = await fetch(`${serverBaseUrl}${url}`, {
@@ -27,13 +37,22 @@ export const fetchUsers = async () => {
   return (res && res.users) ? res.users : undefined
 }
 
-export const createUser = async (username, privilege) => {
+export const createUser = async ({ username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
   const res = await sendRequest(
     '/admin/api/users',
     'POST',
-    { username, privilege }
+    { username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
   )
   return res && !res.error ? res.user : undefined
+}
+
+export const updateUser = async ({ userId, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
+  const res = await sendRequest(
+    `/admin/api/users/${userId}`,
+    'PUT',
+    { canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
+  )
+  return res && !res.error
 }
 
 export const updatePassword = async (currentPassword, newPassword) => {
@@ -57,4 +76,28 @@ export const postCheckpoints = async (checkpoints) => {
     { checkpoints }
   )
   return res && !res.error
+}
+
+export const postLocation = async ({ latitude, longitude, country, locale, name, phone, email }) => {
+  const res = await sendRequest(
+    '/admin/api/location',
+    'POST',
+    { latitude, longitude, country, locale, name, phone, email }
+  )
+  return res && !res.error && res.checkpointKey
+}
+
+export const fetchCheckpointLocations = async () => {
+  const res = await sendRequest('/admin/api/checkpoints/locations')
+  return (res && res.checkpoints) ? res.checkpoints : undefined
+}
+
+export const fetchLanguages = async () => {
+  const res = await sendExternalRequest(`https://api.locize.app/languages/${locizeProductId}`)
+  return res
+}
+
+export const fetchTranslations = async (language) => {
+  const res = await sendExternalRequest(`https://api.locize.app/${locizeProductId}/latest/${language}/translation`)
+  return res
 }

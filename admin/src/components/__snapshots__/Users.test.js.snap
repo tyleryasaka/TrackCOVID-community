@@ -18,9 +18,43 @@ exports[`Users component 1`] = `
     >
       New user
     </a>
-    <ul
-      class="list-group"
-    />
+    <table
+      class="table mt-3"
+    >
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            Username
+          </th>
+          <th
+            scope="col"
+          >
+            Can upload checkpoints
+          </th>
+          <th
+            scope="col"
+          >
+            Can create checkpoints
+          </th>
+          <th
+            scope="col"
+          >
+            Can manage other users
+          </th>
+          <th
+            scope="col"
+          >
+            Can access reports
+          </th>
+          <th
+            scope="col"
+          />
+        </tr>
+      </thead>
+      <tbody />
+    </table>
   </div>
 </div>
 `;

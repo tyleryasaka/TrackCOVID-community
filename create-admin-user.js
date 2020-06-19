@@ -28,7 +28,13 @@ rl.question('\nEnter your production mongodb url (e.g. mongodb://user:pass@mongo
     rl.question('\nEnter your new admin username\n', function (newUsername) {
       rl.question('\nEnter your new admin password\n', function (newPass) {
         mutableStdout.muted = false
-        const newUser = new User({ username: newUsername, privilege: 1 })
+        const newUser = new User({
+          username: newUsername,
+          canUploadCheckpoints: true,
+          canCreateCheckpoints: true,
+          canManageUsers: true,
+          canAccessReports: true
+        })
         User.register(newUser, newPass, function () {
           rl.write(`\nRegistered user ${newUsername} successfully\n`)
           process.exit()

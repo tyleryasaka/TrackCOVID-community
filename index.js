@@ -10,7 +10,6 @@ const Logger = require('r7insight_node')
 const morgan = require('morgan')
 const apiRouter = require('./routes/api')
 const adminApiRouter = require('./routes/admin-api')
-const publicCheckpointApiRouter = require('./routes/public-checkpoint')
 const User = require('./models/user')
 
 const app = express()
@@ -26,6 +25,22 @@ if (logToken) {
     }
   }
   app.use(morgan('dev', { stream: logStream }))
+}
+
+// www redirect
+if (process.env['REDIRECT_WWW'] === 'true') {
+  app.use(function (req, res, next) {
+    if (req.headers.host.match(/^www\..*/i)) {
+      // https redirect
+      if (process.env['REDIRECT_HTTPS'] === 'true') {
+        res.redirect('https://' + req.headers.host.split('www.')[1] + req.url)
+      } else {
+        res.redirect('http://' + req.headers.host.split('www.')[1] + req.url)
+      }
+    } else {
+      next()
+    }
+  })
 }
 
 app.use(function (req, res, next) {
@@ -57,7 +72,6 @@ app.use(cookieParser())
 app.use(session({ keys: [process.env.SESSION_KEY] }))
 app.use(flash())
 app.use('/api/', apiRouter)
-app.use('/checkpoint.pdf', publicCheckpointApiRouter)
 app.use('/public/', express.static('landing-public'))
 app.use('/static', express.static('app/build/static'))
 
