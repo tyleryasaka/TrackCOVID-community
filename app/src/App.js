@@ -156,7 +156,7 @@ class App extends React.Component {
                 aria-label='open drawer'
                 onClick={this.openDrawer.bind(this)}
               >
-                <img src={logo} width={30} height={30} style={{ width: 30, marginRight: 10 }} />
+                <img src={logo} width={30} height={30} style={{ width: 30 }} />
               </IconButton>
               <Typography variant='h6' component='h1' style={{ flexGrow: 1 }}>
                 {process.env.REACT_APP_NAME}
