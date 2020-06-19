@@ -7,6 +7,7 @@ module.exports = {
     'checkpointsTab': 'Checkpoints',
     'statusTab': 'Status',
     'reportTab': 'Report',
+    'slogan': 'Be safe and keep track.',
     'welcomeMessage': `Thank you for participating in the effort to reduce the spread of COVID-19. You may scan a checkpoint using the button below.`,
     'learnMoreText': `You may check your exposure status at any time through this web app. Learn more about ${appName} by visiting `,
     'joinCheckpointButton': 'Scan a Checkpoint',

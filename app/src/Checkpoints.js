@@ -74,6 +74,9 @@ class Checkpoints extends React.Component {
           justify='center'
           alignItems='center'
         >
+          <Typography variant='h5' style={{ marginTop: 25 }}>
+            <Translation>{t => t('slogan')}</Translation>
+          </Typography>
           <img src={virusIcon} width={200} style={{ maxWidth: '80px', marginTop: 20 }} />
           <Typography style={{ marginTop: 25 }}>
             <Translation>{t => t('welcomeMessage')}</Translation>
