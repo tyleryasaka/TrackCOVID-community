@@ -5,6 +5,7 @@ import { postLocation, fetchLanguages, fetchTranslations } from '../helpers/api'
 import { locales, getCountryInfo, getLocaleInfo } from '../helpers/locale'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
+const isUsingLocize = Boolean(process.env.REACT_APP_LOCIZE_PRODUCT_ID)
 
 export function CreateCheckpoint () {
   const [country, setCountry] = useState('')
@@ -54,7 +55,7 @@ export function CreateCheckpoint () {
         setMapLocation(newLat, newLong)
       })
     }
-    if (pdfTranslations.length === 0) {
+    if (isUsingLocize && pdfTranslations.length === 0) {
       fetchLanguages().then(async languages => {
         const newPDFTranslations = await Promise.all(Object.keys(languages).map(code => {
           return new Promise(async resolve => {
@@ -171,15 +172,19 @@ export function CreateCheckpoint () {
         <input value={phone} onChange={onchangePhone} type='text' placeholder={t('create_checkpoint_phone')} class='form-control mb-3' />
         <label>{t('create_checkpoint_email')}</label>
         <input value={email} onChange={onchangeEmail} type='text' placeholder={t('create_checkpoint_email')} class='form-control mb-3' />
-        <label>{t('create_checkpoint_additional_language')}</label>
-        <select class='custom-select mb-3' onChange={onchangePDFTranslation} value={pdfTranslation}>
-          <option value=''>{t('create_checkpoint_additional_language_none')}</option>
-          {pdfTranslations.map((pdfTranslation, index) => {
-            return (
-              <option key={index} value={pdfTranslation.languageCode}>English + {pdfTranslation.languageName}</option>
-            )
-          })}
-        </select>
+        {pdfTranslations.length > 0 && (
+          <div>
+            <label>{t('create_checkpoint_additional_language')}</label>
+            <select class='custom-select mb-3' onChange={onchangePDFTranslation} value={pdfTranslation}>
+              <option value=''>{t('create_checkpoint_additional_language_none')}</option>
+              {pdfTranslations.map((pdfTranslation, index) => {
+                return (
+                  <option key={index} value={pdfTranslation.languageCode}>English + {pdfTranslation.languageName}</option>
+                )
+              })}
+            </select>
+          </div>
+        )}
       </form>
       <button class='btn btn-lg btn-warning btn-block mt-3 mb-3' onClick={onSubmitCreateCheckpoint} disabled={isSubmitDisabled}>{t('create_checkpoint_submit')}</button>
     </div>
