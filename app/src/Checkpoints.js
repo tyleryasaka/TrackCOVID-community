@@ -6,9 +6,12 @@ import CropFreeIcon from '@material-ui/icons/CropFree'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
+import Link from '@material-ui/core/Link'
+import virusIcon from './img/virus-icon.png'
 import API from './api'
 
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH)
+const aboutUrl = process.env.REACT_APP_ABOUT_URL
 
 const initialState = {
   mode: 'home',
@@ -71,13 +74,23 @@ class Checkpoints extends React.Component {
           justify='center'
           alignItems='center'
         >
-          <Typography style={{ marginTop: 25, marginBottom: 25 }}>
+          <img src={virusIcon} width={200} style={{ maxWidth: '80px', marginTop: 20 }} />
+          <Typography style={{ marginTop: 25 }}>
             <Translation>{t => t('welcomeMessage')}</Translation>
           </Typography>
-          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 50 }}>
+          <Button onClick={this.joinCheckpoint.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 35 }}>
             <CropFreeIcon />
             <Translation>{t => t('joinCheckpointButton')}</Translation>
           </Button>
+          <Typography style={{ marginTop: 35, marginBottom: 25 }}>
+            <Translation>
+              {t => t('learnMoreText')}
+            </Translation>
+            <Link href={aboutUrl} target='_blank'>
+              {aboutUrl}
+            </Link>
+            .
+          </Typography>
         </Grid>
       )
     } else if (computedMode === 'join') {

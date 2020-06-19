@@ -10,6 +10,7 @@ import Face from '@material-ui/icons/Face'
 import MenuIcon from '@material-ui/icons/Menu'
 import InfoIcon from '@material-ui/icons/Info'
 import PersonIcon from '@material-ui/icons/Person'
+import ReportIcon from '@material-ui/icons/Description'
 import AppBar from '@material-ui/core/AppBar'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
@@ -18,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import CheckpointsPage from './Checkpoints'
 import ExposuresPage from './Exposures'
+import ReportPage from './Report'
 import StatusAlert from './StatusAlert'
 import API from './api'
 import { Translation } from 'react-i18next'
@@ -137,7 +139,9 @@ class App extends React.Component {
     const { currentTab, status, statusLoaded, isDrawerOpen, currentLanguage, urlScanState, languages } = this.state
     const CurrentPage = (currentTab === 'checkpoints')
       ? CheckpointsPage
-      : ExposuresPage
+      : (currentTab === 'status')
+        ? ExposuresPage
+        : ReportPage
 
     return (
       <div>
@@ -196,6 +200,7 @@ class App extends React.Component {
         >
           <BottomNavigationAction label={<Translation>{t => t('checkpointsTab')}</Translation>} value='checkpoints' icon={<CropFree />} />
           <BottomNavigationAction label=<Translation>{t => t('statusTab')}</Translation> value='status' icon={<Face />} />
+          <BottomNavigationAction label=<Translation>{t => t('reportTab')}</Translation> value='report' icon={<ReportIcon />} />
         </BottomNavigation>
         <SwipeableDrawer
           open={isDrawerOpen}
