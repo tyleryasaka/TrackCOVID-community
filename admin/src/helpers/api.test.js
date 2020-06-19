@@ -75,11 +75,12 @@ describe('api', () => {
   })
 
   test('createUser', async () => {
+    const userObj = { username: 'mrfox', privilege: 1, password: 'helloworld' }
     fetch.mockResponseOnce(JSON.stringify({
       error: false,
-      user: { username: 'mrfox', privilege: 1, password: 'helloworld' }
+      user: userObj
     }))
-    const createdUser = await createUser()
+    const createdUser = await createUser(userObj)
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual('https://demo.trackcovid.net/admin/api/users')
     expect(createdUser).toEqual({ username: 'mrfox', privilege: 1, password: 'helloworld' })
