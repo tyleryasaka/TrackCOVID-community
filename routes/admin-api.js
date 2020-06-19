@@ -1,10 +1,9 @@
 require('dotenv').config()
 const sha256 = require('js-sha256').sha256
-const PDFDocument = require('pdfkit')
-const QRCode = require('qrcode')
 const express = require('express')
 const passport = require('passport')
 const createCsv = require('csv-writer').createObjectCsvStringifier
+const generateCheckpoint = require('../public-checkpoint/generate-checkpoint')
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
@@ -275,24 +274,7 @@ adminApiRouter.post('/api/location', ensureAuthenticated, async (req, res) => {
 adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticated, async (req, res) => {
   if (req.user.canCreateCheckpoints) {
     const { checkpointKey } = req.params
-    Location.findOne({ checkpoint: checkpointKey }, async function (err, location) {
-      if (err) {
-        console.log(err)
-      }
-      const doc = new PDFDocument()
-      const appDomain = process.env.APP_DOMAIN
-      const checkpointLink = `${appDomain}?checkpoint=${checkpointKey}`
-      const checkpointQrCodeUrl = await QRCode.toDataURL(checkpointLink, { margin: 0, scale: 20 })
-      const checkpointQrCodeImg = Buffer.from(checkpointQrCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-      const websiteLink = process.env.ABOUT_URL
-      const websiteQRCodeUrl = await QRCode.toDataURL(websiteLink, { margin: 0, scale: 4 })
-      const websiteQrCodeImg = Buffer.from(websiteQRCodeUrl.replace('data:image/png;base64,', ''), 'base64')
-      doc.image('./public-checkpoint/track-covid.png', 0, 0, { width: 600 })
-      doc.image(checkpointQrCodeImg, 55, 325, { width: 300 })
-      doc.image(websiteQrCodeImg, 378, 668.5, { width: 37 })
-      doc.pipe(res)
-      doc.end()
-    })
+    generateCheckpoint(checkpointKey, res)
   } else {
     res.sendStatus(403)
   }

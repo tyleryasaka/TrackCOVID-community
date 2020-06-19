@@ -4,6 +4,7 @@ module.exports = {
   'translation': {
     'menuAboutButton': 'About',
     'menuAdminButton': 'Admin',
+    'menuCheckpointButton': 'Checkpoint',
     'checkpointsTab': 'Checkpoints',
     'statusTab': 'Status',
     'reportTab': 'Report',
