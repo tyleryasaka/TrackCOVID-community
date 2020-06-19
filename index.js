@@ -8,10 +8,13 @@ const cookieParser = require('cookie-parser')
 const session = require('cookie-session')
 const Logger = require('r7insight_node')
 const morgan = require('morgan')
+const sha256 = require('js-sha256').sha256
 const apiRouter = require('./routes/api')
 const adminApiRouter = require('./routes/admin-api')
+const generateCheckpoint = require('./public-checkpoint/generate-checkpoint')
 const User = require('./models/user')
 
+const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const app = express()
 const port = process.env.PORT || 8000
 
@@ -91,6 +94,11 @@ app.get('/', function (req, res) {
 
 app.get('/checkpoint', function (req, res) {
   res.redirect('/checkpoint.pdf')
+})
+
+app.get('/checkpoint.pdf', (req, res) => {
+  const checkpointKey = sha256(String(Math.random())).substring(0, checkpointKeyLength)
+  generateCheckpoint(checkpointKey, res)
 })
 
 db.on('error', console.error.bind(console, 'connection error:'))
