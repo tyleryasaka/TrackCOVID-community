@@ -13,7 +13,7 @@ const appVars = [
   { originalName: 'CONTACT_WINDOW_HOURS_BEFORE', newName: 'REACT_APP_CONTACT_WINDOW_HOURS_BEFORE' },
   { originalName: 'CONTACT_WINDOW_HOURS_AFTER', newName: 'REACT_APP_CONTACT_WINDOW_HOURS_AFTER' },
   { originalName: 'CHECKPOINT_KEY_LENGTH', newName: 'REACT_APP_CHECKPOINT_KEY_LENGTH' },
-  { originalName: 'LOCIZE_PRODUCT_ID', newName: 'REACT_APP_LOCIZE_PRODUCT_ID' }
+  { originalName: 'LOCIZE_PRODUCT_ID', newName: 'REACT_APP_LOCIZE_PRODUCT_ID', optional: true }
 ]
 
 const adminVars = [
@@ -22,7 +22,7 @@ const adminVars = [
   { originalName: 'SERVER_DOMAIN', newName: 'REACT_APP_SERVER_DOMAIN' },
   { originalName: 'ADMIN_REGISTRATION_URL', newName: 'REACT_APP_REGISTRATION_URL', optional: true },
   { originalName: 'GOOGLE_API_KEY', newName: 'REACT_APP_GOOGLE_API_KEY' },
-  { originalName: 'LOCIZE_PRODUCT_ID', newName: 'REACT_APP_LOCIZE_PRODUCT_ID' }
+  { originalName: 'LOCIZE_PRODUCT_ID', newName: 'REACT_APP_LOCIZE_PRODUCT_ID', optional: true }
 ]
 
 const buildNewEnvFile = (newVars) => {
