@@ -48,35 +48,35 @@ const locales = [
 
       { 'EBNZ': 'Ebeneizer Estate' },
 
-      { 'SRWD': 'South Reward' }
+      { 'SRWD': 'South Reward' },
 
-      { 'BELV': 'Belvedere' }
+      { 'BELV': 'Belvedere' },
 
-      { 'SGDN': 'Sucker Garden' }
+      { 'SGDN': 'Sucker Garden' },
 
-      { 'HOPE': 'Hope Estate' }
+      { 'HOPE': 'Hope Estate' },
 
-      { 'OTPD': 'Over The Pond' }
+      { 'OTPD': 'Over The Pond' },
 
-      { 'VINE': 'Vineyard' }
+      { 'VINE': 'Vineyard' },
 
-      { 'BKBY': 'Back Bay' }
+      { 'BKBY': 'Back Bay' },
 
-      { 'MDME': 'Madame Estate' }
+      { 'MDME': 'Madame Estate' },
 
-      { 'FTWL': 'Fort Willem' }
+      { 'FTWL': 'Fort Willem' },
 
-      { 'MFAN': 'Mary Fancy' }
+      { 'MFAN': 'Mary Fancy' },
 
-      { 'LBAY': 'Little Bay' }
+      { 'LBAY': 'Little Bay' },
 
-      { 'IBAY': 'Indigo Bay' }
+      { 'IBAY': 'Indigo Bay' },
 
-      { 'BTES': 'Betty Estate' }
+      { 'BTES': 'Betty Estate' },
 
-      { 'STJN': 'St Johns' }
+      { 'STJN': 'St Johns' },
 
-      { 'DCDS': 'Dutch Cul-de-Sac' }
+      { 'DCDS': 'Dutch Cul-de-Sac' },
 
       { 'LOWL': 'Lowlands' }
 
@@ -92,31 +92,31 @@ const locales = [
 
     locales: [
 
-      { 'COLM': 'Colombier' }
+      { 'COLM': 'Colombier' },
 
-      { 'FLAM': 'Flamands' }
+      { 'FLAM': 'Flamands' },
 
-      { 'TNEV': 'Terre-Neuve' }
+      { 'TNEV': 'Terre-Neuve' },
 
-      { 'ADLZ': 'Anse Des Lezards' }
+      { 'ADLZ': 'Anse Des Lezards' },
 
-      { 'GIDZ': 'Gustavia Industrial Zone' }
+      { 'GIDZ': 'Gustavia Industrial Zone' },
 
-      { 'GUST': 'Gustavia' }
+      { 'GUST': 'Gustavia' },
 
-      { 'LORT': 'Lorient' }
+      { 'LORT': 'Lorient' },
 
-      { 'CHEV': 'Ille Chevreau' }
+      { 'CHEV': 'Ille Chevreau' },
 
-      { 'SBNR': 'St.Barths Nature Reserve' }
+      { 'SBNR': 'St.Barths Nature Reserve' },
 
-      { 'PSAL': 'Petite Saline' }
+      { 'PSAL': 'Petite Saline' },
 
-      { 'TOIN': 'Toiny' }
+      { 'TOIN': 'Toiny' },
 
-      { 'GRCS': 'Grand Cul-de-Sac' }
+      { 'GRCS': 'Grand Cul-de-Sac' },
 
-      { 'PMIL': 'Pointe Milou' }
+      { 'PMIL': 'Pointe Milou' },
 
       { 'LSPS': 'Les Petite Saints' }
 
@@ -132,59 +132,59 @@ const locales = [
 
     locales: [
 
-      { 'LSTB': 'Les Terre Basses' }
+      { 'LSTB': 'Les Terre Basses' },
 
-      { 'LBCR': 'La Belle Creole' }
+      { 'LBCR': 'La Belle Creole' },
 
-      { 'SNYG': 'Sandy Ground' }
+      { 'SNYG': 'Sandy Ground' },
 
-      { 'LAGI': 'Grand Islet' }
+      { 'LAGI': 'Grand Islet' },
 
-      { 'STJM': 'Saint-James' }
+      { 'STJM': 'Saint-James' },
 
-      { 'BLVU': 'Bellevue' }
+      { 'BLVU': 'Bellevue' },
 
-      { 'MRGT': 'Marigot' }
+      { 'MRGT': 'Marigot' },
 
-      { 'CONC': 'Concordia' }
+      { 'CONC': 'Concordia' },
 
-      { 'GLSB': 'Gallis Bay' }
+      { 'GLSB': 'Gallis Bay' },
 
-      { 'AMNT': 'Agremont' }
+      { 'AMNT': 'Agremont' },
 
-      { 'HGRD': 'Helligard' }
+      { 'HGRD': 'Helligard' },
 
-      { 'COLM': 'Colombier' }
+      { 'COLM': 'Colombier' },
 
-      { 'RAMB': 'Rambaud' }
+      { 'RAMB': 'Rambaud' },
 
-      { 'STLO': 'Saint Louis' }
+      { 'STLO': 'Saint Louis' },
 
-      { 'LSAV': 'La Savane' }
+      { 'LSAV': 'La Savane' },
 
-      { 'GCAS': 'Grand Case' }
+      { 'GCAS': 'Grand Case' },
 
-      { 'HOPE': 'Hope Estate' }
+      { 'HOPE': 'Hope Estate' },
 
-      { 'PETP': 'Petite Plage' }
+      { 'PETP': 'Petite Plage' },
 
-      { 'ANSM': 'Anse Marcel' }
+      { 'ANSM': 'Anse Marcel' },
 
-      { 'FCDS': 'Cul-de-Sac Fr' }
+      { 'FCDS': 'Cul-de-Sac Fr' },
 
-      { 'MTVR': 'Mont Vernon 1' }
+      { 'MTVR': 'Mont Vernon 1' },
 
-      { 'GRCY': 'Green Cay' }
+      { 'GRCY': 'Green Cay' },
 
-      { 'ORBC': 'Orient Beach' }
+      { 'ORBC': 'Orient Beach' },
 
-      { 'PINL': 'Ille Pinel' }
+      { 'PINL': 'Ille Pinel' },
 
-      { 'QORL': 'Quarter Orleans' }
+      { 'QORL': 'Quarter Orleans' },
 
-      { 'FOYP': 'Oster Pond FR' }
+      { 'FOYP': 'Oster Pond FR' },
 
-      { 'PMOU': 'Poumou' }
+      { 'PMOU': 'Poumou' },
 
       { 'BPLN': 'Belle Plain' }
 
@@ -200,37 +200,37 @@ const locales = [
 
     locales: [
 
-      { 'WEVL': 'West End Village' }
+      { 'WEVL': 'West End Village' },
 
-      { 'LBVL': 'Long Bay VIllage' }
+      { 'LBVL': 'Long Bay VIllage' },
 
-      { 'LWSH': 'Lower South Hill' }
+      { 'LWSH': 'Lower South Hill' },
 
-      { 'BLOW': 'Blowing Point' }
+      { 'BLOW': 'Blowing Point' },
 
-      { 'SHVL': 'South Hill Village' }
+      { 'SHVL': 'South Hill Village' },
 
-      { 'SNDY': 'Sandy Ground' }
+      { 'SNDY': 'Sandy Ground' },
 
-      { 'NHVL': 'North Hill Village' }
+      { 'NHVL': 'North Hill Village' },
 
-      { 'GRGH': 'George Hill' }
+      { 'GRGH': 'George Hill' },
 
-      { 'VALL': 'The Valley' }
+      { 'VALL': 'The Valley' },
 
-      { 'QTRS': 'The Quarter' }
+      { 'QTRS': 'The Quarter' },
 
-      { 'NSID': 'Northside' }
+      { 'NSID': 'Northside' },
 
-      { 'LDIX': 'Lil Dix' }
+      { 'LDIX': 'Lil Dix' },
 
-      { 'SHVL': 'Shoal Bay Village' }
+      { 'SHVL': 'Shoal Bay Village' },
 
-      { 'ILHB': 'Island Harbor' }
+      { 'ILHB': 'Island Harbor' },
 
-      { 'EEVL': 'East End Village' }
+      { 'EEVL': 'East End Village' },
 
-      { 'MNTF': 'Mount Fortune' }
+      { 'MNTF': 'Mount Fortune' },
 
       { 'SCRB': 'Scrub Island' }
 
@@ -246,39 +246,39 @@ const locales = [
 
     locales: [
 
-      { 'TDSL': 'Tierra Del Sol' }
+      { 'TDSL': 'Tierra Del Sol' },
 
-      { 'NORD': 'Noord' }
+      { 'NORD': 'Noord' },
 
-      { 'PLMB': 'Palm Beach' }
+      { 'PLMB': 'Palm Beach' },
 
-      { 'PARA': 'Paradera' }
+      { 'PARA': 'Paradera' },
 
-      { 'NATB': 'Natural Bridge' }
+      { 'NATB': 'Natural Bridge' },
 
-      { 'ORJS': 'Oranjestad' }
+      { 'ORJS': 'Oranjestad' },
 
-      { 'HATO': 'Hato' }
+      { 'HATO': 'Hato' },
 
-      { 'GASP': 'Gasparito' }
+      { 'GASP': 'Gasparito' },
 
-      { 'SEJA': 'Seru Janchi' }
+      { 'SEJA': 'Seru Janchi' },
 
-      { 'CBAS': 'Calbas' }
+      { 'CBAS': 'Calbas' },
 
-      { 'SBLB': 'Sabana Liber' }
+      { 'SBLB': 'Sabana Liber' },
 
-      { 'BOEG': 'Boegoeroie' }
+      { 'BOEG': 'Boegoeroie' },
 
-      { 'PCHX': 'Pos Chikito' }
+      { 'PCHX': 'Pos Chikito' },
 
-      { 'SAVA': 'Savaneta' }
+      { 'SAVA': 'Savaneta' },
 
-      { 'BRAS': 'Brasil' }
+      { 'BRAS': 'Brasil' },
 
-      { 'LAGO': 'Lagoville' }
+      { 'LAGO': 'Lagoville' },
 
-      { 'CERC': 'Ceru Colorado
+      { 'CERC': 'Ceru Colorado' }
 
     ]
 
@@ -292,53 +292,53 @@ const locales = [
 
     locales: [
 
-      { 'SBWP': 'Sabana West Punt' }
+      { 'SBWP': 'Sabana West Punt' },
 
-      { 'KKIP': 'Kleine Knip' }
+      { 'KKIP': 'Kleine Knip' },
 
-      { 'CHRP': 'Christoffel Park' }
+      { 'CHRP': 'Christoffel Park' },
 
-      { 'LGUN': 'Lagun' }
+      { 'LGUN': 'Lagun' },
 
-      { 'BARB': 'Barber' }
+      { 'BARB': 'Barber' },
 
-      { 'SOTO': 'Soto' }
+      { 'SOTO': 'Soto' },
 
-      { 'TCRA': 'Tera Kora' }
+      { 'TCRA': 'Tera Kora' },
 
-      { 'JNKK': 'Jan Kok' }
+      { 'JNKK': 'Jan Kok' },
 
-      { 'STWB': 'Sint Willibordus' }
+      { 'STWB': 'Sint Willibordus' },
 
-      { 'DANL': 'Daniel' }
+      { 'DANL': 'Daniel' },
 
-      { 'GBRG': 'Grote Berg' }
+      { 'GBRG': 'Grote Berg' },
 
-      { 'BBAY': 'Bullenbaai' }
+      { 'BBAY': 'Bullenbaai' },
 
-      { 'BLAU': 'Blaubaai' }
+      { 'BLAU': 'Blaubaai' },
 
-      { 'STMC': 'Sint Michiel' }
+      { 'STMC': 'Sint Michiel' },
 
-      { 'WSTD': 'Willemstad' }
+      { 'WSTD': 'Willemstad' },
 
-      { 'BVNG': 'Brievengat' }
+      { 'BVNG': 'Brievengat' },
 
-      { 'OTRA': 'Otrabanda' }
+      { 'OTRA': 'Otrabanda' },
 
-      { 'REFI': 'Isla Refinery' }
+      { 'REFI': 'Isla Refinery' },
 
-      { 'PISC': 'Piscadera' }
+      { 'PISC': 'Piscadera' },
 
-      { 'SALC': 'Salina' }
+      { 'SALC': 'Salina' },
 
-      { 'JTHL': 'Jan Thiel' }
+      { 'JTHL': 'Jan Thiel' },
 
-      { 'SPWT': 'Spaanse Water' }
+      { 'SPWT': 'Spaanse Water' },
 
-      { 'LABR': 'Labradera' }
+      { 'LABR': 'Labradera' },
 
-      { 'SRUG': 'Seru Grandi' }
+      { 'SRUG': 'Seru Grandi' },
 
       { 'SBPL': 'Santa Barbara Plantation' }
 
@@ -354,42 +354,41 @@ const locales = [
 
     locales: [
 
-      { 'WASH': 'Washington Slagbaai Natl Park' }
+      { 'WASH': 'Washington Slagbaai Natl Park' },
 
-      { 'RINC': 'Rincon' }
+      { 'RINC': 'Rincon' },
 
-      { 'LWRD': 'Leeuwarden' }
+      { 'LWRD': 'Leeuwarden' },
 
-      { 'SBCR': 'Santa Barbara Crowns' }
+      { 'SBCR': 'Santa Barbara Crowns' },
 
-      { 'BONB': 'Bona Bista' }
+      { 'BONB': 'Bona Bista' },
 
-      { 'NSAL': 'North Salina'}
+      { 'NSAL': 'North Salina' },
 
-      { 'HATO': 'Hato' }
+      { 'HATO': 'Hato' },
 
-      { 'BRSK': 'Bario Silesie' }
+      { 'BRSK': 'Bario Silesie' },
 
-      { 'ANTR': 'Antriol' }
+      { 'ANTR': 'Antriol' },
 
-      { 'WASH': 'Washikemba' }
+      { 'WASH': 'Washikemba' },
 
-      { 'PLYA': 'Playa' }
+      { 'PLYA': 'Playa' },
 
-      { 'kBON': 'Kleine Bonaire' }
+      { 'kBON': 'Kleine Bonaire' },
 
-      { 'KRLN': 'Kralendijk' }
+      { 'KRLN': 'Kralendijk' },
 
-      { 'BRIC': 'Bricat' }
+      { 'BRIC': 'Bricat' },
 
-      { 'TKOR': 'Tara Kora' }
+      { 'TKOR': 'Tara Kora' },
 
-      { 'NIKI': 'Nikiboko' }
+      { 'NIKI': 'Nikiboko' },
 
-      { 'SBLP': 'Sabal Palm' }
+      { 'SBLP': 'Sabal Palm' },
 
       { 'BELN': 'Belnem' }
-
 
     ]
 
@@ -403,17 +402,17 @@ const locales = [
 
     locales: [
 
-      { 'BOTM': 'The Bottom' }
+      { 'BOTM': 'The Bottom' },
 
-      { 'SJON': 'St Johns' }
+      { 'SJON': 'St Johns' },
 
-      { 'WWSD': 'Windward Side' }
+      { 'WWSD': 'Windward Side' },
 
-      { 'ZHIL': 'Zions Hill' }
+      { 'ZHIL': 'Zions Hill' },
 
-      { 'CGUT': 'Cove Gut' }
+      { 'CGUT': 'Cove Gut' },
 
-      { 'MIGT': 'Middle Island Gut' }
+      { 'MIGT': 'Middle Island Gut' },
 
       { 'WELS': 'Wellsbay' }
 
@@ -429,19 +428,19 @@ const locales = [
 
     locales: [
 
-      { 'BOVN': 'Boven NatlPark' }
+      { 'BOVN': 'Boven NatlPark' },
 
-      { 'GCK': 'Golden Rock' }
+      { 'GCK': 'Golden Rock' },
 
-      { 'CHRY': 'Cherry Tree' }
+      { 'CHRY': 'Cherry Tree' },
 
-      { 'QUIL': 'The Quill' }
+      { 'QUIL': 'The Quill' },
 
-      { 'COLM': 'Colombier' }
+      { 'COLM': 'Colombier' },
 
-      { 'BOBY': 'Back of Bay' }
+      { 'BOBY': 'Back of Bay' },
 
-      { 'OSTD': 'Oranjestad' }
+      { 'OSTD': 'Oranjestad' },
 
       { 'BBRW': 'Bay Brow' }
 
@@ -450,8 +449,6 @@ const locales = [
   },
 
   {
-
-
     countryName: 'Fiji',
 
     countryCode: 'FJ_',
@@ -466,27 +463,17 @@ const locales = [
 
 ]
 
-
-
 function getCountryInfo (countryCode) {
-
   return locales.find(l => l.countryCode === countryCode)
-
 }
 
-
-
 function getLocaleInfo (localeObj) {
-
   const localeCode = Object.keys(localeObj)[0]
 
   const localeName = localeObj[localeCode]
 
   return { localeCode, localeName }
-
 }
-
-
 
 module.exports = {
 
