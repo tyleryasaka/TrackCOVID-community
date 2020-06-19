@@ -50,6 +50,7 @@ This can be easily deployed to Heroku as follows:
 - `REDIRECT_HTTPS`: Whether to automatically redirect http to https; should be `true` in production.
 - `CHECKPOINT_KEY_LENGTH`: How many characters should be in the checkpoint key; set this to `16` unless you have some reason to change it.
 - `ADMIN_REGISTRATION_URL`: An optional environment variable. It is intended to provide a link to a Google form where you can collect requests for admin access. You may create a form similar to the following: https://forms.gle/J38BLRpFtRFT846Z8. When this environment variable is set, the link will be provided on the admin login page.
+- `LOCIZE_PRODUCT_ID`: If you would like to use the [Locize](https://locize.com) service to manage translations, you can provide your Locize product ID here, and the app will automatically use those translations.
 
 
 ## App
