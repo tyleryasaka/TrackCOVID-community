@@ -43,7 +43,7 @@ class Exposures extends React.Component {
       : riskLevelLoading
     const riskLevelColor = status
       ? 'error'
-      : 'primary'
+      : 'success'
     const icon = status
       ? stayHomeIcon
       : distanceIcon

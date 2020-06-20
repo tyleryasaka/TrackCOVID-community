@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import CropFreeIcon from '@material-ui/icons/CropFree'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import { withTheme } from '@material-ui/core/styles'
 import QRReader from 'react-qr-reader'
 import { Translation } from 'react-i18next'
 import Link from '@material-ui/core/Link'
@@ -61,7 +62,18 @@ class Checkpoints extends React.Component {
 
   render () {
     const { mode, legacyMode } = this.state
-    const { urlScanState } = this.props
+    const { status, statusLoaded, urlScanState, theme } = this.props
+    const riskLevelLoading = (<Translation>{t => t('statusLoadingMessage')}</Translation>)
+    const riskLevelNegative = (<Translation>{t => t('standardRiskLevelMessage')}</Translation>)
+    const riskLevelPositive = (<Translation>{t => t('elevatedRiskLevelMessage')}</Translation>)
+    const riskLevel = statusLoaded
+      ? (status
+        ? riskLevelPositive
+        : riskLevelNegative)
+      : riskLevelLoading
+    const riskLevelColor = status
+      ? 'error'
+      : 'success'
     const computedMode = typeof urlScanState !== 'undefined'
       ? urlScanState
       : mode
@@ -135,8 +147,11 @@ class Checkpoints extends React.Component {
           justify='center'
           alignItems='center'
         >
-          <Typography style={{ marginTop: 25, marginBottom: 25 }}>
+          <Typography style={{ marginTop: 25 }}>
             <Translation>{t => t('joinSuccessfulMessage')}</Translation>
+          </Typography>
+          <Typography style={{ marginTop: 15, marginBottom: 25 }}>
+            <Translation>{t => t('yourRiskLevelMessage')}</Translation>: <span style={{ color: theme.palette[riskLevelColor].main }}>{riskLevel}</span>
           </Typography>
           <Button onClick={this.reset.bind(this)} variant='contained' color='primary' aria-label='add' style={{ marginTop: 25 }}>
             <ArrowBackIcon />
@@ -166,4 +181,4 @@ class Checkpoints extends React.Component {
   }
 }
 
-export default Checkpoints
+export default withTheme(Checkpoints)

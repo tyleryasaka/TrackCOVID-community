@@ -81,7 +81,7 @@ exports[`Exposures component: not exposed 1`] = `
       <span
         style={
           Object {
-            "color": "#3f51b5",
+            "color": "#4caf50",
           }
         }
       >
