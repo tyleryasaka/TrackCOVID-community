@@ -24,8 +24,8 @@ export function Login ({ onLoginRequest }) {
   return (
     <form class='form-signin' onSubmit={onSubmitLogin}>
       <h1 class='h3 mb-3 font-weight-normal'>{t('login_title')}</h1>
-      <label for='username' class='sr-only'>{t('login_username')}:</label><br />
-      <input value={username} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('login_username')} class='form-control' /><br />
+      <label for='email' class='sr-only'>{t('login_username')}:</label><br />
+      <input value={username} onChange={onchangeUsername} type='email' id='email' name='email' placeholder={t('login_username')} class='form-control' /><br />
       <label for='password' class='sr-only'>{t('login_password')}:</label><br />
       <input value={password} onChange={onchangePassword} type='password' id='password' name='password' placeholder={t('login_password')} class='form-control' /><br /><br />
       <button class='btn btn-lg btn-warning btn-block' type='submit'>{t('login_submit_button')}</button>

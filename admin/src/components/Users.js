@@ -36,8 +36,8 @@ export function Users ({ currentUser }) {
 
   const onSubmitNewUser = async (event) => {
     event.preventDefault()
-    const usernameRegex = /((^[a-z]+)|(^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i
-    if (usernameRegex.test(newUsername)) {
+    const usernameRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (usernameRegex.test(String(newUsername).toLowerCase())) {
       const createdUser = await createUser({
         username: newUsername,
         canUploadCheckpoints: newCanUpload,
@@ -175,8 +175,8 @@ export function Users ({ currentUser }) {
       {view === ViewEnum.new && (
         <form class='form-signin' onSubmit={onSubmitNewUser}>
           <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_title')}</h2>
-          <label for='username' class='sr-only'>{t('user_create_username')}:</label>
-          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('user_create_username')} class='form-control mb-3' />
+          <label for='email' class='sr-only'>{t('user_create_username')}:</label>
+          <input value={newUsername} onChange={onchangeUsername} type='email' id='email' name='email' placeholder={t('user_create_username')} class='form-control mb-3' />
           <div class='form-check'>
             <input checked={newCanUpload} onChange={onchangeNewCanUpload} class='form-check-input' type='checkbox' id='can-upload' />
             <label class='form-check-label' for='can-upload'>
