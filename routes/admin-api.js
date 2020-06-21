@@ -66,11 +66,6 @@ async function getCheckpointLocations (onSuccess, onErr) {
   })
 }
 
-adminApiRouter.use('/static/', express.static('admin/build/static'))
-adminApiRouter.get('/', function (req, res) {
-  res.sendfile('admin/build/index.html')
-})
-
 adminApiRouter.get('/api/status', function (req, res) {
   const canUploadCheckpoints = req.user && req.user.canUploadCheckpoints
   const canCreateCheckpoints = req.user && req.user.canCreateCheckpoints
@@ -502,6 +497,11 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
   } else {
     res.sendStatus(403)
   }
+})
+
+adminApiRouter.use('/static/', express.static('admin/build/static'))
+adminApiRouter.get('/*', function (req, res) {
+  res.sendfile('admin/build/index.html')
 })
 
 module.exports = adminApiRouter
