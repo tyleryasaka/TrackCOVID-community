@@ -86,7 +86,7 @@ app.use(passport.session())
 passport.use(User.createStrategy())
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-app.use('/admin/', adminApiRouter)
+app.use('/admin', adminApiRouter)
 
 app.get('/', function (req, res) {
   res.sendfile('app/build/index.html')
