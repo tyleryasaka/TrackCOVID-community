@@ -26,7 +26,7 @@ module.exports = {
     'login_password': 'Password',
     'login_submit_button': 'Sign in',
     'login_title': 'Please sign in',
-    'login_username': 'Username',
+    'login_username': 'Email',
     'logout_button': 'Sign out',
     'menu_account': 'Account',
     'menu_checkpoint_pdf': 'New Checkpoint',
@@ -46,17 +46,17 @@ module.exports = {
     'user_create_credential_delivery': 'Please provide these credentials to the user and instruct them to change their password once they log in.',
     'user_create_exit': 'Return to all users',
     'user_create_fail': 'Oops, there was an error creating this user.',
-    'user_create_invalid_username': 'Only letters and numbers are allowed in a username.',
+    'user_create_invalid_username': 'Invalid email address.',
     'user_create_submit': 'Create',
     'user_create_success': 'A new user was created with the following credentials',
     'user_create_title': 'Create a new user',
-    'user_create_username': 'Username',
+    'user_create_username': 'Email',
     'user_create_password': 'Temporary password',
     'user_delete_button': 'Delete',
     'user_delete_confirm': 'Delete user',
     'user_delete_fail': 'Oops, something went wrong.',
     'reports_title': 'Reports',
     'reports_csv': 'Download CSV of Hotspots',
-    'welcome': 'Welcome'
+    'welcome': 'Logged in as'
   }
 }
