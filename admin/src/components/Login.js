@@ -31,7 +31,7 @@ export function Login ({ onLoginRequest }) {
       <input value={password} onChange={onchangePassword} type='password' id='password' name='password' placeholder={t('login_password')} className='form-control' /><br /><br />
       <button className='btn btn-lg btn-warning btn-block' type='submit'>{t('login_submit_button')}</button>
       <p className='mt-5'>
-        <Link className='link text-warning' to={'/reset-password'}>{t('login_forgot_password')}</Link>
+        <Link className='link text-warning' to={'/forgot-password'}>{t('login_forgot_password')}</Link>
       </p>
       {process.env.REACT_APP_REGISTRATION_URL && (
         <p className='mt-2 mb-3 text-muted'>
