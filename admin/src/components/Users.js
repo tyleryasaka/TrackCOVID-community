@@ -17,7 +17,6 @@ export function Users ({ currentUser }) {
   const [newCanManage, setNewCanManage] = useState(false)
   const [newCanAccessReports, setNewCanAccessReports] = useState(false)
   const [createdUsername, setCreatedUsername] = useState('')
-  const [createdPassword, setCreatedPassword] = useState('')
   const { t } = useTranslation()
   const usersList = users || []
 
@@ -49,7 +48,6 @@ export function Users ({ currentUser }) {
         alert(t('user_create_fail'))
       } else {
         setCreatedUsername(createdUser.username)
-        setCreatedPassword(createdUser.password)
         setView(ViewEnum.created)
         loadUsers()
       }

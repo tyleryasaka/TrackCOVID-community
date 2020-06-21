@@ -181,6 +181,39 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
   }
 })
 
+adminApiRouter.post('/api/users/reset-password', function (req, res) {
+  const username = req.body.username
+  User.findOne({ username }, async function (err, user) {
+    if (err || !user) {
+      if (err) {
+        console.error(err)
+      }
+      res.send({ error: true })
+    } else {
+      const tempPass = generatePassword()
+      await user.setPassword(tempPass)
+      await user.save()
+      let hasError = false
+      const msg = {
+        to: user.username,
+        from: adminEmailFrom, // Use the email address or domain you verified above
+        subject: `Password reset for ${appName} Admin`,
+        text: `Your password has been reset for ${appName}. You may login with the information below.\n\nEmail: ${user.username}\nTemporary password: ${tempPass}`
+      }
+      try {
+        await sgMail.send(msg)
+      } catch (error) {
+        console.error(error)
+        if (error.response) {
+          console.error(error.response.body)
+        }
+        hasError = true
+      }
+      res.send({ error: hasError })
+    }
+  })
+})
+
 adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
   if (req.user.canManageUsers) {
     User.findOne({ _id: req.params.id }, function (err, user) {
