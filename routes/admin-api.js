@@ -118,15 +118,29 @@ adminApiRouter.get('/logout', function (req, res) {
 })
 
 adminApiRouter.put('/api/account', function (req, res) {
-  const { currentPassword, newPassword } = req.body
+  const { username, currentPassword, newPassword } = req.body
   const id = req.user._id
   User.findOne({ _id: id }, function (err, user) {
     if (err || !user) {
       res.send({ error: true })
     } else {
-      user.changePassword(currentPassword, newPassword, (err) => {
-        res.send({ error: Boolean(err) })
-      })
+      if (currentPassword && newPassword) {
+        user.changePassword(currentPassword, newPassword, (err) => {
+          res.send({ error: Boolean(err) })
+        })
+      } else if (username) {
+        user.username = username
+        user.save((err) => {
+          if (err) {
+            console.error(err)
+            res.send({ error: true })
+          } else {
+            res.send({ error: false })
+          }
+        })
+      } else {
+        res.send({ error: true })
+      }
     }
   })
 })
@@ -238,7 +252,7 @@ adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
       }
     })
   } else {
-    res.send({ error: true, authorized: false })
+    res.sendStatus(403)
   }
 })
 
