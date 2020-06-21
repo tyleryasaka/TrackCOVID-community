@@ -2,6 +2,11 @@
  * Create checkpoint
  */
 
+ a.link:hover {
+   text-decoration: underline;
+   cursor: pointer;
+ }
+
 #map-canvas {
   width: 500px;
   height: 300px;
@@ -124,7 +129,7 @@
 */
 
 .login-container {
-  height: 100%;
+  height: 100vh;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;

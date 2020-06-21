@@ -5,13 +5,18 @@ const QRCode = require('qrcode')
 const express = require('express')
 const passport = require('passport')
 const createCsv = require('csv-writer').createObjectCsvStringifier
+const sgMail = require('@sendgrid/mail')
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
 const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
+const ResetToken = require('../models/reset-token')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const adminDomain = process.env['ADMIN_DOMAIN']
+const adminEmailFrom = process.env['ADMIN_EMAIL_FROM']
+const appName = process.env['APP_NAME']
+sgMail.setApiKey(process.env['SENDGRID_API_KEY'])
 
 const adminApiRouter = express.Router()
 
@@ -88,7 +93,7 @@ adminApiRouter.get('/api/status', function (req, res) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  res.redirect(`${adminDomain}/admin`)
+  res.redirect(`${adminDomain}/admin/login`)
 })
 
 adminApiRouter.post('/login', function (req, res, next) {
@@ -110,19 +115,33 @@ adminApiRouter.post('/login', function (req, res, next) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  res.redirect('/admin')
+  res.redirect('/admin/login')
 })
 
 adminApiRouter.put('/api/account', function (req, res) {
-  const { currentPassword, newPassword } = req.body
+  const { username, currentPassword, newPassword } = req.body
   const id = req.user._id
   User.findOne({ _id: id }, function (err, user) {
     if (err || !user) {
       res.send({ error: true })
     } else {
-      user.changePassword(currentPassword, newPassword, (err) => {
-        res.send({ error: Boolean(err) })
-      })
+      if (currentPassword && newPassword) {
+        user.changePassword(currentPassword, newPassword, (err) => {
+          res.send({ error: Boolean(err) })
+        })
+      } else if (username) {
+        user.username = username
+        user.save((err) => {
+          if (err) {
+            console.error(err)
+            res.send({ error: true })
+          } else {
+            res.send({ error: false })
+          }
+        })
+      } else {
+        res.send({ error: true })
+      }
     }
   })
 })
@@ -137,27 +156,122 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
       canAccessReports: Boolean(req.body.canAccessReports)
     }
     const tempPass = generatePassword()
-    User.register(newUser, tempPass, function (err) {
+    User.register(newUser, tempPass, async function (err) {
       if (err) {
         console.error(err)
         res.send({ error: true })
       } else {
-        res.send({
-          error: false,
-          user: {
-            username: newUser.username,
-            canUploadCheckpoints: newUser.canUploadCheckpoints,
-            canCreateCheckpoints: newUser.canCreateCheckpoints,
-            canManageUsers: newUser.canManageUsers,
-            canAccessReports: newUser.canAccessReports,
-            password: tempPass
+        let hasError = false
+        const msg = {
+          to: newUser.username,
+          from: adminEmailFrom, // Use the email address or domain you verified above
+          subject: `Your login for ${appName} Admin`,
+          text: `You have been registered as an admin for ${appName}. You may login with the information below.\n\nLogin page: ${adminDomain}/admin\nEmail: ${newUser.username}\nTemporary password: ${tempPass}`
+        }
+        try {
+          await sgMail.send(msg)
+        } catch (error) {
+          console.error(error)
+          if (error.response) {
+            console.error(error.response.body)
           }
+          hasError = true
+        }
+        res.send({
+          error: hasError,
+          user: hasError
+            ? undefined
+            : {
+              username: newUser.username,
+              canUploadCheckpoints: newUser.canUploadCheckpoints,
+              canCreateCheckpoints: newUser.canCreateCheckpoints,
+              canManageUsers: newUser.canManageUsers,
+              canAccessReports: newUser.canAccessReports
+            }
         })
       }
     })
   } else {
     res.send({ error: true, authorized: false })
   }
+})
+
+adminApiRouter.post('/api/users/reset-password-request', function (req, res) {
+  const username = req.body.username
+  User.findOne({ username }, async function (err, user) {
+    if (err || !user) {
+      if (err) {
+        console.error(err)
+      }
+      res.send({ error: true })
+    } else {
+      const token = generatePassword()
+      const resetToken = {
+        username,
+        token,
+        timestamp: Date.now()
+      }
+      ResetToken.create(resetToken, async function (err) {
+        if (err) {
+          console.error(err)
+          res.send({ error: true })
+        } else {
+          let hasError = false
+          const msg = {
+            to: user.username,
+            from: adminEmailFrom, // Use the email address or domain you verified above
+            subject: `Password reset for ${appName} Admin`,
+            text: `We received a request to reset your password for ${appName} Admin. You may reset your password using the link below.\n\nReset your password: ${adminDomain}/admin/reset-password?token=${token}\n\nThis link will expire in 24 hours.`
+          }
+          try {
+            await sgMail.send(msg)
+          } catch (error) {
+            console.error(error)
+            if (error.response) {
+              console.error(error.response.body)
+            }
+            hasError = true
+          }
+          res.send({ error: hasError })
+        }
+      })
+    }
+  })
+})
+
+adminApiRouter.post('/api/users/reset-password', function (req, res) {
+  const { token, newPassword } = req.body
+  ResetToken.findOne({ token }, async function (err, resetToken) {
+    if (err || !resetToken) {
+      if (err) {
+        console.error(err)
+      }
+      res.send({ error: true })
+    } else {
+      const oneDay = 1000 * 60 * 60 * 24
+      if (Date.now() - resetToken.timestamp > oneDay) {
+        res.send({ error: true })
+      } else {
+        User.findOne({ username: resetToken.username }, async function (err, user) {
+          if (err || !user) {
+            if (err) {
+              console.error(err)
+            }
+            res.send({ error: true })
+          } else {
+            await user.setPassword(newPassword)
+            await user.save()
+            ResetToken.deleteOne({ token }, function (err) {
+              if (err) {
+                console.error(err)
+              }
+              res.send({ error: false })
+            })
+          }
+        })
+      }
+    }
+  })
 })
 
 adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
@@ -184,7 +298,7 @@ adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
       }
     })
   } else {
-    res.send({ error: true, authorized: false })
+    res.sendStatus(403)
   }
 })
 

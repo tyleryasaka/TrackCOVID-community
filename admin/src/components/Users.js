@@ -17,7 +17,6 @@ export function Users ({ currentUser }) {
   const [newCanManage, setNewCanManage] = useState(false)
   const [newCanAccessReports, setNewCanAccessReports] = useState(false)
   const [createdUsername, setCreatedUsername] = useState('')
-  const [createdPassword, setCreatedPassword] = useState('')
   const { t } = useTranslation()
   const usersList = users || []
 
@@ -36,8 +35,8 @@ export function Users ({ currentUser }) {
 
   const onSubmitNewUser = async (event) => {
     event.preventDefault()
-    const usernameRegex = /((^[a-z]+)|(^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i
-    if (usernameRegex.test(newUsername)) {
+    const usernameRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (usernameRegex.test(String(newUsername).toLowerCase())) {
       const createdUser = await createUser({
         username: newUsername,
         canUploadCheckpoints: newCanUpload,
@@ -49,7 +48,6 @@ export function Users ({ currentUser }) {
         alert(t('user_create_fail'))
       } else {
         setCreatedUsername(createdUser.username)
-        setCreatedPassword(createdUser.password)
         setView(ViewEnum.created)
         loadUsers()
       }
@@ -175,8 +173,8 @@ export function Users ({ currentUser }) {
       {view === ViewEnum.new && (
         <form class='form-signin' onSubmit={onSubmitNewUser}>
           <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_title')}</h2>
-          <label for='username' class='sr-only'>{t('user_create_username')}:</label>
-          <input value={newUsername} onChange={onchangeUsername} type='text' id='username' name='username' placeholder={t('user_create_username')} class='form-control mb-3' />
+          <label for='email' class='sr-only'>{t('user_create_username')}:</label>
+          <input value={newUsername} onChange={onchangeUsername} type='email' id='email' name='email' placeholder={t('user_create_username')} class='form-control mb-3' />
           <div class='form-check'>
             <input checked={newCanUpload} onChange={onchangeNewCanUpload} class='form-check-input' type='checkbox' id='can-upload' />
             <label class='form-check-label' for='can-upload'>
@@ -206,10 +204,8 @@ export function Users ({ currentUser }) {
       )}
       {view === ViewEnum.created && (
         <div>
-          <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_success')}:</h2>
+          <p class='mb-3 font-weight-normal'>{t('user_create_success')}</p>
           <p>{t('user_create_username')}: <strong>{createdUsername}</strong></p>
-          <p>{t('user_create_password')}: <strong>{createdPassword}</strong></p>
-          <p>{t('user_create_credential_delivery')}</p>
           <a class='btn btn-dark text-light mt-2' onClick={() => setView(ViewEnum.list)}>
             {t('user_create_exit')}
           </a>
