@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { login } from '../helpers/api'
 
-export function Login ({ onLoginRequest }) {
+export function Login ({ onLoginRequest, onClickResetPassword }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { t } = useTranslation()
@@ -29,9 +29,12 @@ export function Login ({ onLoginRequest }) {
       <label for='password' class='sr-only'>{t('login_password')}:</label><br />
       <input value={password} onChange={onchangePassword} type='password' id='password' name='password' placeholder={t('login_password')} class='form-control' /><br /><br />
       <button class='btn btn-lg btn-warning btn-block' type='submit'>{t('login_submit_button')}</button>
+      <p class='mt-5'>
+        <a class='link text-warning' onClick={onClickResetPassword}>{t('login_forgot_password')}</a>
+      </p>
       {process.env.REACT_APP_REGISTRATION_URL && (
-        <p class='mt-5 mb-3 text-muted'>
-          {t('login_no_account_1')} <a href={process.env.REACT_APP_REGISTRATION_URL} target='_blank' class='text-warning'>{t('login_no_account_2')}</a>.
+        <p class='mt-2 mb-3 text-muted'>
+          {t('login_no_account_1')} <a onClick={onClickResetPassword} href={process.env.REACT_APP_REGISTRATION_URL} target='_blank' class='text-warning'>{t('login_no_account_2')}</a>.
         </p>
       )}
       <p class='mt-5 mb-3 text-muted'>{process.env.REACT_APP_NAME} {t('admin')}</p>

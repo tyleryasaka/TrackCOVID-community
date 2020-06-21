@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import './App.css'
 import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
+import { ForgotPassword } from './components/ForgotPassword'
 import { Checkpoints } from './components/Checkpoints'
 import { CreateCheckpoint } from './components/CreateCheckpoint'
 import { Reports } from './components/Reports'
@@ -15,7 +16,8 @@ const ViewEnum = {
   users: 2,
   account: 3,
   createCheckpoint: 4,
-  reports: 5
+  reports: 5,
+  resetPassword: 10
 }
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
@@ -59,6 +61,14 @@ function App () {
     } else {
       alert('Login failed')
     }
+  }
+
+  const onClickResetPassword = () => {
+    setView(ViewEnum.resetPassword)
+  }
+
+  const onClickCancelResetPassword = () => {
+    setView(ViewEnum.checkpoints)
   }
 
   if (isLoggedIn) {
@@ -138,11 +148,19 @@ function App () {
       </div>
     )
   } else {
-    return (
-      <div class='login-container bg-dark text-center text-light'>
-        <Login onLoginRequest={onSubmitLogin} />
-      </div>
-    )
+    if (view === ViewEnum.resetPassword) {
+      return (
+        <div class='login-container bg-dark text-center text-light'>
+          <ForgotPassword onClickCancelResetPassword={onClickCancelResetPassword} />
+        </div>
+      )
+    } else {
+      return (
+        <div class='login-container bg-dark text-center text-light'>
+          <Login onLoginRequest={onSubmitLogin} onClickResetPassword={onClickResetPassword} />
+        </div>
+      )
+    }
   }
 }
 
