@@ -64,6 +64,15 @@ export const updateUser = async ({ userId, canUploadCheckpoints, canCreateCheckp
   return res && !res.error
 }
 
+export const updateUsername = async ({ username }) => {
+  const res = await sendRequest(
+    '/admin/api/account',
+    'PUT',
+    { username }
+  )
+  return res && !res.error
+}
+
 export const updatePassword = async (currentPassword, newPassword) => {
   const res = await sendRequest(
     '/admin/api/account',
