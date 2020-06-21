@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import './App.css'
 import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
+import { ForgotPassword } from './components/ForgotPassword'
 import { Checkpoints } from './components/Checkpoints'
 import { CreateCheckpoint } from './components/CreateCheckpoint'
 import { Reports } from './components/Reports'
@@ -15,7 +16,8 @@ const ViewEnum = {
   users: 2,
   account: 3,
   createCheckpoint: 4,
-  reports: 5
+  reports: 5,
+  resetPassword: 10
 }
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
@@ -61,12 +63,20 @@ function App () {
     }
   }
 
+  const onClickResetPassword = () => {
+    setView(ViewEnum.resetPassword)
+  }
+
+  const onClickCancelResetPassword = () => {
+    setView(ViewEnum.checkpoints)
+  }
+
   if (isLoggedIn) {
     return (
       <div className='App'>
         <nav class='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
           <a class='navbar-brand col-sm-3 col-md-2 mr-0' href='/admin'>{process.env.REACT_APP_NAME} {t('admin')}</a>
-          <div class='text-light'>{t('welcome')}, {currentUser.username}.</div>
+          <div class='text-light'>{t('welcome')}: {currentUser.username}</div>
           <ul class='navbar-nav px-3'>
             <li class='nav-item text-nowrap'>
               <a class='nav-link' href={`${serverUrl}/admin/logout`}>{t('logout_button')}</a>
@@ -81,34 +91,34 @@ function App () {
                 <ul class='nav flex-column'>
                   {canUploadCheckpoints && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.checkpoints)}>
+                      <a class={view === ViewEnum.checkpoints ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.checkpoints)}>
                         {t('menu_checkpoints')}
                       </a>
                     </li>
                   )}
                   {canCreateCheckpoints && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.createCheckpoint)}>
+                      <a class={view === ViewEnum.createCheckpoint ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.createCheckpoint)}>
                         {t('menu_checkpoint_pdf')}
                       </a>
                     </li>
                   )}
                   {canAccessReports && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.reports)}>
+                      <a class={view === ViewEnum.reports ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.reports)}>
                         {t('menu_reports')}
                       </a>
                     </li>
                   )}
                   {canManageUsers && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
+                      <a class={view === ViewEnum.users ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.users)}>
                         {t('menu_users')}
                       </a>
                     </li>
                   )}
                   <li class='nav-item'>
-                    <a class='nav-link' onClick={() => setView(ViewEnum.account)}>
+                    <a class={view === ViewEnum.account ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.account)}>
                       {t('menu_account')}
                     </a>
                   </li>
@@ -138,11 +148,19 @@ function App () {
       </div>
     )
   } else {
-    return (
-      <div class='login-container bg-dark text-center text-light'>
-        <Login onLoginRequest={onSubmitLogin} />
-      </div>
-    )
+    if (view === ViewEnum.resetPassword) {
+      return (
+        <div class='login-container bg-dark text-center text-light'>
+          <ForgotPassword onClickCancelResetPassword={onClickCancelResetPassword} />
+        </div>
+      )
+    } else {
+      return (
+        <div class='login-container bg-dark text-center text-light'>
+          <Login onLoginRequest={onSubmitLogin} onClickResetPassword={onClickResetPassword} />
+        </div>
+      )
+    }
   }
 }
 

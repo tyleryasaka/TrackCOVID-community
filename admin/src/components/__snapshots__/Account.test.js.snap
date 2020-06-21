@@ -18,6 +18,38 @@ exports[`Account component 1`] = `
     <h2
       class="h3 mb-3 font-weight-normal"
     >
+      Update email
+    </h2>
+    <label
+      class="sr-only"
+      for="new-username"
+    >
+      New email
+      :
+    </label>
+    <input
+      class="form-control"
+      id="new-username"
+      name="new-username"
+      onChange={[Function]}
+      placeholder="New email"
+      type="email"
+      value=""
+    />
+    <button
+      class="btn btn-lg btn-warning btn-block mt-3"
+      type="submit"
+    >
+      Update email
+    </button>
+  </form>
+  <form
+    class="form-signin"
+    onSubmit={[Function]}
+  >
+    <h2
+      class="h3 mb-3 font-weight-normal"
+    >
       Update password
     </h2>
     <p>
@@ -59,7 +91,7 @@ exports[`Account component 1`] = `
       class="btn btn-lg btn-warning btn-block mt-3"
       type="submit"
     >
-      Update
+      Update password
     </button>
   </form>
 </div>

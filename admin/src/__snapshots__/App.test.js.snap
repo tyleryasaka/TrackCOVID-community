@@ -15,19 +15,19 @@ exports[`App component 1`] = `
     </h1>
     <label
       class="sr-only"
-      for="username"
+      for="email"
     >
-      Username
+      Email
       :
     </label>
     <br />
     <input
       class="form-control"
-      id="username"
-      name="username"
+      id="email"
+      name="email"
       onChange={[Function]}
-      placeholder="Username"
-      type="text"
+      placeholder="Email"
+      type="email"
       value=""
     />
     <br />
@@ -57,13 +57,24 @@ exports[`App component 1`] = `
       Sign in
     </button>
     <p
-      class="mt-5 mb-3 text-muted"
+      class="mt-5"
+    >
+      <a
+        class="link text-warning"
+        onClick={[Function]}
+      >
+        Forgot your password?
+      </a>
+    </p>
+    <p
+      class="mt-2 mb-3 text-muted"
     >
       Don't have an account? You can request access
        
       <a
         class="text-warning"
         href="http://my-form.my-org"
+        onClick={[Function]}
         target="_blank"
       >
         here
