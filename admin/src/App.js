@@ -7,6 +7,7 @@ import './App.css'
 import { fetchCurrentUser } from './helpers/api'
 import { Login } from './components/Login'
 import { ForgotPassword } from './components/ForgotPassword'
+import { ResetPassword } from './components/ResetPassword'
 import { Checkpoints } from './components/Checkpoints'
 import { CreateCheckpoint } from './components/CreateCheckpoint'
 import { Reports } from './components/Reports'
@@ -14,12 +15,13 @@ import { Users } from './components/Users'
 import { Account } from './components/Account'
 
 const ViewEnum = {
-  checkpoints: '/checkpoints/upload',
-  users: '/users',
-  account: '/account',
-  createCheckpoint: '/checkpoints/new',
-  reports: '/reports',
+  checkpoints: '/dashboard/checkpoints/upload',
+  users: '/dashboard/users',
+  account: '/dashboard/account',
+  createCheckpoint: '/dashboard/checkpoints/new',
+  reports: '/dashboard/reports',
   login: '/login',
+  forgotPassword: '/forgot-password',
   resetPassword: '/reset-password'
 }
 
@@ -38,12 +40,16 @@ function AppContainer ({ history }) {
   const loadCurrentUser = async () => {
     const user = await fetchCurrentUser()
     if (typeof user !== 'undefined') {
-      history.push(getDefaultRoute(true, user))
+      if (!history.location.pathname.includes('/dashboard')) {
+        history.push(getDefaultRoute(true, user))
+      }
       setIsLoggedIn(true)
       setCurrentUser(user)
     } else {
+      if (history.location.pathname.includes('/dashboard')) {
+        history.push(getDefaultRoute(false, user))
+      }
       setIsLoggedIn(false)
-      history.push(getDefaultRoute(false, user))
     }
   }
 
@@ -75,7 +81,7 @@ function AppContainer ({ history }) {
     }
   }
 
-  const renderContext = (isLoggedIn, ChildComponent) => {
+  const renderContext = (ChildComponent) => {
     return (
       isLoggedIn
         ? (
@@ -148,13 +154,14 @@ function AppContainer ({ history }) {
 
   return (
     <div>
-      <Route path={ViewEnum.login} component={() => renderContext(isLoggedIn, () => <Login onLoginRequest={onSubmitLogin} />)} />
-      <Route path={ViewEnum.resetPassword} component={() => renderContext(isLoggedIn, () => <ForgotPassword />)} />
-      <Route path={ViewEnum.checkpoints} component={() => renderContext(isLoggedIn, Checkpoints)} />
-      <Route path={ViewEnum.createCheckpoint} component={() => renderContext(isLoggedIn, CreateCheckpoint)} />
-      <Route path={ViewEnum.reports} component={() => renderContext(isLoggedIn, Reports)} />
-      <Route path={ViewEnum.users} component={() => renderContext(isLoggedIn, () => <Users currentUser={currentUser} />)} />
-      <Route path={ViewEnum.account} component={() => renderContext(isLoggedIn, Account)} />
+      <Route path={ViewEnum.login} component={() => renderContext(() => <Login onLoginRequest={onSubmitLogin} />)} />
+      <Route path={ViewEnum.forgotPassword} component={() => renderContext(ForgotPassword)} />
+      <Route path={ViewEnum.resetPassword} component={() => renderContext(ResetPassword)} />
+      <Route path={ViewEnum.checkpoints} component={() => renderContext(Checkpoints)} />
+      <Route path={ViewEnum.createCheckpoint} component={() => renderContext(CreateCheckpoint)} />
+      <Route path={ViewEnum.reports} component={() => renderContext(Reports)} />
+      <Route path={ViewEnum.users} component={() => renderContext(() => <Users currentUser={currentUser} />)} />
+      <Route path={ViewEnum.account} component={() => renderContext(Account)} />
       { ((history.location.pathname === '/') || (history.location.pathname === '/admin')) && (
         <Redirect from='/' to={getDefaultRoute()} />
       )}

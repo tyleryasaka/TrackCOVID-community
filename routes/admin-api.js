@@ -10,6 +10,7 @@ const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
 const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
+const ResetToken = require('../models/reset-token')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const adminDomain = process.env['ADMIN_DOMAIN']
@@ -195,7 +196,7 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
   }
 })
 
-adminApiRouter.post('/api/users/reset-password', function (req, res) {
+adminApiRouter.post('/api/users/reset-password-request', function (req, res) {
   const username = req.body.username
   User.findOne({ username }, async function (err, user) {
     if (err || !user) {
@@ -204,26 +205,71 @@ adminApiRouter.post('/api/users/reset-password', function (req, res) {
       }
       res.send({ error: true })
     } else {
-      const tempPass = generatePassword()
-      await user.setPassword(tempPass)
-      await user.save()
-      let hasError = false
-      const msg = {
-        to: user.username,
-        from: adminEmailFrom, // Use the email address or domain you verified above
-        subject: `Password reset for ${appName} Admin`,
-        text: `Your password has been reset for ${appName}. You may login with the information below.\n\nEmail: ${user.username}\nTemporary password: ${tempPass}`
+      const token = generatePassword()
+      const resetToken = {
+        username,
+        token,
+        timestamp: Date.now()
       }
-      try {
-        await sgMail.send(msg)
-      } catch (error) {
-        console.error(error)
-        if (error.response) {
-          console.error(error.response.body)
+      ResetToken.create(resetToken, async function (err) {
+        if (err) {
+          console.error(err)
+          res.send({ error: true })
+        } else {
+          let hasError = false
+          const msg = {
+            to: user.username,
+            from: adminEmailFrom, // Use the email address or domain you verified above
+            subject: `Password reset for ${appName} Admin`,
+            text: `We received a request to reset your password for ${appName} Admin. You may reset your password using the link below.\n\nReset your password: ${adminDomain}/admin/reset-password?token=${token}\n\nThis link will expire in 24 hours.`
+          }
+          try {
+            await sgMail.send(msg)
+          } catch (error) {
+            console.error(error)
+            if (error.response) {
+              console.error(error.response.body)
+            }
+            hasError = true
+          }
+          res.send({ error: hasError })
         }
-        hasError = true
+      })
+    }
+  })
+})
+
+adminApiRouter.post('/api/users/reset-password', function (req, res) {
+  const { token, newPassword } = req.body
+  ResetToken.findOne({ token }, async function (err, resetToken) {
+    if (err || !resetToken) {
+      if (err) {
+        console.error(err)
       }
-      res.send({ error: hasError })
+      res.send({ error: true })
+    } else {
+      const oneDay = 1000 * 60 * 60 * 24
+      if (Date.now() - resetToken.timestamp > oneDay) {
+        res.send({ error: true })
+      } else {
+        User.findOne({ username: resetToken.username }, async function (err, user) {
+          if (err || !user) {
+            if (err) {
+              console.error(err)
+            }
+            res.send({ error: true })
+          } else {
+            await user.setPassword(newPassword)
+            await user.save()
+            ResetToken.deleteOne({ token }, function (err) {
+              if (err) {
+                console.error(err)
+              }
+              res.send({ error: false })
+            })
+          }
+        })
+      }
     }
   })
 })
