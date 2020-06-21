@@ -91,34 +91,34 @@ function App () {
                 <ul class='nav flex-column'>
                   {canUploadCheckpoints && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.checkpoints)}>
+                      <a class={view === ViewEnum.checkpoints ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.checkpoints)}>
                         {t('menu_checkpoints')}
                       </a>
                     </li>
                   )}
                   {canCreateCheckpoints && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.createCheckpoint)}>
+                      <a class={view === ViewEnum.createCheckpoint ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.createCheckpoint)}>
                         {t('menu_checkpoint_pdf')}
                       </a>
                     </li>
                   )}
                   {canAccessReports && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.reports)}>
+                      <a class={view === ViewEnum.reports ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.reports)}>
                         {t('menu_reports')}
                       </a>
                     </li>
                   )}
                   {canManageUsers && (
                     <li class='nav-item'>
-                      <a class='nav-link' onClick={() => setView(ViewEnum.users)}>
+                      <a class={view === ViewEnum.users ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.users)}>
                         {t('menu_users')}
                       </a>
                     </li>
                   )}
                   <li class='nav-item'>
-                    <a class='nav-link' onClick={() => setView(ViewEnum.account)}>
+                    <a class={view === ViewEnum.account ? 'nav-link active' : 'nav-link'} onClick={() => setView(ViewEnum.account)}>
                       {t('menu_account')}
                     </a>
                   </li>
