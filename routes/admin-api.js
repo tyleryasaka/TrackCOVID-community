@@ -5,6 +5,7 @@ const QRCode = require('qrcode')
 const express = require('express')
 const passport = require('passport')
 const createCsv = require('csv-writer').createObjectCsvStringifier
+const sgMail = require('@sendgrid/mail')
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
@@ -12,6 +13,9 @@ const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const adminDomain = process.env['ADMIN_DOMAIN']
+const adminEmailFrom = process.env['ADMIN_EMAIL_FROM']
+const appName = process.env['APP_NAME']
+sgMail.setApiKey(process.env['SENDGRID_API_KEY'])
 
 const adminApiRouter = express.Router()
 
@@ -137,21 +141,38 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
       canAccessReports: Boolean(req.body.canAccessReports)
     }
     const tempPass = generatePassword()
-    User.register(newUser, tempPass, function (err) {
+    User.register(newUser, tempPass, async function (err) {
       if (err) {
         console.error(err)
         res.send({ error: true })
       } else {
-        res.send({
-          error: false,
-          user: {
-            username: newUser.username,
-            canUploadCheckpoints: newUser.canUploadCheckpoints,
-            canCreateCheckpoints: newUser.canCreateCheckpoints,
-            canManageUsers: newUser.canManageUsers,
-            canAccessReports: newUser.canAccessReports,
-            password: tempPass
+        let hasError = false
+        const msg = {
+          to: newUser.username,
+          from: adminEmailFrom, // Use the email address or domain you verified above
+          subject: `Your login for ${appName} Admin`,
+          text: `You have been registered as an admin for ${appName}. You may login with the information below.\n\nLogin page: ${adminDomain}/admin\nEmail: ${newUser.username}\nTemporary password: ${tempPass}`
+        }
+        try {
+          await sgMail.send(msg)
+        } catch (error) {
+          console.error(error)
+          if (error.response) {
+            console.error(error.response.body)
           }
+          hasError = true
+        }
+        res.send({
+          error: hasError,
+          user: hasError
+            ? undefined
+            : {
+              username: newUser.username,
+              canUploadCheckpoints: newUser.canUploadCheckpoints,
+              canCreateCheckpoints: newUser.canCreateCheckpoints,
+              canManageUsers: newUser.canManageUsers,
+              canAccessReports: newUser.canAccessReports
+            }
         })
       }
     })

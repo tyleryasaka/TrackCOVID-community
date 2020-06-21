@@ -206,10 +206,8 @@ export function Users ({ currentUser }) {
       )}
       {view === ViewEnum.created && (
         <div>
-          <h2 class='h3 mb-3 font-weight-normal'>{t('user_create_success')}:</h2>
+          <p class='mb-3 font-weight-normal'>{t('user_create_success')}</p>
           <p>{t('user_create_username')}: <strong>{createdUsername}</strong></p>
-          <p>{t('user_create_password')}: <strong>{createdPassword}</strong></p>
-          <p>{t('user_create_credential_delivery')}</p>
           <a class='btn btn-dark text-light mt-2' onClick={() => setView(ViewEnum.list)}>
             {t('user_create_exit')}
           </a>
