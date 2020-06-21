@@ -92,7 +92,7 @@ adminApiRouter.get('/api/status', function (req, res) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  res.redirect(`${adminDomain}/admin`)
+  res.redirect(`${adminDomain}/admin/login`)
 })
 
 adminApiRouter.post('/login', function (req, res, next) {
@@ -114,7 +114,7 @@ adminApiRouter.post('/login', function (req, res, next) {
 
 adminApiRouter.get('/logout', function (req, res) {
   req.logout()
-  res.redirect('/admin')
+  res.redirect('/admin/login')
 })
 
 adminApiRouter.put('/api/account', function (req, res) {

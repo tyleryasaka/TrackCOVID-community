@@ -76,7 +76,7 @@ export function CreateCheckpoint () {
         }))
       })
     }
-  }, [map, autocomplete])
+  }, [map, autocomplete, languageNames, pdfTranslations])
 
   function setMapLocation (lat, lng) {
     if (lat !== null && lng !== null) {

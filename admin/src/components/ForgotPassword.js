@@ -1,9 +1,10 @@
 /* globals alert */
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { resetPassword } from '../helpers/api'
 
-export function ForgotPassword ({ onClickCancelResetPassword }) {
+export function ForgotPassword () {
   const [username, setUsername] = useState('')
   const { t } = useTranslation()
 
@@ -29,7 +30,7 @@ export function ForgotPassword ({ onClickCancelResetPassword }) {
       <button class='btn btn-lg btn-warning btn-block' type='submit'>{t('reset_password_submit')}</button>
       <p class='mt-5 mb-3 text-muted'>{process.env.REACT_APP_NAME} {t('admin')}</p>
       <p class='mt-5'>
-        <a class='link text-warning' onClick={onClickCancelResetPassword}>{t('reset_password_cancel')}</a>
+        <Link class='link text-warning' to={'/login'}>{t('reset_password_cancel')}</Link>
       </p>
     </form>
   )
