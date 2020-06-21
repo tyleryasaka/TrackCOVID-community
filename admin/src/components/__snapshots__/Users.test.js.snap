@@ -26,7 +26,7 @@ exports[`Users component 1`] = `
           <th
             scope="col"
           >
-            Username
+            Email
           </th>
           <th
             scope="col"
