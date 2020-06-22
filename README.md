@@ -12,9 +12,7 @@ Here we present a strategy for setting up QR code-based contact tracing in your 
 
 ## Information packet
 
-- [TrackCOVID Overview](doc/flyers/TrackCOVID-Overview.pdf)
-- [TrackCOVID Setup Information](doc/flyers/TrackCOVID-Setup-Information.pdf)
-- [TrackCOVID User Flow Diagram](doc/flyers/TrackCOVID-User-Flow-Diagram.pdf)
+- [Download Packet](https://trackcovid.net/public/TrackCOVID-Information-Packet.zip)
 
 ## User flow diagram
 
