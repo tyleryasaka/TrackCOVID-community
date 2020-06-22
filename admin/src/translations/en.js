@@ -58,6 +58,7 @@ module.exports = {
     'user_create_can_create_checkpoints': 'Can create checkpoints',
     'user_create_can_manage_users': 'Can manage other users',
     'user_create_can_upload_checkpoints': 'Can upload checkpoints',
+    'user_create_can_manage_countries': 'Can manage countries & locales',
     'user_create_exit': 'Return to all users',
     'user_create_fail': 'Oops, there was an error creating this user.',
     'user_create_invalid_username': 'Invalid email address.',
