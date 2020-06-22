@@ -37,11 +37,11 @@ export const fetchUsers = async () => {
   return (res && res.users) ? res.users : undefined
 }
 
-export const createUser = async ({ username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
+export const createUser = async ({ username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports, canManageCountries }) => {
   const res = await sendRequest(
     '/admin/api/users',
     'POST',
-    { username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
+    { username, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports, canManageCountries }
   )
   return res && !res.error ? res.user : undefined
 }
@@ -64,11 +64,11 @@ export const resetPassword = async ({ token, newPassword }) => {
   return res && !res.error
 }
 
-export const updateUser = async ({ userId, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }) => {
+export const updateUser = async ({ userId, canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports, canManageCountries }) => {
   const res = await sendRequest(
     `/admin/api/users/${userId}`,
     'PUT',
-    { canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports }
+    { canUploadCheckpoints, canCreateCheckpoints, canManageUsers, canAccessReports, canManageCountries }
   )
   return res && !res.error
 }
@@ -127,4 +127,39 @@ export const fetchLanguages = async () => {
 export const fetchTranslations = async (language) => {
   const res = await sendExternalRequest(`https://api.locize.app/${locizeProductId}/latest/${language}/translation`)
   return res
+}
+
+export const getCountries = async () => {
+  const res = await sendRequest(
+    '/admin/api/countries',
+    'GET'
+  )
+  return res && !res.error ? res.countries : undefined
+}
+
+export const createCountry = async ({ name, code }) => {
+  const res = await sendRequest(
+    '/admin/api/countries',
+    'POST',
+    { name, code }
+  )
+  return res && !res.error
+}
+
+export const updateCountry = async ({ _id, name, code, locales }) => {
+  const res = await sendRequest(
+    '/admin/api/countries',
+    'PUT',
+    { _id, name, code, locales }
+  )
+  return res && !res.error
+}
+
+export const deleteCountry = async ({ _id }) => {
+  const res = await sendRequest(
+    '/admin/api/countries',
+    'DELETE',
+    { _id }
+  )
+  return res && !res.error
 }

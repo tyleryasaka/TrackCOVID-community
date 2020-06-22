@@ -463,24 +463,18 @@ const locales = [
 
 ]
 
-function getCountryInfo (countryCode) {
-  return locales.find(l => l.countryCode === countryCode)
+function getCountryByCode (countries, countryCode) {
+  return countries.find(country => country.code === countryCode)
 }
 
-function getLocaleInfo (localeObj) {
-  const localeCode = Object.keys(localeObj)[0]
-
-  const localeName = localeObj[localeCode]
-
-  return { localeCode, localeName }
+function getLocaleByCode (countries, countryCode, localeCode) {
+  const countryObj = getCountryByCode(countries, countryCode)
+  return countryObj && countryObj.locales
+    ? countryObj.locales.find(locale => locale.code === localeCode)
+    : undefined
 }
-
 module.exports = {
-
   locales,
-
-  getCountryInfo,
-
-  getLocaleInfo
-
+  getCountryByCode,
+  getLocaleByCode
 }

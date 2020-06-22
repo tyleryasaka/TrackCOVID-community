@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
   canUploadCheckpoints: Boolean,
   canCreateCheckpoints: Boolean,
   canManageUsers: Boolean,
-  canAccessReports: Boolean
+  canAccessReports: Boolean,
+  canManageCountries: Boolean
 })
 userSchema.plugin(passportLocalMongoose)
 const User = mongoose.model('User', userSchema)

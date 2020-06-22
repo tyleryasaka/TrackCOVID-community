@@ -13,6 +13,7 @@ import { CreateCheckpoint } from './components/CreateCheckpoint'
 import { Reports } from './components/Reports'
 import { Users } from './components/Users'
 import { Account } from './components/Account'
+import { Countries } from './components/Countries'
 
 const ViewEnum = {
   checkpoints: '/dashboard/checkpoints/upload',
@@ -20,6 +21,7 @@ const ViewEnum = {
   account: '/dashboard/account',
   createCheckpoint: '/dashboard/checkpoints/new',
   reports: '/dashboard/reports',
+  countries: '/dashboard/countries-locales',
   login: '/login',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password'
@@ -34,6 +36,7 @@ function AppContainer ({ history }) {
   const canUploadCheckpoints = currentUser && Boolean(currentUser.canUploadCheckpoints)
   const canCreateCheckpoints = currentUser && Boolean(currentUser.canCreateCheckpoints)
   const canManageUsers = currentUser && Boolean(currentUser.canManageUsers)
+  const canManageCountries = currentUser && Boolean(currentUser.canManageCountries)
   const canAccessReports = currentUser && Boolean(currentUser.canAccessReports)
   const { t } = useTranslation()
 
@@ -115,6 +118,13 @@ function AppContainer ({ history }) {
                           </NavLink>
                         </li>
                       )}
+                      {canManageCountries && (
+                        <li className='nav-item'>
+                          <NavLink className='nav-link' activeClassName='active' to={ViewEnum.countries}>
+                            {t('menu_countries')}
+                          </NavLink>
+                        </li>
+                      )}
                       {canAccessReports && (
                         <li className='nav-item'>
                           <NavLink className='nav-link' activeClassName='active' to={ViewEnum.reports}>
@@ -159,6 +169,7 @@ function AppContainer ({ history }) {
       <Route path={ViewEnum.resetPassword} component={() => renderContext(ResetPassword)} />
       <Route path={ViewEnum.checkpoints} component={() => renderContext(Checkpoints)} />
       <Route path={ViewEnum.createCheckpoint} component={() => renderContext(CreateCheckpoint)} />
+      <Route path={ViewEnum.countries} component={() => renderContext(Countries)} />
       <Route path={ViewEnum.reports} component={() => renderContext(Reports)} />
       <Route path={ViewEnum.users} component={() => renderContext(() => <Users currentUser={currentUser} />)} />
       <Route path={ViewEnum.account} component={() => renderContext(Account)} />
