@@ -9,8 +9,9 @@ const sgMail = require('@sendgrid/mail')
 const Checkpoint = require('../models/checkpoint')
 const User = require('../models/user')
 const Location = require('../models/location')
-const { getCountryInfo, getLocaleInfo } = require('../admin/src/helpers/locale')
+const { getCountryByCode, getLocaleByCode } = require('../admin/src/helpers/locale')
 const ResetToken = require('../models/reset-token')
+const Country = require('../models/country')
 
 const checkpointKeyLength = Number(process.env['CHECKPOINT_KEY_LENGTH'])
 const adminDomain = process.env['ADMIN_DOMAIN']
@@ -66,11 +67,46 @@ async function getCheckpointLocations (onSuccess, onErr) {
   })
 }
 
+async function getCountries () {
+  return new Promise((resolve, reject) => {
+    Country.find({}, function (err, countries) {
+      if (err) {
+        console.error(err)
+        reject(err)
+      } else {
+        countries.sort((a, b) => {
+          if (a.name > b.name) {
+            return 1
+          } else if (a.name < b.name) {
+            return -1
+          } else {
+            return 0
+          }
+        })
+        const withSortedLocales = countries.map(c => {
+          c.locales.sort((a, b) => {
+            if (a.name > b.name) {
+              return 1
+            } else if (a.name < b.name) {
+              return -1
+            } else {
+              return 0
+            }
+          })
+          return c
+        })
+        resolve(withSortedLocales)
+      }
+    })
+  })
+}
+
 adminApiRouter.get('/api/status', function (req, res) {
   const canUploadCheckpoints = req.user && req.user.canUploadCheckpoints
   const canCreateCheckpoints = req.user && req.user.canCreateCheckpoints
   const canManageUsers = req.user && req.user.canManageUsers
   const canAccessReports = req.user && req.user.canAccessReports
+  const canManageCountries = req.user && req.user.canManageCountries
   const id = req.user && req.user._id
   const username = req.user && req.user.username
   res.send({
@@ -80,6 +116,7 @@ adminApiRouter.get('/api/status', function (req, res) {
       canCreateCheckpoints,
       canManageUsers,
       canAccessReports,
+      canManageCountries,
       id,
       username
     }
@@ -148,7 +185,8 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
       canUploadCheckpoints: Boolean(req.body.canUploadCheckpoints),
       canCreateCheckpoints: Boolean(req.body.canCreateCheckpoints),
       canManageUsers: Boolean(req.body.canManageUsers),
-      canAccessReports: Boolean(req.body.canAccessReports)
+      canAccessReports: Boolean(req.body.canAccessReports),
+      canManageCountries: Boolean(req.body.canManageCountries)
     }
     const tempPass = generatePassword()
     User.register(newUser, tempPass, async function (err) {
@@ -181,7 +219,8 @@ adminApiRouter.post('/api/users', ensureAuthenticated, function (req, res) {
               canUploadCheckpoints: newUser.canUploadCheckpoints,
               canCreateCheckpoints: newUser.canCreateCheckpoints,
               canManageUsers: newUser.canManageUsers,
-              canAccessReports: newUser.canAccessReports
+              canAccessReports: newUser.canAccessReports,
+              canManageCountries: newUser.canManageCountries
             }
         })
       }
@@ -282,6 +321,7 @@ adminApiRouter.put('/api/users/:id', ensureAuthenticated, function (req, res) {
         user.canCreateCheckpoints = Boolean(req.body.canCreateCheckpoints)
         user.canManageUsers = Boolean(req.body.canManageUsers)
         user.canAccessReports = Boolean(req.body.canAccessReports)
+        user.canManageCountries = Boolean(req.body.canManageCountries)
         user.save((err) => {
           if (err) {
             console.error(err)
@@ -328,6 +368,7 @@ adminApiRouter.get('/api/users', ensureAuthenticated, function (req, res) {
             canUploadCheckpoints: user.canUploadCheckpoints,
             canCreateCheckpoints: user.canCreateCheckpoints,
             canManageUsers: user.canManageUsers,
+            canManageCountries: user.canManageCountries,
             canAccessReports: user.canAccessReports
           }
         })
@@ -415,18 +456,17 @@ adminApiRouter.get('/generate/:checkpointKey/checkpoint.pdf', ensureAuthenticate
           { x: 55, y: 705 }
         ]
         let numLines = 0
-        const countryObj = getCountryInfo(location.country)
-        let locales
+        const countries = await getCountries()
+        const countryObj = getCountryByCode(countries, location.country)
         if (countryObj) {
-          locales = countryObj.locales.map(l => getLocaleInfo(l))
-          const localeObj = locales.find(l => l.localeCode === location.locale)
+          const localeObj = getLocaleByCode(countries, location.country, location.locale)
           if (localeObj) {
             doc.fontSize(12)
-            doc.text(localeObj.localeName, coords[numLines].x, coords[numLines].y)
+            doc.text(localeObj.name, coords[numLines].x, coords[numLines].y)
             numLines++
           }
           doc.fontSize(12)
-          doc.text(countryObj.countryName, coords[numLines].x, coords[numLines].y)
+          doc.text(countryObj.name, coords[numLines].x, coords[numLines].y)
           numLines++
         }
       }
@@ -494,6 +534,69 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
         res.send({ error: true })
       }
     )
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.get('/api/countries', ensureAuthenticated, async (req, res) => {
+  if (req.user.canManageCountries || req.user.canCreateCheckpoints || req.user.canAccessReports) {
+    try {
+      const countries = await getCountries()
+      res.send({ error: false, countries })
+    } catch (e) {
+      res.send({ error: true })
+    }
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.post('/api/countries', ensureAuthenticated, (req, res) => {
+  if (req.user.canManageCountries) {
+    const { name, code } = req.body
+    const countryData = { name, code, locales: [] }
+    Country.create(countryData, function (err, country) {
+      if (err) {
+        console.error(err)
+        res.send({ error: true })
+      } else {
+        res.send({ error: false, country })
+      }
+    })
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.put('/api/countries', ensureAuthenticated, (req, res) => {
+  if (req.user.canManageCountries) {
+    const { _id, name, code, locales } = req.body
+    const countryData = { name, code, locales }
+    Country.updateOne({ _id }, countryData, function (err) {
+      if (err) {
+        console.error(err)
+        res.send({ error: true })
+      } else {
+        res.send({ error: false })
+      }
+    })
+  } else {
+    res.sendStatus(403)
+  }
+})
+
+adminApiRouter.delete('/api/countries', ensureAuthenticated, (req, res) => {
+  if (req.user.canManageCountries) {
+    const { _id } = req.body
+    Country.deleteOne({ _id }, function (err) {
+      if (err) {
+        console.error(err)
+        res.send({ error: true })
+      } else {
+        res.send({ error: false })
+      }
+    })
   } else {
     res.sendStatus(403)
   }

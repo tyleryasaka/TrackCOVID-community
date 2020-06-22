@@ -15,6 +15,7 @@ export function Users ({ currentUser }) {
   const [newCanUpload, setNewCanUpload] = useState(true)
   const [newCanCreate, setNewCanCreate] = useState(false)
   const [newCanManage, setNewCanManage] = useState(false)
+  const [newCanManageCountries, setNewCanManageCountries] = useState(false)
   const [newCanAccessReports, setNewCanAccessReports] = useState(false)
   const [createdUsername, setCreatedUsername] = useState('')
   const { t } = useTranslation()
@@ -42,6 +43,7 @@ export function Users ({ currentUser }) {
         canUploadCheckpoints: newCanUpload,
         canCreateCheckpoints: newCanCreate,
         canManageUsers: newCanManage,
+        canManageCountries: newCanManageCountries,
         canAccessReports: newCanAccessReports
       })
       if (typeof createdUser === 'undefined') {
@@ -71,6 +73,9 @@ export function Users ({ currentUser }) {
   const onchangeNewCanManage = () => {
     setNewCanManage(!newCanManage)
   }
+  const onchangeNewCanManageCountries = () => {
+    setNewCanManageCountries(!newCanManageCountries)
+  }
   const onchangeNewCanAccessReports = () => {
     setNewCanAccessReports(!newCanAccessReports)
   }
@@ -80,6 +85,7 @@ export function Users ({ currentUser }) {
       canUploadCheckpoints: user.canUploadCheckpoints,
       canCreateCheckpoints: user.canCreateCheckpoints,
       canManageUsers: user.canManageUsers,
+      canManageCountries: user.canManageCountries,
       canAccessReports: user.canAccessReports
     }
     newUser[prop] = !user[prop]
@@ -118,6 +124,7 @@ export function Users ({ currentUser }) {
                 <th scope='col'>{t('user_create_can_upload_checkpoints')}</th>
                 <th scope='col'>{t('user_create_can_create_checkpoints')}</th>
                 <th scope='col'>{t('user_create_can_manage_users')}</th>
+                <th scope='col'>{t('user_create_can_manage_countries')}</th>
                 <th scope='col'>{t('user_create_can_access_reports')}</th>
                 <th scope='col' />
               </tr>
@@ -146,6 +153,13 @@ export function Users ({ currentUser }) {
                       {canEdit && (
                         <div class='form-check'>
                           <input class='form-check-input' type='checkbox' checked={user.canManageUsers} onChange={() => onEditUser(user, 'canManageUsers')} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {canEdit && (
+                        <div class='form-check'>
+                          <input class='form-check-input' type='checkbox' checked={user.canManageCountries} onChange={() => onEditUser(user, 'canManageCountries')} />
                         </div>
                       )}
                     </td>
@@ -191,6 +205,12 @@ export function Users ({ currentUser }) {
             <input checked={newCanManage} onChange={onchangeNewCanManage} class='form-check-input' type='checkbox' id='can-manage' />
             <label class='form-check-label' for='can-manage'>
               {t('user_create_can_manage_users')}
+            </label>
+          </div>
+          <div class='form-check'>
+            <input checked={newCanManageCountries} onChange={onchangeNewCanManageCountries} class='form-check-input' type='checkbox' id='can-manage-countries' />
+            <label class='form-check-label' for='can-manage-countries'>
+              {t('user_create_can_manage_countries')}
             </label>
           </div>
           <div class='form-check'>

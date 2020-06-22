@@ -1,12 +1,14 @@
 /* globals */
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { postLocation, fetchLanguages, fetchTranslations } from '../helpers/api'
-import { locales, getCountryInfo, getLocaleInfo } from '../helpers/locale'
+import { getCountryByCode } from '../helpers/locale'
+import { postLocation, fetchLanguages, fetchTranslations, getCountries } from '../helpers/api'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 
 export function CreateCheckpoint () {
+  const [hasLoadedCountries, setHasLoadedCountries] = useState(false)
+  const [countries, setCountries] = useState([])
   const [country, setCountry] = useState('')
   const [locale, setLocale] = useState('')
   const [name, setName] = useState('')
@@ -16,6 +18,7 @@ export function CreateCheckpoint () {
   const [autocomplete, setAutocomplete] = useState(null)
   const [latitude, setLatitude] = useState(null)
   const [longitude, setLongitude] = useState(null)
+  const [hasLoadedTranslations, setHasLoadedTranslations] = useState(false)
   const [pdfTranslations, setPdfTranslations] = useState([])
   const [pdfTranslation, setPdfTranslation] = useState('')
   const { t } = useTranslation()
@@ -29,7 +32,16 @@ export function CreateCheckpoint () {
     pap: 'Papiamentu'
   }
 
+  async function loadCountries () {
+    const fetchedCountries = await getCountries()
+    setHasLoadedCountries(true)
+    setCountries(fetchedCountries)
+  }
+
   useEffect(() => {
+    if (!hasLoadedCountries) {
+      loadCountries()
+    }
     if (!map) {
       const myOptions = {
         zoom: 3,
@@ -54,8 +66,9 @@ export function CreateCheckpoint () {
         setMapLocation(newLat, newLong)
       })
     }
-    if (pdfTranslations.length === 0) {
+    if (!hasLoadedTranslations) {
       fetchLanguages().then(async languages => {
+        setHasLoadedTranslations(true)
         const newPDFTranslations = await Promise.all(Object.keys(languages).map(code => {
           return new Promise(async resolve => {
             const translations = await fetchTranslations(code)
@@ -76,7 +89,7 @@ export function CreateCheckpoint () {
         }))
       })
     }
-  }, [map, autocomplete, languageNames, pdfTranslations])
+  }, [map, autocomplete, languageNames, hasLoadedCountries])
 
   function setMapLocation (lat, lng) {
     if (lat !== null && lng !== null) {
@@ -126,9 +139,8 @@ export function CreateCheckpoint () {
   }
 
   const isSubmitDisabled = (latitude === null) || (longitude === null) || !name || !country || !locale
-  const localesForCountry = country
-    ? getCountryInfo(country).locales.map(l => getLocaleInfo(l))
-    : []
+  const countryObj = getCountryByCode(countries, country)
+  const localesForCountry = countryObj ? countryObj.locales : []
 
   const externalMapLink = (latitude !== null) && (longitude !== null)
     ? `http://maps.google.com/?q=${latitude},${longitude}`
@@ -150,18 +162,18 @@ export function CreateCheckpoint () {
         <label>{t('create_checkpoint_country')}</label>
         <select class='custom-select mb-3' onChange={onchangeCountry} value={country}>
           <option value=''>{t('create_checkpoint_country_select')}</option>
-          {locales.map((localeOption, index) => {
+          {countries.map((countryOption, index) => {
             return (
-              <option key={index} value={localeOption.countryCode}>{localeOption.countryName} ({localeOption.countryCode})</option>
+              <option key={index} value={countryOption.code}>{countryOption.name} ({countryOption.code})</option>
             )
           })}
         </select>
         <label>{t('create_checkpoint_locale')}</label>
         <select class='custom-select mb-3' onChange={onchangeLocale} value={locale}>
           <option value=''>{t('create_checkpoint_locale_select')}</option>
-          {localesForCountry.map(({ localeCode, localeName }, index) => {
+          {localesForCountry.map(({ code, name }, index) => {
             return (
-              <option key={index} value={localeCode}>{localeName} ({localeCode})</option>
+              <option key={index} value={code}>{name} ({code})</option>
             )
           })}
         </select>
