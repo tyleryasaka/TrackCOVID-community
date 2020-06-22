@@ -10,6 +10,12 @@ This is an open source project which is provided freely to communities which are
 
 Here we present a strategy for setting up QR code-based contact tracing in your community or jurisdiction, with all of the source code necessary for this to happen. This approach can potentially add an additional layer of protection as public places begin reopening. Manual contact tracing in public places is very difficult, if not impossible in many cases. Our approach can help to notify people of potential exposure at these public places in a way that does not invade their privacy.
 
+## Information packet
+
+- [TrackCOVID Overview](doc/flyers/TrackCOVID-Overview.pdf)
+- [TrackCOVID Setup Information](doc/flyers/TrackCOVID-Setup-Information.pdf)
+- [TrackCOVID User Flow Diagram](doc/flyers/TrackCOVID-User-Flow-Diagram.pdf)
+
 ## User flow diagram
 
 ![user flow diagram](doc/user-flow.png)
