@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import i18n from './i18n'
-import languageNames from './languages'
+import { languageNames } from './translations/languages'
 
 const oneSecond = 1000
 const pollingTime = 30 * oneSecond
@@ -33,6 +33,7 @@ const pollingTime = 30 * oneSecond
 const checkpointKeyLength = Number(process.env.REACT_APP_CHECKPOINT_KEY_LENGTH) + 4
 const adminDomain = process.env.REACT_APP_ADMIN_DOMAIN
 const aboutUrl = process.env.REACT_APP_ABOUT_URL
+const isUsingLocize = Boolean(process.env.REACT_APP_LOCIZE_PRODUCT_ID)
 
 function ListItemLink (props) {
   return <ListItem button component='a' {...props} />
@@ -57,20 +58,25 @@ class App extends React.Component {
       this.updateStatus()
       setInterval(this.updateStatus.bind(this), pollingTime)
     })
-    i18n.services.backendConnector.backend.getLanguages((err, data) => {
-      if (err) {
-        console.error(err)
-      } else {
-        const languages = Object.keys(data).map(languageCode => {
-          return {
-            code: languageCode,
-            name: languageNames[languageCode] || data[languageCode].name
-          }
-        })
-        const currentLanguage = i18n.language
-        this.setState({ languages, currentLanguage })
-      }
-    })
+    if (isUsingLocize) {
+      i18n.services.backendConnector.backend.getLanguages((err, data) => {
+        if (err) {
+          console.error(err)
+        } else {
+          const languages = Object.keys(data).map(languageCode => {
+            return {
+              code: languageCode,
+              name: languageNames[languageCode] || data[languageCode].name
+            }
+          })
+          const currentLanguage = i18n.language
+          this.setState({ languages, currentLanguage })
+        }
+      })
+    } else {
+      console.log(i18n)
+      this.setState({ languages: languageNames, currentLanguage: i18n.language })
+    }
   }
 
   async checkUrl () {
