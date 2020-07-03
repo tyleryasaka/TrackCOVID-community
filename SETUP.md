@@ -75,7 +75,7 @@ The admin module will also be built when you run `npm install` from the server (
 
 ## Additional setup
 
-#### Setting up Sendgrid
+### Setting up Sendgrid
 
 The admin dashboard uses [Sendgrid](https://sendgrid.com/) for account management (sending users their initial password, and password resets). You can create a free account, which will allow you to send 40,000 emails for the first 30 days, then 100/day after that.
 
