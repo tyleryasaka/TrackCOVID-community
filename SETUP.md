@@ -80,8 +80,9 @@ The admin module will also be built when you run `npm install` from the server (
 The admin dashboard uses [Sendgrid](https://sendgrid.com/) for account management (sending users their initial password, and password resets). You can create a free account, which will allow you to send 40,000 emails for the first 30 days, then 100/day after that.
 
 1. Create your free [Sendgrid](https://sendgrid.com/) account
-2. Copy your API key from Sendgrid (It should start with the letters `SG`). Set the environment variable `SENDGRID_API_KEY` to this value.
-3. Set the environment variable `ADMIN_EMAIL_FROM` to the email address to use as the "from" email address for automated account management emails (e.g. password reset emails). Emails will appear as having been sent from this address in users' email inboxes.
+1. In Sendgrid, verify the "from" email address you will be using (needs to match the "from" email address in step 4). [Instructions here](https://sendgrid.com/docs/ui/sending-email/sender-verification).
+1. Copy your API key from Sendgrid (It should start with the letters `SG`). Set the environment variable `SENDGRID_API_KEY` to this value.
+1. Set the environment variable `ADMIN_EMAIL_FROM` to the email address to use as the "from" email address for automated account management emails (e.g. password reset emails). Emails will appear as having been sent from this address in users' email inboxes.
 
 ### Creating your first admin user
 
