@@ -75,6 +75,14 @@ The admin module will also be built when you run `npm install` from the server (
 
 ## Additional setup
 
+#### Setting up Sendgrid
+
+The admin dashboard uses [Sendgrid](https://sendgrid.com/) for account management (sending users their initial password, and password resets). You can create a free account, which will allow you to send 40,000 emails for the first 30 days, then 100/day after that.
+
+1. Create your free [Sendgrid](https://sendgrid.com/) account
+2. Copy your API key from Sendgrid (It should start with the letters `SG`). Set the environment variable `SENDGRID_API_KEY` to this value.
+3. Set the environment variable `ADMIN_EMAIL_FROM` to the email address to use as the "from" email address for automated account management emails (e.g. password reset emails). Emails will appear as having been sent from this address in users' email inboxes.
+
 ### Creating your first admin user
 
 You can create your first admin user by running the following from the root directory of this project: `npm run create-user`. This will prompt you for your mongodb url, desired username, and password. Be sure to use the appropriate mongodb url depending on whether you are trying to create a user in your production database or your local database. Also, if you're using Heroku and mLab, make sure to include `&retryWrites=false` at the end of the mongodb url.
