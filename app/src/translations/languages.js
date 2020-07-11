@@ -3,8 +3,8 @@ const languages = {
   es: 'Español',
   fr: 'Française',
   ht: 'Haiti Creole',
-  nl:e 'Nderlands',
-  fj:e 'iTaukei/Fijian',
+  nl: 'Nederlands',
+  fj: 'iTaukei/Fijian',
   pap: 'Papiamentu'
 }
 
