@@ -4,6 +4,7 @@ const languages = {
   fr: 'Française',
   ht: 'Haiti Creole',
   nl: 'Nederlands',
+  fj: 'iTaukei/Fijian',
   pap: 'Papiamentu'
 }
 
