@@ -11,8 +11,6 @@
   "menuAboutButton": "Sur",
   "menuAdminButton": "Admin",
   "noCameraPermissionMessage": "Cette application n'est pas autorisée à accéder à la caméra de votre appareil. Au lieu de cela, vous pouvez prendre une photo du code QR.",
-  "pdfHelp": "Numérisez ce code à l’aide de votre téléphone intelligent",
-  "pdfTitle": "Soyez en sécurité. Suivre.",
   "scanErrorMessage": "Le code QR n'a pas pu être lu. Veuillez réessayer.",
   "seeStatusTabMessage": "Voir l’onglet statut.",
   "standardRiskLevelMessage": "normal",

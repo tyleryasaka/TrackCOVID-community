@@ -11,8 +11,6 @@
   "menuAboutButton": "Sobre nos",
   "menuAdminButton": "Admin",
   "noCameraPermissionMessage": "Esta aplicación no tiene permiso para acceder la cámara de su dispositivo. En vez, puede tomar una foto del código QR.",
-  "pdfHelp": "Escanee este código con su teléfono inteligente",
-  "pdfTitle": "Esta Salvo. Llevas Cuenta.",
   "scanErrorMessage": "No se pudo leer el código QR. Inténtalo de nuevo.",
   "seeStatusTabMessage": "Consulte la pestaña de estado.",
   "standardRiskLevelMessage": "normal",

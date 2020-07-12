@@ -11,8 +11,6 @@
   "menuAboutButton": "Sou",
   "menuAdminButton": "Admin",
   "noCameraPermissionMessage": "Sa a app pa gen pemisyon jwenn akse nan kamera aparey ou a. Olye de sa, ou ka pran yon foto nan Kod QR la.",
-  "pdfHelp": "Analysis Kod sa a le li sevi avek telefon entelijan ou.",
-  "pdfTitle": "Rete an sekirite. Kenbe track.",
   "scanErrorMessage": "Kod QR la pa t ' kapab li. Tanpri eseye anko.",
   "seeStatusTabMessage": "Gade tab la estati.",
   "standardRiskLevelMessage": "nomal",

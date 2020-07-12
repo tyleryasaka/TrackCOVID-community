@@ -11,8 +11,6 @@
   "menuAboutButton": "About",
   "menuAdminButton": "Admin",
   "noCameraPermissionMessage": "This app does not have permission to access your device's camera. Instead, you may take a picture of the QR code.",
-  "pdfHelp": "Scan this code with your smartphone",
-  "pdfTitle": "Stay Safe. Keep Track.",
   "scanErrorMessage": "The QR code could not be read. Please try again.",
   "seeStatusTabMessage": "See the status tab.",
   "standardRiskLevelMessage": "clear",

@@ -11,8 +11,6 @@
   "menuAboutButton": "Informatie",
   "menuAdminButton": "Admin",
   "noCameraPermissionMessage": "Deze app heeft geen toestemming om toegang te krijgen tot de camera van uw apparaat. In plaats daarvan u een foto maken van de QR-code.",
-  "pdfHelp": "Scan deze code met uw smartphone",
-  "pdfTitle": "Wees Veilig. Bijhoude.",
   "scanErrorMessage": "De QR-code kon niet worden gelezen. Probeer het opnieuw.",
   "seeStatusTabMessage": "Zie het statustabblad.",
   "standardRiskLevelMessage": "normaal",

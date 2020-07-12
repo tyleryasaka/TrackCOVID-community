@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getCountryByCode } from '../helpers/locale'
-import { postLocation, fetchLanguages, fetchTranslations, getCountries } from '../helpers/api'
+import { postLocation, getCountries } from '../helpers/api'
 
 const serverUrl = process.env.REACT_APP_SERVER_DOMAIN
 
@@ -18,20 +18,46 @@ export function CreateCheckpoint () {
   const [autocomplete, setAutocomplete] = useState(null)
   const [latitude, setLatitude] = useState(null)
   const [longitude, setLongitude] = useState(null)
-  const [hasLoadedTranslations, setHasLoadedTranslations] = useState(false)
-  const [pdfTranslations, setPdfTranslations] = useState([])
   const [pdfTranslation, setPdfTranslation] = useState('')
   const { t } = useTranslation()
 
-  const languageNames = {
-    en: 'English',
-    es: 'Español',
-    fr: 'Française',
-    ht: 'Haiti Creole',
-    nl: 'Nederlands',
-    fj: 'iTaukei/Fijian',
-    pap: 'Papiamentu'
-  }
+  const pdfTranslations = [
+    {
+      name: 'English',
+      pdfTitle: 'Stay Safe. Keep Track.',
+      pdfHelp: 'Scan this code with your smartphone'
+    },
+    {
+      name: 'Español',
+      pdfTitle: 'Esta Salvo. Llevas Cuenta.',
+      pdfHelp: 'Escanee este código con su teléfono inteligente'
+    },
+    {
+      name: 'Française',
+      pdfTitle: 'Soyez en sécurité. Suivre.',
+      pdfHelp: 'Numérisez ce code à l’aide de votre téléphone intelligent'
+    },
+    {
+      name: 'Haiti Creole',
+      pdfTitle: 'Rete an sekirite. Kenbe track.',
+      pdfHelp: 'Analysis Kod sa a le li sevi avek telefon entelijan ou.'
+    },
+    {
+      name: 'Nederlands',
+      pdfTitle: 'Wees Veilig. Bijhoude.',
+      pdfHelp: 'Scan deze code met uw smartphone'
+    },
+    {
+      name: 'iTaukei/Fijian',
+      pdfTitle: 'Taqomaki tiko. Vakamuria tikoga.',
+      pdfHelp: 'Dikeva na nabavuni oqo ena nomu talevoni veikauyaki'
+    },
+    {
+      name: 'Papiamentu',
+      pdfTitle: 'Mangusa Seif. Sigui E Kaminda.',
+      pdfHelp: 'Sanea e kódigo ku nan smartphone'
+    }
+  ]
 
   async function loadCountries () {
     const fetchedCountries = await getCountries()
@@ -67,30 +93,7 @@ export function CreateCheckpoint () {
         setMapLocation(newLat, newLong)
       })
     }
-    if (!hasLoadedTranslations) {
-      fetchLanguages().then(async languages => {
-        setHasLoadedTranslations(true)
-        const newPDFTranslations = await Promise.all(Object.keys(languages).map(code => {
-          return new Promise(async resolve => {
-            const translations = await fetchTranslations(code)
-            if (translations['pdfTitle']) {
-              resolve({
-                languageCode: code,
-                languageName: languageNames[code] || languages[code].name,
-                altTitle: translations['pdfTitle'],
-                altHelp: translations['pdfHelp']
-              })
-            } else {
-              resolve(null)
-            }
-          })
-        }))
-        setPdfTranslations(newPDFTranslations.filter(t => {
-          return (t !== null) && (t.languageCode !== 'en')
-        }))
-      })
-    }
-  }, [map, autocomplete, languageNames, hasLoadedCountries])
+  }, [map, autocomplete, hasLoadedCountries])
 
   function setMapLocation (lat, lng) {
     if (lat !== null && lng !== null) {
@@ -103,8 +106,8 @@ export function CreateCheckpoint () {
     const checkpointKey = await postLocation({ latitude, longitude, country, locale, name, phone, email })
     let queryString = ''
     if (pdfTranslation !== '') {
-      const translationObject = pdfTranslations.find(t => t.languageCode === pdfTranslation)
-      queryString = `?altTitle=${translationObject.altTitle}&altHelp=${translationObject.altHelp}`
+      const translationObject = pdfTranslations.find(t => t.name === pdfTranslation)
+      queryString = `?altTitle=${translationObject.pdfTitle}&altHelp=${translationObject.pdfHelp}`
     }
     window.location.href = `${serverUrl}/admin/generate/${checkpointKey}/checkpoint.pdf${queryString}`
   }
@@ -189,7 +192,7 @@ export function CreateCheckpoint () {
           <option value=''>{t('create_checkpoint_additional_language_none')}</option>
           {pdfTranslations.map((pdfTranslation, index) => {
             return (
-              <option key={index} value={pdfTranslation.languageCode}>English + {pdfTranslation.languageName}</option>
+              <option key={index} value={pdfTranslation.name}>English + {pdfTranslation.name}</option>
             )
           })}
         </select>
