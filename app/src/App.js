@@ -175,7 +175,7 @@ class App extends React.Component {
                         labelId='language-select-label'
                         id='language-select'
                         value={currentLanguage}
-                        style={{ color: '#000' }}
+                        style={{ color: '#fff' }}
                         onChange={this.onSelectLanguage.bind(this)}
                       >
                         { languages.map((language, index) => {
