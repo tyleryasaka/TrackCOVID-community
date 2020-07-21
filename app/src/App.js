@@ -77,11 +77,17 @@ class App extends React.Component {
         }
       })
     } else {
-      const languages = {
-        code: 'en',
-        name: 'English'
-      }
-      this.setState({ languages, currentLanguage: 'en' })
+      const languages = [
+        {
+          code: 'en',
+          name: 'English'
+        },
+        {
+          code: 'es',
+          name: 'Español'
+        }
+      ]
+      this.setState({ languages, currentLanguage: i18n.language })
     }
   }
 
@@ -169,6 +175,7 @@ class App extends React.Component {
                         labelId='language-select-label'
                         id='language-select'
                         value={currentLanguage}
+                        style={{ color: '#000' }}
                         onChange={this.onSelectLanguage.bind(this)}
                       >
                         { languages.map((language, index) => {

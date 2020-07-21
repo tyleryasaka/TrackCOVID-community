@@ -3,10 +3,11 @@ import { initReactI18next } from 'react-i18next'
 import Locize from 'i18next-locize-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import en from './translations/en'
+import es from './translations/es'
 
 const locizeProductId = process.env['REACT_APP_LOCIZE_PRODUCT_ID']
 
-const resources = locizeProductId ? undefined : { en }
+const resources = locizeProductId ? undefined : { en, es }
 
 const i18nSetup = locizeProductId
   ? i18n
