@@ -2,7 +2,7 @@ const express = require('express')
 const Checkpoint = require('../models/checkpoint')
 
 const oneDay = 1000 * 60 * 60 * 24
-const estimatedDiagnosisDelay = Number(process.env['ESTIMATED_DX_DELAY_DAYS']) * oneDay
+const estimatedDiagnosisDelay = Number(process.env['QUARANTINE_DAYS']) * oneDay
 
 const apiRouter = express.Router()
 
