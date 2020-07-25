@@ -27,7 +27,7 @@ export function Checkpoints ({ onUpload }) {
         const recentCheckpoints = checkpointsJSON.filter(checkpoint => {
           return checkpoint.timestamp >= (symptomStartDate.getTime() - twoDays)
         })
-        const uploadSuccess = await postCheckpoints(recentCheckpoints)
+        const uploadSuccess = await postCheckpoints(recentCheckpoints, symptomStartDate.getTime())
         if (uploadSuccess) {
           alert(t('upload_success'))
         } else {

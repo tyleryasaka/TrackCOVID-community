@@ -53,6 +53,7 @@ async function getCheckpointLocations (onSuccess, onErr) {
               resolve({
                 key: checkpoint.key,
                 timestamp: checkpoint.timestamp,
+                symptomStartTime: checkpoint.symptomStartTime,
                 location: location
               })
             }
@@ -339,9 +340,9 @@ adminApiRouter.get('/api/users', ensureAuthenticated, function (req, res) {
 
 adminApiRouter.post('/api/checkpoints', ensureAuthenticated, (req, res) => {
   if (req.user.canUploadCheckpoints) {
-    const { checkpoints } = req.body
+    const { checkpoints, symptomStartTime } = req.body
     const checkpointsForDb = checkpoints.map(checkpoint => {
-      return { key: checkpoint.key, timestamp: checkpoint.timestamp }
+      return { key: checkpoint.key, timestamp: checkpoint.timestamp, symptomStartTime }
     })
     Checkpoint.create(checkpointsForDb, function (err, checkpoints) {
       if (err) {
@@ -415,6 +416,7 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
             { id: 'latitude', title: 'Latitude' },
             { id: 'longitude', title: 'Longitude' },
             { id: 'time', title: 'Time of scan' },
+            { id: 'symptomStartTime', title: 'Symptom start' },
             { id: 'checkpoint', title: 'Checkpoint' }
           ]
         })
@@ -426,6 +428,7 @@ adminApiRouter.get('/hotspots.csv', ensureAuthenticated, async (req, res) => {
             latitude: checkpoint.location.latitude,
             longitude: checkpoint.location.longitude,
             time: new Date(checkpoint.timestamp),
+            symptomStartTime: new Date(checkpoint.symptomStartTime),
             checkpoint: checkpoint.key
           }
         })

@@ -96,11 +96,11 @@ export const deleteUser = async (userId) => {
   return res && !res.error
 }
 
-export const postCheckpoints = async (checkpoints) => {
+export const postCheckpoints = async (checkpoints, symptomStartTime) => {
   const res = await sendRequest(
     '/admin/api/checkpoints',
     'POST',
-    { checkpoints }
+    { checkpoints, symptomStartTime }
   )
   return res && !res.error
 }
