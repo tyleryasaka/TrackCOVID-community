@@ -5,7 +5,7 @@ const languages = {
   ht: 'Haiti Creole',
   nl: 'Nederlands',
   fj: 'iTaukei/Fijian',
-  pap: 'Papiamentu'
+  pap: 'Papiamento'
 }
 
 let resourceObj = {}
